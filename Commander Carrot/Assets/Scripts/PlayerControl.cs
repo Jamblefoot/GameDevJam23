@@ -10,8 +10,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] LayerMask groundLayers;
     [SerializeField] Transform graphicsGimbal;
 
-    float maxSpeed = 10f;
-    float jumpForce = 500f;
+    [SerializeField] float maxSpeed = 10f;
+    [SerializeField] float jumpForce = 500f;
 
     public MoveStyle moveStyle;
     //public bool topDown;
