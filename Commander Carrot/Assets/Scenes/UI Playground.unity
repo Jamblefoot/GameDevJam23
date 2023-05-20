@@ -777,6 +777,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewGameButton
       objectReference: {fileID: 0}
+    - target: {fileID: 5416734392858314992, guid: d875632b02a560b4da99cbce3b59fdab,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5416734392858314992, guid: d875632b02a560b4da99cbce3b59fdab,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5416734392858314992, guid: d875632b02a560b4da99cbce3b59fdab,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1612122354}
+    - target: {fileID: 5416734392858314992, guid: d875632b02a560b4da99cbce3b59fdab,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5416734392858314992, guid: d875632b02a560b4da99cbce3b59fdab,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NewGameButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5416734392858314992, guid: d875632b02a560b4da99cbce3b59fdab,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5416734392858314992, guid: d875632b02a560b4da99cbce3b59fdab,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5562268318304460509, guid: d875632b02a560b4da99cbce3b59fdab,
         type: 3}
       propertyPath: m_text
@@ -802,6 +837,7 @@ GameObject:
   - component: {fileID: 1612122352}
   - component: {fileID: 1612122351}
   - component: {fileID: 1612122350}
+  - component: {fileID: 1612122354}
   m_Layer: 5
   m_Name: MainMenuCanvas
   m_TagString: Untagged
@@ -894,6 +930,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1612122354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612122349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef0d6c8aa22ade4fa049025e8e4a14a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1895131577
 GameObject:
   m_ObjectHideFlags: 0
