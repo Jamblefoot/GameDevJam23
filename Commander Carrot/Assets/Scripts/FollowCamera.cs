@@ -28,6 +28,7 @@ public class FollowCamera : MonoBehaviour
 
         if(startAtTop)
             MoveToTop(true);
+        else MoveToTop(false);
     }
     void FixedUpdate()
     {

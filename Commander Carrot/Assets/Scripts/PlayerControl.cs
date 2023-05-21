@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float jumpForce = 500f;
 
     public MoveStyle moveStyle;
+    public AlignmentAxis alignmentAxis;
     //public bool topDown;
     public Vector3 currentForward;
 
@@ -89,12 +90,14 @@ public class PlayerControl : MonoBehaviour
         if(Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0)
         {
             Vector3 movement = Vector3.zero;
+            float strafe = 0;
 
             switch(moveStyle)
             {
                 case MoveStyle.Side:
                     //move is sidescroller fashion
-                    movement = Vector3.right * horizontal;//currentForward * horizontal;
+                    movement = MoveSideScroll(alignmentAxis);
+                    //movement = Vector3.right * horizontal;//currentForward * horizontal;
 
                     break;
                 case MoveStyle.TopFree:
@@ -103,8 +106,10 @@ public class PlayerControl : MonoBehaviour
                     break;
                 case MoveStyle.TopShmup:
                     //camera locked down to one forward trajectory, player aimed forward and strafing
-                    movement = Vector3.forward;// * horizontal + Vector3.Cross(currentForward, tran.up) * vertical;
-
+                    //player/vehicle locked aimed forward
+                    //MoveStrafe(alignmentAxis)
+                    movement = Vector3.forward * vertical;// * horizontal + Vector3.Cross(currentForward, tran.up) * vertical;
+                    strafe = horizontal;
                     break;
             }
             /*if(!topDown)
@@ -134,6 +139,22 @@ public class PlayerControl : MonoBehaviour
                 graphicsGimbal.Rotate(tran.up, Mathf.Min(Mathf.Abs(angle), 10f) * Mathf.Sign(angle));
             else graphicsGimbal.LookAt(tran.position + movement, Vector3.up);
         }
+    }
+
+    Vector3 MoveSideScroll(AlignmentAxis axis)
+    {
+        switch(axis)
+        {
+            case AlignmentAxis.X:
+            case AlignmentAxis.Y: // shouldn't really be using this, this would be top-down
+                return Vector3.forward * horizontal;
+            case AlignmentAxis.None:
+            case AlignmentAxis.Z:
+                return Vector3.right * horizontal;
+            
+        }
+
+        return Vector3.zero;
     }
 
     bool CheckGrounded()
