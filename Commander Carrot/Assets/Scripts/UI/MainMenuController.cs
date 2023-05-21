@@ -5,9 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    
-    public void NewGameButton()
-    {
-        SceneManager.LoadScene(2);
-    }
+    [SerializeField] GameObject settingsCanvas;
+
+    public void StartNewGame() { SceneManager.LoadScene(2); }
+    public void QuitGame() { Application.Quit(); }
+
+    //  Settings menu canvas buttons
+    public void OpenSettings() { settingsCanvas.SetActive(true); }
+    public void CloseSettings() { settingsCanvas.SetActive(false); }
 }
