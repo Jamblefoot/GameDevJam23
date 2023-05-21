@@ -160,7 +160,7 @@ public class PlayerControl : MonoBehaviour
 
     bool CheckGrounded()
     {
-        if(Physics.Raycast(tran.position + tran.up * 0.1f, -tran.up, out hit, 0.2f, groundLayers, QueryTriggerInteraction.Ignore))
+        if(Physics.SphereCast(tran.position + tran.up * (0.1f + 0.5f), 0.5f, -tran.up, out hit, 0.2f, groundLayers, QueryTriggerInteraction.Ignore))
         {
             rigid.drag = 1f;
             return true;
