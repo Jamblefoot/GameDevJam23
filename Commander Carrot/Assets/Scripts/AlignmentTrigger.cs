@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AlignmentAxis { None, X, Y, Z };
+//public enum AlignmentAxis { None, X, Y, Z };
 public class AlignmentTrigger : MonoBehaviour
 {
     

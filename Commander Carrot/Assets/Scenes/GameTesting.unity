@@ -547,6 +547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveStyle: 0
+  axis: 0
 --- !u!65 &210525652
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -638,7 +639,6 @@ GameObject:
   - component: {fileID: 252452266}
   - component: {fileID: 252452265}
   - component: {fileID: 252452264}
-  - component: {fileID: 252452269}
   m_Layer: 0
   m_Name: Move StyleTrigger Top
   m_TagString: Untagged
@@ -659,6 +659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveStyle: 1
+  axis: 0
 --- !u!65 &252452265
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -737,19 +738,6 @@ Transform:
   m_Father: {fileID: 375797663}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &252452269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252452263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7d85bde5a0bf154da7b86dd2265db89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  axis: 0
 --- !u!1 &342016031
 GameObject:
   m_ObjectHideFlags: 0
@@ -2073,7 +2061,6 @@ GameObject:
   - component: {fileID: 1537076051}
   - component: {fileID: 1537076050}
   - component: {fileID: 1537076049}
-  - component: {fileID: 1537076048}
   m_Layer: 0
   m_Name: MoveStyle Trigger TopFree
   m_TagString: Untagged
@@ -2081,19 +2068,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1537076048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1537076047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7d85bde5a0bf154da7b86dd2265db89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  axis: 0
 --- !u!114 &1537076049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2107,6 +2081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveStyle: 1
+  axis: 0
 --- !u!65 &1537076050
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2145,7 +2120,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1539974318}
   - component: {fileID: 1539974317}
-  - component: {fileID: 1539974316}
   - component: {fileID: 1539974315}
   m_Layer: 0
   m_Name: MoveStyle Trigger Side
@@ -2167,18 +2141,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveStyle: 0
---- !u!114 &1539974316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1539974314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7d85bde5a0bf154da7b86dd2265db89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   axis: 1
 --- !u!65 &1539974317
 BoxCollider:
@@ -2820,7 +2782,6 @@ GameObject:
   - component: {fileID: 1965182124}
   - component: {fileID: 1965182123}
   - component: {fileID: 1965182122}
-  - component: {fileID: 1965182127}
   m_Layer: 0
   m_Name: Move StyleTrigger Side (1)
   m_TagString: Untagged
@@ -2841,6 +2802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveStyle: 0
+  axis: 3
 --- !u!65 &1965182123
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2919,19 +2881,6 @@ Transform:
   m_Father: {fileID: 375797663}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1965182127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965182121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7d85bde5a0bf154da7b86dd2265db89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  axis: 3
 --- !u!1 &1972180913
 GameObject:
   m_ObjectHideFlags: 0

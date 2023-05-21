@@ -27,8 +27,8 @@ public class FollowCamera : MonoBehaviour
         tran = transform;
 
         if(startAtTop)
-            MoveToTop(true);
-        else MoveToTop(false);
+            MoveToTop(true, AlignmentAxis.None);
+        else MoveToTop(false, AlignmentAxis.None);
     }
     void FixedUpdate()
     {
@@ -44,19 +44,19 @@ public class FollowCamera : MonoBehaviour
         //    transform.position = target.TransformPoint(Vector3.Lerp(currentPos, targetPos, Time.deltaTime * 10f));
     }
 
-    public void MoveToTop(bool toTop)
+    public void MoveToTop(bool toTop, AlignmentAxis alignAxis)
     {
         if(moving)
             StopAllCoroutines();
-        StartCoroutine(MoveCo(toTop));
+        StartCoroutine(MoveCo(toTop, alignAxis));
     }
-    IEnumerator MoveCo(bool toTop)
+    IEnumerator MoveCo(bool toTop, AlignmentAxis alignAxis)
     {
         moving = true;
 
         atTop = toTop;
 
-        Vector3 movePos = toTop ? topPos : sidePos;
+        Vector3 movePos = toTop ? topPos : GetAlignmentRotation(alignAxis) * sidePos;
         while(targetPos != movePos)
         {
             targetPos = Vector3.Lerp(targetPos, movePos, transitionSpeed * Time.deltaTime);
@@ -64,5 +64,20 @@ public class FollowCamera : MonoBehaviour
         }
 
         moving = false;
+    }
+
+    Quaternion GetAlignmentRotation(AlignmentAxis axis)
+    {
+        switch(axis)
+        {
+            case AlignmentAxis.Z:
+                return Quaternion.identity;
+            case AlignmentAxis.X:
+                return Quaternion.Euler(0, -90, 0);
+            case AlignmentAxis.Y:
+                return Quaternion.Euler(90, 0, 0);
+        }
+
+        return Quaternion.identity;
     }
 }

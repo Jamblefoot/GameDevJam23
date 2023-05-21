@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public enum MoveStyle { Side, TopFree, TopShmup }
+public enum AlignmentAxis { None, X, Y, Z };//Xneg, Yneg, Zneg
 
 public class PlayerControl : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float jumpForce = 500f;
 
     public MoveStyle moveStyle;
-    public AlignmentAxis alignmentAxis;
+    public AlignmentAxis alignmentAxis = AlignmentAxis.None;
     //public bool topDown;
     public Vector3 currentForward;
 
@@ -62,7 +63,7 @@ public class PlayerControl : MonoBehaviour
             if(style <= 0)
                 currentForward = tran.forward;
             //else currentForward = tran.right;
-            followCam.MoveToTop(style > 0);
+            followCam.MoveToTop(style > 0, alignmentAxis);
 
         }
     }
@@ -169,11 +170,11 @@ public class PlayerControl : MonoBehaviour
         return false;
     }
 
-    public void SetMoveStyle(MoveStyle newStyle)
+    public void SetMoveStyle(MoveStyle newStyle, AlignmentAxis axis)
     {
         moveStyle = newStyle;
-
-        followCam.MoveToTop((int)newStyle > 0);
+        alignmentAxis = axis;
+        followCam.MoveToTop((int)newStyle > 0, axis);
     }
     //TODO
     //  When player transitions from topdown free to topdown shmup, 
