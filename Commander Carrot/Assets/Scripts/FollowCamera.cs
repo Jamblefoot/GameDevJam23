@@ -5,10 +5,10 @@ using UnityEngine;
 public enum UpdateLoop{ Null, Fixed, Late, LateFixed};
 public class FollowCamera : MonoBehaviour
 {
+    [SerializeField] UpdateLoop updateLoop = UpdateLoop.Null;
+
     public Transform target;
     public Vector3 lookAtOffset = new Vector3(0, 1.5f, 0);
-
-    [SerializeField] UpdateLoop updateLoop = UpdateLoop.Null;
 
     public Vector3 sidePos = new Vector3(0, 1, -10);
     public Vector3 topPos = new Vector3(0, 10, -1);

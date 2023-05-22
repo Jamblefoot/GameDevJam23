@@ -11,8 +11,10 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] LayerMask groundLayers;
     [SerializeField] Transform graphicsGimbal;
     [SerializeField] Transform graphicsRoot;
+    [SerializeField] Transform gunpoint;
 
     Seat seat;
+    Gun currentGun;
 
     [SerializeField] float maxSpeed = 10f;
     [SerializeField] float jumpForce = 500f;
@@ -226,6 +228,38 @@ public class PlayerControl : MonoBehaviour
         graphicsRoot.parent = graphicsGimbal;
         graphicsRoot.localPosition = Vector3.zero;
         graphicsRoot.localRotation = Quaternion.identity;
+    }
+
+    public void TakePickup(PickupType pType, Transform item)
+    {
+        switch(pType)
+        {
+            case PickupType.Token:
+                //get points or whatever
+                break;
+            case PickupType.Gun:
+                //parent gun to gunpoint
+                if(item == null)
+                    Debug.Log("Pickup should be gun but no gun attached to pickup?!");
+                else TakeGun(item.GetComponent<Gun>());
+                //todo if already have gun, add ammo and don't parent
+                break;
+        }
+    }
+
+    public void TakeGun(Gun gun)
+    {
+        if(gun == null)
+        {
+            Debug.LogError("This ain't no gun!");
+            return;
+        }
+        
+        // TODO if currentGun != null, put away or throw away
+        currentGun = gun;
+        gun.transform.parent = gunpoint;
+        gun.transform.localPosition = Vector3.zero;
+        gun.transform.localRotation = Quaternion.identity;
     }
 
 }
