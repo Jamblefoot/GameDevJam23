@@ -10,6 +10,9 @@ public class PlayerControl : MonoBehaviour
 {
     [SerializeField] LayerMask groundLayers;
     [SerializeField] Transform graphicsGimbal;
+    [SerializeField] Transform graphicsRoot;
+
+    Seat seat;
 
     [SerializeField] float maxSpeed = 10f;
     [SerializeField] float jumpForce = 500f;
@@ -51,6 +54,11 @@ public class PlayerControl : MonoBehaviour
     {
         if(value.isPressed)
             jump = true;
+    }
+    void OnFire3(InputValue value)
+    {
+        if(value.isPressed)
+            LeaveSeat();
     }
     void OnCamera(InputValue value)
     {
@@ -180,5 +188,44 @@ public class PlayerControl : MonoBehaviour
     //  When player transitions from topdown free to topdown shmup, 
     // rotate the player and the map to a new north in the direction of travel
     // so when generating, we can alway stack square
+
+    public void TakeSeat(Seat newSeat)
+    {
+        if(graphicsRoot == null)
+        {
+            Debug.LogError("NO GRAPHICS ROOT ASSIGNED FOR REPARENTING TO SEAT");
+            return;
+        }
+
+        if(seat != null && newSeat == null)
+        {
+            LeaveSeat();
+            return;
+        }
+
+        graphicsRoot.parent = newSeat.transform;
+        graphicsRoot.localPosition = Vector3.zero;
+        graphicsRoot.localRotation = Quaternion.identity;
+
+        seat = newSeat;
+
+        tran.position = new Vector3(20000, 20000, 20000);
+
+    }
+
+    public void LeaveSeat()
+    {
+        if(graphicsRoot.parent == graphicsGimbal)
+            return;
+
+        tran.position = graphicsRoot.position;
+
+        if(seat != null)
+            seat.ClearOccupant();
+        seat = null;
+        graphicsRoot.parent = graphicsGimbal;
+        graphicsRoot.localPosition = Vector3.zero;
+        graphicsRoot.localRotation = Quaternion.identity;
+    }
 
 }

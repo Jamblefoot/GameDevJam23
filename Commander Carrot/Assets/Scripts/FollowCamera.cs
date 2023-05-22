@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum UpdateLoop{ Null, Fixed, Late, LateFixed};
 public class FollowCamera : MonoBehaviour
 {
     public Transform target;
     public Vector3 lookAtOffset = new Vector3(0, 1.5f, 0);
+
+    [SerializeField] UpdateLoop updateLoop = UpdateLoop.Null;
 
     public Vector3 sidePos = new Vector3(0, 1, -10);
     public Vector3 topPos = new Vector3(0, 10, -1);
@@ -13,8 +16,8 @@ public class FollowCamera : MonoBehaviour
 
     public bool startAtTop;
 
-    bool atTop;
-    bool moving;
+    bool atTop, moving, fixedHappened;
+
 
     Vector3 targetPos;
 
@@ -30,17 +33,37 @@ public class FollowCamera : MonoBehaviour
             MoveToTop(true, AlignmentAxis.None);
         else MoveToTop(false, AlignmentAxis.None);
     }
+    void Update()
+    {
+        if(updateLoop == UpdateLoop.Null)
+            UpdatePosition();
+    }
     void FixedUpdate()
     {
-        if(target == null) return;
+        if(updateLoop == UpdateLoop.Fixed)
+            UpdatePosition();
+        fixedHappened = true;
+    }
+    void LateUpdate()
+    {
+        if(updateLoop == UpdateLoop.Late)
+            UpdatePosition();
+        if(fixedHappened && updateLoop == UpdateLoop.LateFixed)
+            UpdatePosition();
+        fixedHappened = false;
+    }
 
-        if(atTop)
+    void UpdatePosition()
+    {
+        if (target == null) return;
+
+        if (atTop)
             tran.LookAt(target.position + lookAtOffset, Vector3.forward);
         else tran.LookAt(target.position + lookAtOffset, Vector3.up);
 
-        Vector3 currentPos = target.InverseTransformPoint(tran.position);
-        if(currentPos != targetPos)
-            tran.position = target.TransformPoint(targetPos);
+        Vector3 currentPos = target.root.InverseTransformPoint(tran.position);
+        if (currentPos != targetPos)
+            tran.position = target.root.TransformPoint(targetPos);
         //    transform.position = target.TransformPoint(Vector3.Lerp(currentPos, targetPos, Time.deltaTime * 10f));
     }
 

@@ -4,15 +4,43 @@ using UnityEngine;
 
 public class Seat : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform occupant;
+    PlayerControl occupantPlayer;
+    bool blockSeat;
+    Collider blockCol;
+
+    void OnTriggerEnter(Collider col)
     {
-        
+        if(occupant != null || blockSeat) return;
+
+        PlayerControl pc = col.GetComponent<PlayerControl>();
+        if(pc != null)
+        {
+            occupant = col.transform;
+            occupantPlayer = pc;
+
+            pc.TakeSeat(this);
+
+            blockCol = col;
+            blockSeat = true;
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerExit(Collider col)
     {
-        
+        if(col == blockCol)
+            Invoke("ClearBlock", 0.5f);
+    }
+    void ClearBlock()
+    {
+        blockSeat = false;
+        blockCol = null;
+    }
+
+    public void ClearOccupant()
+    {
+        occupant = null;
+        occupantPlayer = null;
     }
 }
