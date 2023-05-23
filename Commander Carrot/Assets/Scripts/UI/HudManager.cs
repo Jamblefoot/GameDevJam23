@@ -3,31 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class HudManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] Image pausMenu;
+    [SerializeField] GameObject pausMenu;
 
     bool pausMenuShowing;
 
     private void Awake()
     {
         pausMenuShowing = false;
-        pausMenu.enabled = false;
+        pausMenu.SetActive(pausMenuShowing);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
-            if (!pausMenu.enabled) 
+            if (!pausMenuShowing) 
             {
-                pausMenu.enabled = true;
+                pausMenu.SetActive(true);
+                pausMenuShowing = true;
             }
-            else if (pausMenu)
+            else
             {
-                pausMenu.enabled = false;
+                pausMenu.SetActive(false);
+                pausMenuShowing = false;
             }
         }
     }
