@@ -12,7 +12,10 @@ public class FollowCamera : MonoBehaviour
 
     public Vector3 sidePos = new Vector3(0, 1, -10);
     public Vector3 topPos = new Vector3(0, 10, -1);
+    float sideTilt = 0.01f;
     public float transitionSpeed = 10f;
+    [SerializeField][Range(0.01f, 1f)]
+    float smoothSpeed = 0.125f;
 
     public bool startAtTop;
 
@@ -20,18 +23,24 @@ public class FollowCamera : MonoBehaviour
 
 
     Vector3 targetPos;
+    Vector3 lastPos = Vector3.zero;
+    Vector3 targetVelocity = Vector3.zero;
 
     Transform tran;
+
+    Vector3 velocity;
+
+    public Vector3 sideNormal = Vector3.back;
 
     void Start()
     {
         targetPos = sidePos;
+        if(target != null)
+            lastPos = target.position;
 
         tran = transform;
 
-        if(startAtTop)
-            MoveToTop(true, AlignmentAxis.None);
-        else MoveToTop(false, AlignmentAxis.None);
+        //MoveToTop(startAtTop, sideNormal);
     }
     void Update()
     {
@@ -40,6 +49,13 @@ public class FollowCamera : MonoBehaviour
     }
     void FixedUpdate()
     {
+        if(target != null)
+        {
+            targetVelocity = (target.position - lastPos)/Time.deltaTime;
+            lastPos = target.position;
+        }
+        else targetVelocity = Vector3.zero;
+
         if(updateLoop == UpdateLoop.Fixed)
             UpdatePosition();
         fixedHappened = true;
@@ -48,7 +64,7 @@ public class FollowCamera : MonoBehaviour
     {
         if(updateLoop == UpdateLoop.Late)
             UpdatePosition();
-        if(fixedHappened && updateLoop == UpdateLoop.LateFixed)
+        else if(fixedHappened && updateLoop == UpdateLoop.LateFixed)
             UpdatePosition();
         fixedHappened = false;
     }
@@ -58,28 +74,39 @@ public class FollowCamera : MonoBehaviour
         if (target == null) return;
 
         if (atTop)
-            tran.LookAt(target.position + lookAtOffset, Vector3.forward);
-        else tran.LookAt(target.position + lookAtOffset, Vector3.up);
+        {
+            //tran.LookAt(target.position + lookAtOffset, Vector3.forward);
+            tran.LookAt(tran.position + Vector3.down, Vector3.forward);
+        }
+        else 
+        {
+            //tran.LookAt(target.position + lookAtOffset, Vector3.up);
+            tran.LookAt(tran.position - sideNormal + Vector3.down * sideTilt, Vector3.up);
+        }
 
         Vector3 currentPos = target.root.InverseTransformPoint(tran.position);
+        Vector3 projectedVelocity = atTop ? targetVelocity : Vector3.ProjectOnPlane(targetVelocity, Vector3.up);
         if (currentPos != targetPos)
-            tran.position = target.root.TransformPoint(targetPos);
+            tran.position = Vector3.SmoothDamp(tran.position, target.root.TransformPoint(targetPos) + projectedVelocity * 0.3f, ref velocity, smoothSpeed);
+            //tran.position = target.root.TransformPoint(targetPos);
         //    transform.position = target.TransformPoint(Vector3.Lerp(currentPos, targetPos, Time.deltaTime * 10f));
     }
 
-    public void MoveToTop(bool toTop, AlignmentAxis alignAxis)
+    public void MoveToTop(bool toTop, Vector3 sideNorm)//AlignmentAxis alignAxis)
     {
+        sideNormal = sideNorm;
         if(moving)
             StopAllCoroutines();
-        StartCoroutine(MoveCo(toTop, alignAxis));
+        StartCoroutine(MoveCo(toTop));//, alignAxis));
     }
-    IEnumerator MoveCo(bool toTop, AlignmentAxis alignAxis)
+    IEnumerator MoveCo(bool toTop)//, AlignmentAxis alignAxis)
     {
         moving = true;
 
         atTop = toTop;
 
-        Vector3 movePos = toTop ? topPos : GetAlignmentRotation(alignAxis) * sidePos;
+        //Vector3 movePos = toTop ? topPos : GetAlignmentRotation(alignAxis) * sidePos;
+        Vector3 movePos = toTop ? topPos : GetAlignmentRotation(sideNormal) * sidePos;
         while(targetPos != movePos)
         {
             targetPos = Vector3.Lerp(targetPos, movePos, transitionSpeed * Time.deltaTime);
@@ -102,5 +129,10 @@ public class FollowCamera : MonoBehaviour
         }
 
         return Quaternion.identity;
+    }
+
+    Quaternion GetAlignmentRotation(Vector3 sideNorm)
+    {
+        return Quaternion.Euler(0f, Vector3.SignedAngle(Vector3.back, sideNorm,Vector3.up), 0f);
     }
 }

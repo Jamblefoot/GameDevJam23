@@ -6,6 +6,8 @@ public class GameControl : MonoBehaviour
 {
     public static GameControl singleton;
 
+    public bool inMenu;
+
     void Awake()
     {
         if(GameControl.singleton != null && GameControl.singleton != this)

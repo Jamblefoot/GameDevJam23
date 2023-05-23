@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Seat : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class Seat : MonoBehaviour
     PlayerControl occupantPlayer;
     bool blockSeat;
     Collider blockCol;
+
+    public UnityEvent onOccupantEnter;
+    public UnityEvent onOccupantLeave;
 
     void OnTriggerEnter(Collider col)
     {
@@ -20,6 +24,8 @@ public class Seat : MonoBehaviour
             occupantPlayer = pc;
 
             pc.TakeSeat(this);
+
+            onOccupantEnter.Invoke();
 
             blockCol = col;
             blockSeat = true;
@@ -40,6 +46,8 @@ public class Seat : MonoBehaviour
 
     public void ClearOccupant()
     {
+        if(occupant != null)
+            onOccupantLeave.Invoke();
         occupant = null;
         occupantPlayer = null;
     }

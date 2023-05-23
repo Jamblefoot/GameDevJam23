@@ -517,7 +517,8 @@ MonoBehaviour:
   graphicsRoot: {fileID: 2154912236249540380}
   gunpoint: {fileID: 6290344896980321663}
   maxSpeed: 10
-  jumpForce: 500
+  jumpForce: 350
+  stepSmooth: 0.1
   moveStyle: 0
   alignmentAxis: 0
   currentForward: {x: 0, y: 0, z: 0}

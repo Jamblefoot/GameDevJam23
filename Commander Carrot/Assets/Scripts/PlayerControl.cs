@@ -18,15 +18,20 @@ public class PlayerControl : MonoBehaviour
 
     [SerializeField] float maxSpeed = 10f;
     [SerializeField] float jumpForce = 500f;
+    [SerializeField] float stepSmooth = 0.1f;
+    float headHeight = 1.5f;
+    float waistHeight = 1f;
+    float feetHeight = 0.1f;
 
     public MoveStyle moveStyle;
     public AlignmentAxis alignmentAxis = AlignmentAxis.None;
     //public bool topDown;
     public Vector3 currentForward;
+    public Vector3 sideNormal = Vector3.right;
 
     Vector2 move;
     [HideInInspector]
-    public float horizontal, vertical;
+    public float horizontal, vertical, mouseScroll;
     bool jump, isGrounded;
 
     Rigidbody rigid;
@@ -44,6 +49,7 @@ public class PlayerControl : MonoBehaviour
         if(cam == null)
             cam = GetComponentInChildren<Camera>();
         else followCam = cam.GetComponent<FollowCamera>();
+        followCam.MoveToTop(followCam.startAtTop, sideNormal);
 
         currentForward = tran.right;
     }
@@ -56,6 +62,14 @@ public class PlayerControl : MonoBehaviour
     {
         if(value.isPressed)
             jump = true;
+    }
+    void OnFire1(InputValue value)
+    {
+        if(value.isPressed)
+        {
+            if(currentGun != null)
+                currentGun.Fire();
+        }
     }
     void OnFire3(InputValue value)
     {
@@ -73,19 +87,43 @@ public class PlayerControl : MonoBehaviour
             if(style <= 0)
                 currentForward = tran.forward;
             //else currentForward = tran.right;
-            followCam.MoveToTop(style > 0, alignmentAxis);
+            followCam.MoveToTop(style > 0, sideNormal);//alignmentAxis);
 
         }
+    }
+    void OnScroll(InputValue value)
+    {
+        mouseScroll = value.Get<Vector2>().y;
     }
 
     void Update()
     {
         horizontal = move.x;
         vertical = move.y;
+
+        if (Mathf.Abs(mouseScroll) > 0 && cam != null)//&& !GameControl.singleton.inMenu
+        {
+            SetCameraSize(cam.orthographicSize - mouseScroll);
+
+        }
+    }
+
+    void SetCameraSize(float newSize)
+    {
+        if(cam == null) return;
+
+        cam.orthographicSize = Mathf.Clamp(newSize, 0.1f, 15f);
     }
 
     void FixedUpdate()
     {
+        if(graphicsRoot.parent != graphicsGimbal) //IS IN SEAT OR SOMTHING
+        {
+            graphicsRoot.root.GetComponent<ShipDrive>().ApplyInput(horizontal, vertical);
+            return;
+        }
+
+
         isGrounded = CheckGrounded();
 
         if(jump)
@@ -107,7 +145,8 @@ public class PlayerControl : MonoBehaviour
             {
                 case MoveStyle.Side:
                     //move is sidescroller fashion
-                    movement = MoveSideScroll(alignmentAxis);
+                    //movement = MoveSideScroll(alignmentAxis);
+                    movement = MoveSideScroll();//sideNormal);
                     //movement = Vector3.right * horizontal;//currentForward * horizontal;
 
                     break;
@@ -138,7 +177,8 @@ public class PlayerControl : MonoBehaviour
 
             movement = Vector3.ProjectOnPlane(movement, tran.up);
 
-            rigid.AddForce(movement, ForceMode.VelocityChange);
+            if(StepCheck(movement))
+                rigid.AddForce(movement, ForceMode.VelocityChange);
 
             //TODO mantle/step up when moving into platform side
 
@@ -167,10 +207,14 @@ public class PlayerControl : MonoBehaviour
 
         return Vector3.zero;
     }
+    Vector3 MoveSideScroll()//Vector3 sideNorm)
+    {
+        return Vector3.Cross(sideNormal, Vector3.up).normalized * horizontal;
+    }
 
     bool CheckGrounded()
     {
-        if(Physics.SphereCast(tran.position + tran.up * (0.1f + 0.5f), 0.5f, -tran.up, out hit, 0.2f, groundLayers, QueryTriggerInteraction.Ignore))
+        if(Physics.SphereCast(tran.position + tran.up * (0.1f + 0.5f), 0.48f, -tran.up, out hit, 0.2f, groundLayers, QueryTriggerInteraction.Ignore))
         {
             rigid.drag = 1f;
             return true;
@@ -179,17 +223,43 @@ public class PlayerControl : MonoBehaviour
         rigid.drag = 0f;
         return false;
     }
+    bool StepCheck(Vector3 move)// returns whether player can move forward, hopefully so they either mantle or fall and not stick to wall
+    {
+        if(Physics.Raycast(tran.position + tran.up * headHeight, move.normalized, move.magnitude, groundLayers, QueryTriggerInteraction.Ignore))
+            return false;
+        
+        bool waistBlocked = Physics.Raycast(tran.position + tran.up * waistHeight, move.normalized, 0.6f, groundLayers, QueryTriggerInteraction.Ignore);
+        bool feetBlocked = Physics.Raycast(tran.position + tran.up * feetHeight, move.normalized, 0.6f, groundLayers, QueryTriggerInteraction.Ignore);
 
-    public void SetMoveStyle(MoveStyle newStyle, AlignmentAxis axis)
+        if(feetBlocked)
+            Debug.Log("FEET HITTING THING!");
+        //if(waistBlocked)
+        
+        if(isGrounded && Vector3.Dot(hit.normal, tran.up) > 0.5f)
+            return true;
+        if(waistBlocked || feetBlocked)
+        {
+            rigid.MovePosition(rigid.position + tran.up * stepSmooth);
+        }
+
+        return true;
+
+    }
+
+    public void SetMoveStyle(MoveStyle newStyle, Vector3 sideNorm)//AlignmentAxis axis)
     {
         moveStyle = newStyle;
-        alignmentAxis = axis;
-        followCam.MoveToTop((int)newStyle > 0, axis);
+        //alignmentAxis = axis;
+        sideNormal = sideNorm;
+        followCam.MoveToTop((int)newStyle > 0, sideNorm);//axis);
     }
     //TODO
     //  When player transitions from topdown free to topdown shmup, 
     // rotate the player and the map to a new north in the direction of travel
     // so when generating, we can alway stack square
+
+
+
 
     public void TakeSeat(Seat newSeat)
     {
@@ -236,6 +306,7 @@ public class PlayerControl : MonoBehaviour
         {
             case PickupType.Token:
                 //get points or whatever
+                //TODO ADD SOUND Chime
                 break;
             case PickupType.Gun:
                 //parent gun to gunpoint
@@ -245,6 +316,8 @@ public class PlayerControl : MonoBehaviour
                 //todo if already have gun, add ammo and don't parent
                 break;
         }
+
+
     }
 
     public void TakeGun(Gun gun)
@@ -260,6 +333,13 @@ public class PlayerControl : MonoBehaviour
         gun.transform.parent = gunpoint;
         gun.transform.localPosition = Vector3.zero;
         gun.transform.localRotation = Quaternion.identity;
+
+        // TODO ADD SOUND - Gun cocking
+    }
+
+    void OnParticleCollision(GameObject other)
+    {
+        Debug.LogError("PLAYER HIT BY A PARTICLE FROM " + other.transform.root.gameObject.name + "!!!!");
     }
 
 }

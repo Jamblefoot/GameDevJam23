@@ -13,15 +13,17 @@ public class MoveStyleTrigger : MonoBehaviour
         PlayerControl pc = col.GetComponent<PlayerControl>();
         if(pc != null)
         {
-            pc.SetMoveStyle(moveStyle, axis);
+            pc.SetMoveStyle(moveStyle, transform.right);//axis);
         }
 
         Rigidbody rb = col.GetComponent<Rigidbody>();
         if (rb != null && !rb.isKinematic)
         {
+            RigidbodyControl rbc = col.GetComponent<RigidbodyControl>();
+
             switch (axis)
             {
-                case AlignmentAxis.X:
+                /*case AlignmentAxis.X:
                     if (pc != null)
                         rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezeRotation;
                     else rb.constraints = RigidbodyConstraints.FreezePositionX;
@@ -38,9 +40,22 @@ public class MoveStyleTrigger : MonoBehaviour
                         rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
                     else rb.constraints = RigidbodyConstraints.FreezePositionZ;
                     col.transform.position = new Vector3(col.transform.position.x, col.transform.position.y, transform.position.z);
+                    break;*/
+                case AlignmentAxis.X:
+                case AlignmentAxis.Y:
+                case AlignmentAxis.Z:
+                    Plane p = new Plane(transform.right, transform.position);
+                    col.transform.position = p.ClosestPointOnPlane(col.transform.position);
+                    if(rbc != null)
+                    {
+                        rbc.enabled = true;
+                        rbc.constraintPlane = p;
+                    }
                     break;
                 case AlignmentAxis.None:
                     rb.constraints = RigidbodyConstraints.FreezeRotation;
+                    if(rbc != null)
+                        rbc.enabled = false;
                     break;
             }
 
