@@ -13,41 +13,49 @@ public class HoleControl : MonoBehaviour
     [SerializeField] GameObject holePrefab;
 
     int holeWidth = 2;
-    Vector3 pos;
+    Vector3 positionOfSpawnPoint;
 
     float terrainScale;
+    int terrainResolution;
 
-
+   
     private void Start()
     {
+        terrainResolution = terrain.terrainData.heightmapResolution;
+        terrainScale = terrain.terrainData.size.x / terrainResolution;
+
         ResetTerrain();
-
-        terrainScale = terrain.terrainData.size.x / terrain.terrainData.heightmapResolution;
-
-        pos = terrainTransform.InverseTransformPoint(spawnPoint.position)
-            * (terrain.terrainData.heightmapResolution / terrain.terrainData.size.x);
-
-        pos = new Vector3(Mathf.Floor(pos.x), 0, Mathf.Floor(pos.z));
-
-        spawnPoint.position = terrainTransform.TransformPoint(
-            pos * terrainScale);
-
         CreateHole();
-
-        spawnPoint.position = new Vector3(spawnPoint.position.x + (terrainScale / 2), 0, spawnPoint.position.z + (terrainScale / 2));
-        Instantiate(holePrefab, spawnPoint.position, Quaternion.identity);
-        
+        InstantiateLevel();  
     }
 
+    void AdjustSpawnPointToHoleCenter()
+    {
+        positionOfSpawnPoint = terrainTransform.InverseTransformPoint(spawnPoint.position)
+            * (terrainResolution / terrain.terrainData.size.x);
+
+        positionOfSpawnPoint = new Vector3(
+            Mathf.Floor(positionOfSpawnPoint.x), 
+            0, 
+            Mathf.Floor(positionOfSpawnPoint.z)
+        );
+
+        spawnPoint.position = terrainTransform.TransformPoint(positionOfSpawnPoint * terrainScale);
+    }
+    void AdjustSpawnpointForInstatiation()
+    {
+        spawnPoint.position = new Vector3(
+            spawnPoint.position.x + (terrainScale / 2), 
+            0, 
+            spawnPoint.position.z + (terrainScale / 2)
+        );
+    }
     void CreateHole()
     {
-        //Vector3 pos = terrainTransform.InverseTransformPoint(spawnPoint.position)
-        //    * (terrain.terrainData.heightmapResolution / terrain.terrainData.size.x);
+        AdjustSpawnPointToHoleCenter();
 
-        Debug.Log(pos);
-
-        int xPos = Convert.ToInt32(pos.x - (holeWidth / 2));
-        int zPos = Convert.ToInt32(pos.z - (holeWidth / 2));
+        int xPos = Convert.ToInt32(positionOfSpawnPoint.x - (holeWidth / 2));
+        int zPos = Convert.ToInt32(positionOfSpawnPoint.z - (holeWidth / 2));
 
         var b = new bool[holeWidth, holeWidth];
 
@@ -57,9 +65,14 @@ public class HoleControl : MonoBehaviour
 
         terrain.terrainData.SetHoles(xPos, zPos, b);
     }
+    void InstantiateLevel()
+    {
+        AdjustSpawnpointForInstatiation();
+        Instantiate(holePrefab, spawnPoint.position, Quaternion.identity);
+    }
     void ResetTerrain()
     {
-        int resolution = terrain.terrainData.heightmapResolution - 1;
+        int resolution = terrainResolution - 1;
 
         var b = new bool[resolution, resolution];
 
@@ -68,5 +81,10 @@ public class HoleControl : MonoBehaviour
                 b[x, y] = true;
 
         terrain.terrainData.SetHoles(0, 0, b);
+    }
+
+    public void InstantiateNewLevel()
+    {
+
     }
 }
