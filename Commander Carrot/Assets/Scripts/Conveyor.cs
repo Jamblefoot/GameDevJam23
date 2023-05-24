@@ -32,13 +32,13 @@ public class Conveyor : MonoBehaviour
         rigid.position -= transform.forward * speed * Time.deltaTime;
         rigid.MovePosition(rigid.position + move);
 
-        if (rend != null)
+        /*if (rend != null)
         {
             //float offsetX = Time.time * scrollX * speed;
             float offsetX = 0f;
             float offsetY = Time.time * (scrollY / transform.localScale.z) * speed;
             mat.mainTextureOffset = new Vector2(offsetX, offsetY);
-        }
+        }*/
 
         foreach (Transform child in transform)
         {
@@ -51,5 +51,16 @@ public class Conveyor : MonoBehaviour
             }
         }
 
+    }
+
+    void Update()
+    {
+        if (rend != null)
+        {
+            //float offsetX = Time.time * scrollX * speed;
+            float offsetX = 0f;
+            float offsetY = Time.time * (scrollY / transform.localScale.z) * speed;
+            mat.mainTextureOffset = new Vector2(offsetX, offsetY);
+        }
     }
 }

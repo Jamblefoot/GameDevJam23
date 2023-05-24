@@ -55,12 +55,18 @@ public class MoveStyleTrigger : MonoBehaviour
                         col.transform.rotation = targetRig.transform.rotation;
                         sd.rigid.useGravity = false;
                         sd.rigid.isKinematic = true;
+
+                        //TODO transition to shmup rig
+                        // camera targetpos = shmuprig camera anchor
+                        //THIS IS JUST FOR TESTING, PROBABLY NEED SOME REFERENCE TO THE PLAYER DRIVING THE SHIP
+                        FollowCamera cam = FindObjectOfType<FollowCamera>();
+                        cam.MoveToAnchor(targetRig.cameraAnchor);
+
+                        targetRig.GetComponentInChildren<EnemySpawner>()?.StartSpawning(20);
                     }
-                    //TODO transition to shmup rig
-                    // camera targetpos = shmuprig camera anchor
-                    //THIS IS JUST FOR TESTING, PROBABLY NEED SOME REFERENCE TO THE PLAYER DRIVING THE SHIP
-                    FollowCamera cam = FindObjectOfType<FollowCamera>();
-                    cam.MoveToAnchor(targetRig.cameraAnchor);
+                    
+
+
                     
                     break;
             }

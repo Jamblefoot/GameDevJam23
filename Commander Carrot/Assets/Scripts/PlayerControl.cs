@@ -10,7 +10,7 @@ public enum AlignmentAxis { None, X, Y, Z };//Xneg, Yneg, Zneg
 public class PlayerControl : MonoBehaviour
 {
     public int health = 100;
-    
+    [SerializeField] GameObject cameraPrefab;
     [SerializeField] LayerMask groundLayers;
     [SerializeField] Transform graphicsGimbal;
     [SerializeField] Transform graphicsRoot;
@@ -47,11 +47,23 @@ public class PlayerControl : MonoBehaviour
     public UnityEvent<Vector3> onHit;
 
     List<ParticleCollisionEvent> collisionEvents;
+
+
     
     void Start()
     {
         tran = transform;
         rigid = GetComponent<Rigidbody>();
+
+        if(cameraPrefab != null)
+        {
+            foreach(Camera c in FindObjectsOfType<Camera>())
+            {
+                c.gameObject.SetActive(false);
+            }
+
+            cam = Instantiate(cameraPrefab, transform.position, Quaternion.identity).GetComponent<Camera>();
+        }
 
         if(cam == null)
             cam = GetComponentInChildren<Camera>();
@@ -187,8 +199,6 @@ public class PlayerControl : MonoBehaviour
             if(StepCheck(movement))
                 rigid.AddForce(movement, ForceMode.VelocityChange);
 
-            //TODO mantle/step up when moving into platform side
-
             
 
             //graphicsGimbal.LookAt(transform.position + movement, Vector3.up);
@@ -196,6 +206,8 @@ public class PlayerControl : MonoBehaviour
             if(Mathf.Abs(angle) > 10f)
                 graphicsGimbal.Rotate(tran.up, Mathf.Min(Mathf.Abs(angle), 10f) * Mathf.Sign(angle));
             else graphicsGimbal.LookAt(tran.position + movement, Vector3.up);
+
+            //TODO AUTO AIM FOR TOP-DOWN MOVEMENT
         }
     }
 
