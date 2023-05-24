@@ -10,7 +10,7 @@ public class HoleControl : MonoBehaviour
     [SerializeField] Terrain terrain;
     [SerializeField] Transform terrainTransform;
     [SerializeField] Transform spawnPoint;
-    [SerializeField] GameObject holePrefab;
+    [SerializeField] GameObject[] holePrefabList;
 
     int holeWidth = 2;
     Vector3 positionOfSpawnPoint;
@@ -68,7 +68,16 @@ public class HoleControl : MonoBehaviour
     void InstantiateLevel()
     {
         AdjustSpawnpointForInstatiation();
+
+        //Spawn the hole
+        GameObject holePrefab = holePrefabList[GetRandomIndex(holePrefabList.Length)];
         Instantiate(holePrefab, spawnPoint.position, Quaternion.identity);
+
+        //Spawn the building
+
+        //Spawn the Fort
+
+
     }
     void ResetTerrain()
     {
@@ -86,5 +95,10 @@ public class HoleControl : MonoBehaviour
     public void InstantiateNewLevel()
     {
 
+    }
+    int GetRandomIndex(int indexMax)
+    {
+        int rng = UnityEngine.Random.Range(0, indexMax);
+        return rng;
     }
 }
