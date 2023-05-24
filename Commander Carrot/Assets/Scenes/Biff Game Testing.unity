@@ -2816,8 +2816,10 @@ MonoBehaviour:
   terrain: {fileID: 689452423}
   terrainTransform: {fileID: 689452424}
   spawnPoint: {fileID: 1887594572}
-  holePrefab: {fileID: 7138917367092207646, guid: 03629872f2b3f37458e17f523749a067,
-    type: 3}
+  holePrefabList:
+  - {fileID: 7138917367092207646, guid: 03629872f2b3f37458e17f523749a067, type: 3}
+  - {fileID: 7138917367092207646, guid: 4437a123892066b49bccf33b47ce5d1f, type: 3}
+  - {fileID: 7138917367092207646, guid: d79b5a9f711795f42bf84e25ab35bbcf, type: 3}
 --- !u!4 &2041879255
 Transform:
   m_ObjectHideFlags: 0
