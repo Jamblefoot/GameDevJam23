@@ -501,7 +501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveStyle: 0
-  axis: 0
+  axis: 1
 --- !u!1 &7138917367985785747
 GameObject:
   m_ObjectHideFlags: 0

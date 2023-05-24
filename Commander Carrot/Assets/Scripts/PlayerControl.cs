@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public enum MoveStyle { Side, TopFree, TopShmup }
@@ -8,6 +9,8 @@ public enum AlignmentAxis { None, X, Y, Z };//Xneg, Yneg, Zneg
 
 public class PlayerControl : MonoBehaviour
 {
+    public int health = 100;
+    
     [SerializeField] LayerMask groundLayers;
     [SerializeField] Transform graphicsGimbal;
     [SerializeField] Transform graphicsRoot;
@@ -27,7 +30,7 @@ public class PlayerControl : MonoBehaviour
     public AlignmentAxis alignmentAxis = AlignmentAxis.None;
     //public bool topDown;
     public Vector3 currentForward;
-    public Vector3 sideNormal = Vector3.right;
+    public Vector3 sideNormal = Vector3.back;
 
     Vector2 move;
     [HideInInspector]
@@ -40,6 +43,10 @@ public class PlayerControl : MonoBehaviour
     FollowCamera followCam;
 
     RaycastHit hit;
+
+    public UnityEvent<Vector3> onHit;
+
+    List<ParticleCollisionEvent> collisionEvents;
     
     void Start()
     {
@@ -334,12 +341,22 @@ public class PlayerControl : MonoBehaviour
         gun.transform.localPosition = Vector3.zero;
         gun.transform.localRotation = Quaternion.identity;
 
+        followCam.lookAhead = true;
+
         // TODO ADD SOUND - Gun cocking
     }
 
     void OnParticleCollision(GameObject other)
     {
         Debug.LogError("PLAYER HIT BY A PARTICLE FROM " + other.transform.root.gameObject.name + "!!!!");
+        health--;
+
+        ParticleSystem part = other.GetComponent<ParticleSystem>();
+        part.GetCollisionEvents(other, collisionEvents);
+        for(int i = 0; i < collisionEvents.Count; i++)
+        {
+            onHit.Invoke(collisionEvents[i].intersection);
+        }
     }
 
 }

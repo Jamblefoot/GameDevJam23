@@ -662,7 +662,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 0
+    angle: 10
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -4990,6 +4990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a34f19a606e6d994097c3f1d09d63920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilesPerShot: 1
   recoil: 2
   bulletParticles: {fileID: 1350887839500572178}
   muzzleParticles: {fileID: 3998476047409931943}

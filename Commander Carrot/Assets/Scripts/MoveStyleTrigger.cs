@@ -6,14 +6,14 @@ using UnityEngine;
 public class MoveStyleTrigger : MonoBehaviour
 {
     public MoveStyle moveStyle;
-    public AlignmentAxis axis = AlignmentAxis.None;
+    //public AlignmentAxis axis = AlignmentAxis.None;
     
     void OnTriggerEnter(Collider col)
     {
         PlayerControl pc = col.GetComponent<PlayerControl>();
         if(pc != null)
         {
-            pc.SetMoveStyle(moveStyle, transform.right);//axis);
+            pc.SetMoveStyle(moveStyle, -transform.forward);//axis);
         }
 
         Rigidbody rb = col.GetComponent<Rigidbody>();
@@ -21,7 +21,7 @@ public class MoveStyleTrigger : MonoBehaviour
         {
             RigidbodyControl rbc = col.GetComponent<RigidbodyControl>();
 
-            switch (axis)
+            switch (moveStyle)
             {
                 /*case AlignmentAxis.X:
                     if (pc != null)
@@ -41,10 +41,10 @@ public class MoveStyleTrigger : MonoBehaviour
                     else rb.constraints = RigidbodyConstraints.FreezePositionZ;
                     col.transform.position = new Vector3(col.transform.position.x, col.transform.position.y, transform.position.z);
                     break;*/
-                case AlignmentAxis.X:
-                case AlignmentAxis.Y:
-                case AlignmentAxis.Z:
-                    Plane p = new Plane(transform.right, transform.position);
+                //case AlignmentAxis.X:
+                //case AlignmentAxis.Y:
+                case MoveStyle.Side:
+                    Plane p = new Plane(-transform.forward, transform.position);
                     col.transform.position = p.ClosestPointOnPlane(col.transform.position);
                     if(rbc != null)
                     {
@@ -52,8 +52,9 @@ public class MoveStyleTrigger : MonoBehaviour
                         rbc.constraintPlane = p;
                     }
                     break;
-                case AlignmentAxis.None:
-                    rb.constraints = RigidbodyConstraints.FreezeRotation;
+                case MoveStyle.TopFree:
+                    if(pc != null)
+                        rb.constraints = RigidbodyConstraints.FreezeRotation;
                     if(rbc != null)
                         rbc.enabled = false;
                     break;

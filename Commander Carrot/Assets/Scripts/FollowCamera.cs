@@ -8,11 +8,12 @@ public class FollowCamera : MonoBehaviour
     [SerializeField] UpdateLoop updateLoop = UpdateLoop.Null;
 
     public Transform target;
-    public Vector3 lookAtOffset = new Vector3(0, 1.5f, 0);
+    public Vector3 lookAtOffset = new Vector3(0, 1.5f, 10);
+    public bool lookAhead;
 
     public Vector3 sidePos = new Vector3(0, 1, -10);
     public Vector3 topPos = new Vector3(0, 10, -1);
-    float sideTilt = 0.01f;
+    float sideTilt = 0.015f;
     public float transitionSpeed = 10f;
     [SerializeField][Range(0.01f, 1f)]
     float smoothSpeed = 0.125f;
@@ -87,7 +88,11 @@ public class FollowCamera : MonoBehaviour
         Vector3 currentPos = target.root.InverseTransformPoint(tran.position);
         Vector3 projectedVelocity = atTop ? targetVelocity : Vector3.ProjectOnPlane(targetVelocity, Vector3.up);
         if (currentPos != targetPos)
-            tran.position = Vector3.SmoothDamp(tran.position, target.root.TransformPoint(targetPos) + projectedVelocity * 0.3f, ref velocity, smoothSpeed);
+        {
+            Vector3 pos = target.root.TransformPoint(targetPos) + projectedVelocity * 0.3f;
+            if(lookAhead) pos = pos + target.rotation * lookAtOffset;
+            tran.position = Vector3.SmoothDamp(tran.position, pos, ref velocity, smoothSpeed);
+        }
             //tran.position = target.root.TransformPoint(targetPos);
         //    transform.position = target.TransformPoint(Vector3.Lerp(currentPos, targetPos, Time.deltaTime * 10f));
     }
@@ -133,6 +138,6 @@ public class FollowCamera : MonoBehaviour
 
     Quaternion GetAlignmentRotation(Vector3 sideNorm)
     {
-        return Quaternion.Euler(0f, Vector3.SignedAngle(Vector3.back, sideNorm,Vector3.up), 0f);
+        return Quaternion.Euler(0f, Vector3.SignedAngle(Vector3.back, sideNorm, Vector3.up), 0f);
     }
 }

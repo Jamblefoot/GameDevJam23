@@ -489,7 +489,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveStyle: 1
-  axis: 0
 --- !u!1 &8732138196848709633
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,14 +514,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8732138196848709633}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 2.4199982}
-  m_LocalScale: {x: 10.437119, y: 9.600031, z: 1.7568067}
+  m_LocalScale: {x: 1, y: 9.600031, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8732138196757149870}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!65 &8732138196848709638
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -549,7 +548,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveStyle: 0
-  axis: 1
 --- !u!1 &8732138197059656570
 GameObject:
   m_ObjectHideFlags: 0
