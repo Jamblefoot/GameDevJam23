@@ -49,13 +49,19 @@ public class ShipDrive : MonoBehaviour
             }
             else
             {
-                transform.position = transform.position + (horizontal * transform.right + vertical * transform.forward) * Time.deltaTime * shmupSpeed;
+                transform.position = transform.position + (horizontal * shmupControl.transform.right + vertical * transform.forward) * Time.deltaTime * shmupSpeed;
                 Vector3 shmupLocal = shmupControl.transform.InverseTransformPoint(transform.position);
                 if(Mathf.Abs(shmupLocal.x) > shmupControl.width)
                     shmupLocal = new Vector3(Mathf.Sign(shmupLocal.x) * shmupControl.width, shmupLocal.y, shmupLocal.z);
                 if(Mathf.Abs(shmupLocal.z) > shmupControl.length)
                     shmupLocal = new Vector3(shmupLocal.x, shmupLocal.y, Mathf.Sign(shmupLocal.z) * shmupControl.length);
                 transform.position = shmupControl.transform.TransformPoint(shmupLocal);
+
+                if(horizontal > 0) transform.rotation = shmupControl.transform.rotation * Quaternion.Euler(0, 0, -30);
+                else if(horizontal < 0) transform.rotation = shmupControl.transform.rotation * Quaternion.Euler(0, 0, 30);
+                else transform.rotation = shmupControl.transform.rotation;
+                //TODO if horizontal > 0 tip to the right
+                // if horizontal < 0 tip to left
             }
 
             yield return new WaitForFixedUpdate();
