@@ -7,6 +7,8 @@ public class MoveStyleTrigger : MonoBehaviour
 {
     public MoveStyle moveStyle;
     //public AlignmentAxis axis = AlignmentAxis.None;
+
+    public ShmupControl targetRig;
     
     void OnTriggerEnter(Collider col)
     {
@@ -23,26 +25,6 @@ public class MoveStyleTrigger : MonoBehaviour
 
             switch (moveStyle)
             {
-                /*case AlignmentAxis.X:
-                    if (pc != null)
-                        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezeRotation;
-                    else rb.constraints = RigidbodyConstraints.FreezePositionX;
-                    col.transform.position = new Vector3(transform.position.x, col.transform.position.y, col.transform.position.z);
-                    break;
-                case AlignmentAxis.Y:
-                    if (pc != null)
-                        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
-                    else rb.constraints = RigidbodyConstraints.FreezePositionY;
-                    col.transform.position = new Vector3(col.transform.position.x, transform.position.y, col.transform.position.z);
-                    break;
-                case AlignmentAxis.Z:
-                    if (pc != null)
-                        rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-                    else rb.constraints = RigidbodyConstraints.FreezePositionZ;
-                    col.transform.position = new Vector3(col.transform.position.x, col.transform.position.y, transform.position.z);
-                    break;*/
-                //case AlignmentAxis.X:
-                //case AlignmentAxis.Y:
                 case MoveStyle.Side:
                     Plane p = new Plane(-transform.forward, transform.position);
                     col.transform.position = p.ClosestPointOnPlane(col.transform.position);
@@ -57,6 +39,29 @@ public class MoveStyleTrigger : MonoBehaviour
                         rb.constraints = RigidbodyConstraints.FreezeRotation;
                     if(rbc != null)
                         rbc.enabled = false;
+                    break;
+                case MoveStyle.TopShmup:
+                    if(targetRig == null)
+                    {
+                        Debug.LogError("No Shmup Rig To Transition To");
+                        break;
+                    }
+
+                    ShipDrive sd = col.GetComponent<ShipDrive>();
+                    if(sd != null)
+                    {
+                        sd.shmupControl = targetRig;
+                        col.transform.position = targetRig.transform.position - targetRig.transform.forward * 7;
+                        col.transform.rotation = targetRig.transform.rotation;
+                        sd.rigid.useGravity = false;
+                        sd.rigid.isKinematic = true;
+                    }
+                    //TODO transition to shmup rig
+                    // camera targetpos = shmuprig camera anchor
+                    //THIS IS JUST FOR TESTING, PROBABLY NEED SOME REFERENCE TO THE PLAYER DRIVING THE SHIP
+                    FollowCamera cam = FindObjectOfType<FollowCamera>();
+                    cam.MoveToAnchor(targetRig.cameraAnchor);
+                    
                     break;
             }
 

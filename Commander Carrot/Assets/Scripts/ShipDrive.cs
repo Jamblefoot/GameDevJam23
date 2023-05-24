@@ -6,12 +6,17 @@ public class ShipDrive : MonoBehaviour
 {
     [SerializeField] float enginePower = 500f;
     [SerializeField] float turnPower = 500f;
+    [SerializeField] 
+    float shmupSpeed = 25f;
 
-    Rigidbody rigid;
+    [HideInInspector]
+    public Rigidbody rigid;
 
     float horizontal, vertical;
     bool driving;
     bool isDriving;
+
+    public ShmupControl shmupControl;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,8 +42,21 @@ public class ShipDrive : MonoBehaviour
         isDriving = true;
         while(driving)
         {
-            rigid.AddTorque(transform.up * horizontal * Mathf.Sign(vertical) * turnPower, ForceMode.Force);
-            rigid.AddForce(transform.forward * vertical * enginePower, ForceMode.Force);
+            if(shmupControl == null)
+            {
+                rigid.AddTorque(transform.up * horizontal * Mathf.Sign(vertical) * turnPower, ForceMode.Force);
+                rigid.AddForce(transform.forward * vertical * enginePower, ForceMode.Force);
+            }
+            else
+            {
+                transform.position = transform.position + (horizontal * transform.right + vertical * transform.forward) * Time.deltaTime * shmupSpeed;
+                Vector3 shmupLocal = shmupControl.transform.InverseTransformPoint(transform.position);
+                if(Mathf.Abs(shmupLocal.x) > shmupControl.width)
+                    shmupLocal = new Vector3(Mathf.Sign(shmupLocal.x) * shmupControl.width, shmupLocal.y, shmupLocal.z);
+                if(Mathf.Abs(shmupLocal.z) > shmupControl.length)
+                    shmupLocal = new Vector3(shmupLocal.x, shmupLocal.y, Mathf.Sign(shmupLocal.z) * shmupControl.length);
+                transform.position = shmupControl.transform.TransformPoint(shmupLocal);
+            }
 
             yield return new WaitForFixedUpdate();
         }

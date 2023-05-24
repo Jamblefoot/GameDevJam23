@@ -260,10 +260,7 @@ public class PlayerControl : MonoBehaviour
         sideNormal = sideNorm;
         followCam.MoveToTop((int)newStyle > 0, sideNorm);//axis);
     }
-    //TODO
-    //  When player transitions from topdown free to topdown shmup, 
-    // rotate the player and the map to a new north in the direction of travel
-    // so when generating, we can alway stack square
+    
 
 
 

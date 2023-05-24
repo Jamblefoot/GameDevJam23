@@ -8,6 +8,7 @@ public class FollowCamera : MonoBehaviour
     [SerializeField] UpdateLoop updateLoop = UpdateLoop.Null;
 
     public Transform target;
+    public Transform anchor;
     public Vector3 lookAtOffset = new Vector3(0, 1.5f, 10);
     public bool lookAhead;
 
@@ -76,13 +77,20 @@ public class FollowCamera : MonoBehaviour
 
         if (atTop)
         {
-            //tran.LookAt(target.position + lookAtOffset, Vector3.forward);
-            tran.LookAt(tran.position + Vector3.down, Vector3.forward);
+            if(anchor != null)
+                tran.LookAt(tran.position + Vector3.down, anchor.up);
+            else tran.LookAt(tran.position + Vector3.down, Vector3.forward);
         }
         else 
         {
             //tran.LookAt(target.position + lookAtOffset, Vector3.up);
             tran.LookAt(tran.position - sideNormal + Vector3.down * sideTilt, Vector3.up);
+        }
+
+        if(anchor != null)
+        {
+            tran.position = Vector3.SmoothDamp(tran.position, anchor.position, ref velocity, smoothSpeed);
+            return;
         }
 
         Vector3 currentPos = target.root.InverseTransformPoint(tran.position);
@@ -115,6 +123,25 @@ public class FollowCamera : MonoBehaviour
         while(targetPos != movePos)
         {
             targetPos = Vector3.Lerp(targetPos, movePos, transitionSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        moving = false;
+    }
+
+    public void MoveToAnchor(Transform newAnchor)
+    {
+        anchor = newAnchor;
+        if(moving)
+            StopAllCoroutines();
+        StartCoroutine(MoveToAnchorCo());
+    }
+    IEnumerator MoveToAnchorCo()
+    {
+        moving = true;
+        while(targetPos != anchor.position)
+        {
+            targetPos = Vector3.Lerp(targetPos, anchor.position, transitionSpeed * Time.deltaTime);
             yield return null;
         }
 
