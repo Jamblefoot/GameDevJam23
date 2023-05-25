@@ -60,8 +60,11 @@ public class ShipDrive : MonoBehaviour
                 if(horizontal > 0) transform.rotation = shmupControl.transform.rotation * Quaternion.Euler(0, 0, -30);
                 else if(horizontal < 0) transform.rotation = shmupControl.transform.rotation * Quaternion.Euler(0, 0, 30);
                 else transform.rotation = shmupControl.transform.rotation;
-                //TODO if horizontal > 0 tip to the right
-                // if horizontal < 0 tip to left
+
+                if (shmupLocal.z > shmupControl.length * 0.8f) //&& can transition 
+                {
+                    shmupControl.MoveToGround(transform);
+                }
             }
 
             yield return new WaitForFixedUpdate();

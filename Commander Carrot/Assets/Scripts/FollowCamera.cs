@@ -139,7 +139,7 @@ public class FollowCamera : MonoBehaviour
     IEnumerator MoveToAnchorCo()
     {
         moving = true;
-        while(targetPos != anchor.position)
+        while(anchor != null && targetPos != anchor.position)
         {
             targetPos = Vector3.Lerp(targetPos, anchor.position, transitionSpeed * Time.deltaTime);
             yield return null;

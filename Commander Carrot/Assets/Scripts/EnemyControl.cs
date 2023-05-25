@@ -8,11 +8,21 @@ public class EnemyControl : MonoBehaviour
 
     Transform tran;
     Rigidbody rigid;
+    Animator animator;
     // Start is called before the first frame update
     void Start()
     {
         tran = transform;
         rigid = GetComponent<Rigidbody>();
+
+        //freeze ragdoll rigidbodies
+        foreach(Rigidbody rb in GetComponentsInChildren<Rigidbody>())
+        {
+            if(rb != rigid)
+                rb.isKinematic = true;
+        }
+
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -47,7 +57,13 @@ public class EnemyControl : MonoBehaviour
         if(rbc) 
             rbc.enabled = false;
 
-
-        //TODO ragdoll!
+        //TURN ON RAGDOLL
+        GetComponent<Collider>().enabled = false;
+        animator.enabled = false;
+        foreach(Rigidbody rb in GetComponentsInChildren<Rigidbody>())
+        {
+            if(rb != rigid)
+                rb.isKinematic = false;
+        }
     }
 }

@@ -23,6 +23,6 @@ public class RigidbodyControl : MonoBehaviour
     public void ConstrainToTransformPlane(Transform tran)
     {
         constraintPlane = new Plane(-tran.forward, tran.position);
-            transform.position = constraintPlane.ClosestPointOnPlane(transform.position);
+        transform.position = constraintPlane.ClosestPointOnPlane(transform.position);
     }
 }

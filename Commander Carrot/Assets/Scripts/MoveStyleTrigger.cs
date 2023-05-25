@@ -15,7 +15,7 @@ public class MoveStyleTrigger : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         PlayerControl pc = col.GetComponent<PlayerControl>();
-        if(pc != null)
+        if(pc != null && moveStyle != MoveStyle.TopShmup)
         {
             pc.SetMoveStyle(moveStyle, -transform.forward);//axis);
         }
@@ -82,12 +82,13 @@ public class MoveStyleTrigger : MonoBehaviour
             Vector3 targetPos = targetRig.transform.position - targetRig.transform.forward * 7;
             while(sd.transform.position != targetPos)
             {
-                sd.shmupControl = targetRig;
+                
                 //sd.transform.position = targetRig.transform.position - targetRig.transform.forward * 7;
-                sd.transform.position = Vector3.MoveTowards(sd.transform.position, targetPos, Time.deltaTime * 10f);
+                sd.transform.position = Vector3.MoveTowards(sd.transform.position, targetPos, Time.deltaTime * 50f);
                 sd.transform.rotation = targetRig.transform.rotation;
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
+            sd.shmupControl = targetRig;
         }
         else
         {
@@ -103,6 +104,19 @@ public class MoveStyleTrigger : MonoBehaviour
 
         FollowCamera cam = FindObjectOfType<FollowCamera>();
         cam.MoveToAnchor(targetRig.cameraAnchor);
+
+        PlayerControl pc = col.GetComponent<PlayerControl>();
+        if (pc != null)
+        {
+            pc.SetMoveStyle(moveStyle, -transform.forward);//axis);
+        }
+
+        //Move targetRig, camera, and col.transform to other side of the map
+        Vector3 shift = new Vector3(0, 0, targetRig.transform.position.z * -2);
+        col.transform.position = col.transform.position + shift;
+        cam.transform.position = cam.transform.position + shift;
+        targetRig.transform.position = targetRig.transform.position + shift;
+
 
         targetRig.GetComponentInChildren<EnemySpawner>()?.StartSpawning(20);
     }

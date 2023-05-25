@@ -158,35 +158,20 @@ public class PlayerControl : MonoBehaviour
         if(Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0)
         {
             Vector3 movement = Vector3.zero;
-            float strafe = 0;
+            //float strafe = 0;
 
             switch(moveStyle)
             {
                 case MoveStyle.Side:
-                    //move is sidescroller fashion
-                    //movement = MoveSideScroll(alignmentAxis);
-                    movement = MoveSideScroll();//sideNormal);
-                    //movement = Vector3.right * horizontal;//currentForward * horizontal;
-
+                    movement = MoveSideScroll();
                     break;
                 case MoveStyle.TopFree:
-                    //move in gta style - camera rotation locked down, player rotating
                     movement = currentForward * horizontal + Vector3.Cross(currentForward, tran.up) * vertical;
                     break;
                 case MoveStyle.TopShmup:
-                    //camera locked down to one forward trajectory, player aimed forward and strafing
-                    //player/vehicle locked aimed forward
-                    //MoveStrafe(alignmentAxis)
-                    movement = Vector3.forward * vertical;// * horizontal + Vector3.Cross(currentForward, tran.up) * vertical;
-                    strafe = horizontal;
+                    movement = Vector3.forward * vertical;
                     break;
             }
-            /*if(!topDown)
-            {
-                movement = currentForward * horizontal;// + Vector3.Cross(currentForward, tran.up) * vertical;
-            }
-            else movement = currentForward * horizontal + Vector3.Cross(currentForward, tran.up) * vertical;
-            //else movement = cam.transform.up * vertical + cam.transform.right * horizontal;*/
 
             if(Vector3.Dot(movement, rigid.velocity) > 0)
             {
@@ -206,8 +191,6 @@ public class PlayerControl : MonoBehaviour
             if(Mathf.Abs(angle) > 10f)
                 graphicsGimbal.Rotate(tran.up, Mathf.Min(Mathf.Abs(angle), 10f) * Mathf.Sign(angle));
             else graphicsGimbal.LookAt(tran.position + aimDir, Vector3.up);
-
-            //TODO AUTO AIM FOR TOP-DOWN MOVEMENT
         }
     }
 
