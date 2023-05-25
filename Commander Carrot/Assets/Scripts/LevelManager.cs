@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoleControl : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
     //TODO build hole
 
@@ -92,7 +92,7 @@ public class HoleControl : MonoBehaviour
         terrain.terrainData.SetHoles(0, 0, b);
     }
 
-    public void InstantiateNewLevel()
+    public void SpawnNewLevel()
     {
 
     }
