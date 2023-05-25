@@ -9,24 +9,41 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] Terrain terrain;
     [SerializeField] Transform terrainTransform;
-    [SerializeField] Transform spawnPoint;
+    [SerializeField] GameObject[] spawnLayouts;
     [SerializeField] GameObject[] holePrefabList;
+    [SerializeField] GameObject[] housePrefabList;
+
+    
+    Vector3 positionOfSpawnPoint;
+    Transform[] spawnPointList;
+    Transform spawnPoint;
 
     int holeWidth = 2;
-    Vector3 positionOfSpawnPoint;
-
-    float terrainScale;
     int terrainResolution;
+    float terrainScale;
 
-   
     private void Start()
     {
         terrainResolution = terrain.terrainData.heightmapResolution;
         terrainScale = terrain.terrainData.size.x / terrainResolution;
 
+        
+
         ResetTerrain();
-        CreateHole();
-        InstantiateLevel();  
+        SpawnNewLevel();
+    }
+    public void SpawnNewLevel()
+    {
+        int spawnLayoutIndex = UnityEngine.Random.Range(0, spawnLayouts.Length);
+        spawnPointList = spawnLayouts[spawnLayoutIndex].GetComponentsInChildren<Transform>();
+
+        //foreach (Transform sp in spawnPointList)
+        for (int i = 1; i < spawnPointList.Length; i++)
+        {
+            spawnPoint = spawnPointList[i];
+            CreateHole();
+            InstantiateLevel();
+        }
     }
 
     void AdjustSpawnPointToHoleCenter()
@@ -71,9 +88,11 @@ public class LevelManager : MonoBehaviour
 
         //Spawn the hole
         GameObject holePrefab = holePrefabList[GetRandomIndex(holePrefabList.Length)];
-        Instantiate(holePrefab, spawnPoint.position, Quaternion.identity);
+        Instantiate(holePrefab, spawnPoint.position, spawnPoint.rotation);
 
         //Spawn the building
+        GameObject housePrefab = housePrefabList[GetRandomIndex(housePrefabList.Length)];
+        Instantiate(housePrefab, spawnPoint.position, spawnPoint.rotation);
 
         //Spawn the Fort
 
@@ -92,10 +111,7 @@ public class LevelManager : MonoBehaviour
         terrain.terrainData.SetHoles(0, 0, b);
     }
 
-    public void SpawnNewLevel()
-    {
-
-    }
+   
     int GetRandomIndex(int indexMax)
     {
         int rng = UnityEngine.Random.Range(0, indexMax);
