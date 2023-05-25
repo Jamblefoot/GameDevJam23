@@ -7,8 +7,11 @@ public class LevelManager : MonoBehaviour
 {
     //TODO build hole
 
+    [Header("Terrain: Add these in!")]
     [SerializeField] Terrain terrain;
     [SerializeField] Transform terrainTransform;
+
+    [Header("Lists for the Level building blocks")]
     [SerializeField] GameObject[] spawnLayouts;
     [SerializeField] GameObject[] holePrefabList;
     [SerializeField] GameObject[] housePrefabList;
@@ -17,8 +20,10 @@ public class LevelManager : MonoBehaviour
     Vector3 positionOfSpawnPoint;
     Transform[] spawnPointList;
     Transform spawnPoint;
+    List<GameObject> listOfSpawnedObjects = new List<GameObject>();
 
     int holeWidth = 2;
+    int numberOfSpawns = 4;
     int terrainResolution;
     float terrainScale;
 
@@ -26,15 +31,18 @@ public class LevelManager : MonoBehaviour
     {
         terrainResolution = terrain.terrainData.heightmapResolution;
         terrainScale = terrain.terrainData.size.x / terrainResolution;
-
         
-
-        ResetTerrain();
         SpawnNewLevel();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.N)) { SpawnNewLevel(); }
     }
     public void SpawnNewLevel()
     {
-        int spawnLayoutIndex = UnityEngine.Random.Range(0, spawnLayouts.Length);
+        ResetTerrain();
+
+        int spawnLayoutIndex = GetRandomIndex(spawnLayouts.Length);
         spawnPointList = spawnLayouts[spawnLayoutIndex].GetComponentsInChildren<Transform>();
 
         //foreach (Transform sp in spawnPointList)
@@ -88,14 +96,16 @@ public class LevelManager : MonoBehaviour
 
         //Spawn the hole
         GameObject holePrefab = holePrefabList[GetRandomIndex(holePrefabList.Length)];
-        Instantiate(holePrefab, spawnPoint.position, spawnPoint.rotation);
+        GameObject hole = Instantiate(holePrefab, spawnPoint.position, spawnPoint.rotation);
 
         //Spawn the building
         GameObject housePrefab = housePrefabList[GetRandomIndex(housePrefabList.Length)];
-        Instantiate(housePrefab, spawnPoint.position, spawnPoint.rotation);
+        GameObject house = Instantiate(housePrefab, spawnPoint.position, spawnPoint.rotation);
 
-        //Spawn the Fort
 
+        //Add Spawned Objects to list
+        listOfSpawnedObjects.Add(hole);
+        listOfSpawnedObjects.Add(house);
 
     }
     void ResetTerrain()
@@ -109,6 +119,12 @@ public class LevelManager : MonoBehaviour
                 b[x, y] = true;
 
         terrain.terrainData.SetHoles(0, 0, b);
+
+        foreach (GameObject g in listOfSpawnedObjects)
+        {
+            Destroy(g);
+        }
+        listOfSpawnedObjects = new List<GameObject>();
     }
 
    
