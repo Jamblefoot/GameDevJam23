@@ -199,16 +199,25 @@ public class PlayerControl : MonoBehaviour
             if(StepCheck(movement))
                 rigid.AddForce(movement, ForceMode.VelocityChange);
 
-            
+            Vector3 aimDir = FindNearestEnemy(movement);
 
             //graphicsGimbal.LookAt(transform.position + movement, Vector3.up);
-            float angle = Vector3.SignedAngle(graphicsGimbal.forward, movement, tran.up);
+            float angle = Vector3.SignedAngle(graphicsGimbal.forward, aimDir, tran.up);
             if(Mathf.Abs(angle) > 10f)
                 graphicsGimbal.Rotate(tran.up, Mathf.Min(Mathf.Abs(angle), 10f) * Mathf.Sign(angle));
-            else graphicsGimbal.LookAt(tran.position + movement, Vector3.up);
+            else graphicsGimbal.LookAt(tran.position + aimDir, Vector3.up);
 
             //TODO AUTO AIM FOR TOP-DOWN MOVEMENT
         }
+    }
+
+    Vector3 FindNearestEnemy(Vector3 dir)
+    {
+        //TODO cast out cone in front looking for the nearest enemy
+        //  if enemy found, return direction to enemy
+        //  else return the original direction passed in
+
+        return dir;
     }
 
     Vector3 MoveSideScroll(AlignmentAxis axis)

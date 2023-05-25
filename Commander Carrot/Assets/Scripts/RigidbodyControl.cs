@@ -19,4 +19,10 @@ public class RigidbodyControl : MonoBehaviour
         transform.position = constraintPlane.ClosestPointOnPlane(transform.position);
         rigid.velocity = Vector3.ProjectOnPlane(rigid.velocity, constraintPlane.normal);
     }
+
+    public void ConstrainToTransformPlane(Transform tran)
+    {
+        constraintPlane = new Plane(-tran.forward, tran.position);
+            transform.position = constraintPlane.ClosestPointOnPlane(transform.position);
+    }
 }

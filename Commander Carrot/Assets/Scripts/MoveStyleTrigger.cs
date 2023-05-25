@@ -9,6 +9,8 @@ public class MoveStyleTrigger : MonoBehaviour
     //public AlignmentAxis axis = AlignmentAxis.None;
 
     public ShmupControl targetRig;
+
+    public List<Collider> movingCols = new List<Collider>();
     
     void OnTriggerEnter(Collider col)
     {
@@ -47,24 +49,20 @@ public class MoveStyleTrigger : MonoBehaviour
                         break;
                     }
 
-                    ShipDrive sd = col.GetComponent<ShipDrive>();
-                    if(sd != null)
+                    if (!movingCols.Contains(col) && (col.GetComponent<ShipDrive>() || col.GetComponent<PlayerControl>()))
                     {
-                        sd.shmupControl = targetRig;
-                        col.transform.position = targetRig.transform.position - targetRig.transform.forward * 7;
-                        col.transform.rotation = targetRig.transform.rotation;
-                        sd.rigid.useGravity = false;
-                        sd.rigid.isKinematic = true;
-
-                        //TODO transition to shmup rig
-                        // camera targetpos = shmuprig camera anchor
-                        //THIS IS JUST FOR TESTING, PROBABLY NEED SOME REFERENCE TO THE PLAYER DRIVING THE SHIP
-                        FollowCamera cam = FindObjectOfType<FollowCamera>();
-                        cam.MoveToAnchor(targetRig.cameraAnchor);
-
-                        targetRig.GetComponentInChildren<EnemySpawner>()?.StartSpawning(20);
+                        movingCols.Add(col);
+                        StartCoroutine(MoveToShmup(col));
                     }
-                    
+                    /*ShipDrive sd = col.GetComponent<ShipDrive>();
+                    if(sd != null && !movingCols.Contains(col))
+                    {
+                        
+                    }
+                    else
+                    {
+                        //just send the player in a t-pose, aiming gun
+                    }*/
 
 
                     
@@ -72,5 +70,40 @@ public class MoveStyleTrigger : MonoBehaviour
             }
 
         }
+    }
+
+    IEnumerator MoveToShmup(Collider col)
+    {
+        ShipDrive sd = col.GetComponent<ShipDrive>();
+        if(sd != null)
+        {
+            sd.rigid.useGravity = false;
+            sd.rigid.isKinematic = true;
+            Vector3 targetPos = targetRig.transform.position - targetRig.transform.forward * 7;
+            while(sd.transform.position != targetPos)
+            {
+                sd.shmupControl = targetRig;
+                //sd.transform.position = targetRig.transform.position - targetRig.transform.forward * 7;
+                sd.transform.position = Vector3.MoveTowards(sd.transform.position, targetPos, Time.deltaTime * 10f);
+                sd.transform.rotation = targetRig.transform.rotation;
+                yield return null;
+            }
+        }
+        else
+        {
+            //just send the player in a t-pose, aiming gun
+        }       
+
+        //TODO transition to shmup rig
+        // camera targetpos = shmuprig camera anchor
+        //THIS IS JUST FOR TESTING, PROBABLY NEED SOME REFERENCE TO THE PLAYER DRIVING THE SHIP
+
+        movingCols.Remove(col);
+
+
+        FollowCamera cam = FindObjectOfType<FollowCamera>();
+        cam.MoveToAnchor(targetRig.cameraAnchor);
+
+        targetRig.GetComponentInChildren<EnemySpawner>()?.StartSpawning(20);
     }
 }

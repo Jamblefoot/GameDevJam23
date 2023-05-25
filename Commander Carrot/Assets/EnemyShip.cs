@@ -50,7 +50,7 @@ public class EnemyShip : MonoBehaviour
             for (int i = 0; i < collisionEvents.Count; i++)
             {
                 Vector3 pos = collisionEvents[i].intersection;
-                Vector3 force = collisionEvents[i].velocity * 100;
+                Vector3 force = collisionEvents[i].velocity * 1000;
                 rigid.AddForce(force);
             }
         }
