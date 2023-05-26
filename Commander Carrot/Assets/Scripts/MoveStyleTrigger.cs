@@ -52,7 +52,8 @@ public class MoveStyleTrigger : MonoBehaviour
                     if (!movingCols.Contains(col) && (col.GetComponent<ShipDrive>() || col.GetComponent<PlayerControl>()))
                     {
                         movingCols.Add(col);
-                        StartCoroutine(MoveToShmup(col));
+                        targetRig.MoveToRig(col.transform);
+                        //StartCoroutine(MoveToShmup(col));
                     }
                     /*ShipDrive sd = col.GetComponent<ShipDrive>();
                     if(sd != null && !movingCols.Contains(col))
@@ -72,7 +73,15 @@ public class MoveStyleTrigger : MonoBehaviour
         }
     }
 
-    IEnumerator MoveToShmup(Collider col)
+    void OnTriggerExit(Collider col)
+    {
+        if(movingCols.Contains(col))
+        {
+            movingCols.Remove(col);
+        }
+    }
+
+    /*IEnumerator MoveToShmup(Collider col)
     {
         ShipDrive sd = col.GetComponent<ShipDrive>();
         if(sd != null)
@@ -119,5 +128,5 @@ public class MoveStyleTrigger : MonoBehaviour
 
 
         targetRig.GetComponentInChildren<EnemySpawner>()?.StartSpawning(20);
-    }
+    }*/
 }

@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] LayerMask groundLayers;
     [SerializeField] Transform graphicsGimbal;
     [SerializeField] Transform graphicsRoot;
+    [SerializeField] Transform gunPivot;
     [SerializeField] Transform gunpoint;
 
     Seat seat;
@@ -27,17 +28,21 @@ public class PlayerControl : MonoBehaviour
     float feetHeight = 0.1f;
 
     public MoveStyle moveStyle;
-    public AlignmentAxis alignmentAxis = AlignmentAxis.None;
+    //public AlignmentAxis alignmentAxis = AlignmentAxis.None;
     //public bool topDown;
     public Vector3 currentForward;
     public Vector3 sideNormal = Vector3.back;
 
     Vector2 move;
+    Vector2 look;
+    Vector3 mousePos = Vector3.zero;
     [HideInInspector]
-    public float horizontal, vertical, mouseScroll;
+    public float horizontal, vertical, mouseScroll, lookHorizontal, lookVertical;
+    Vector3 lookRot;
     bool jump, isGrounded;
 
     Rigidbody rigid;
+    RigidbodyControl rigidControl;
     Transform tran;
     public Camera cam;
     FollowCamera followCam;
@@ -54,6 +59,7 @@ public class PlayerControl : MonoBehaviour
     {
         tran = transform;
         rigid = GetComponent<Rigidbody>();
+        rigidControl = GetComponent<RigidbodyControl>();
 
         if(cameraPrefab != null)
         {
@@ -73,6 +79,10 @@ public class PlayerControl : MonoBehaviour
         currentForward = tran.right;
     }
 
+    void OnLook(InputValue value)
+    {
+        look = value.Get<Vector2>();
+    }
     void OnMove(InputValue value)
     {
         move = value.Get<Vector2>();
@@ -119,6 +129,23 @@ public class PlayerControl : MonoBehaviour
     {
         horizontal = move.x;
         vertical = move.y;
+        lookHorizontal = look.x;
+        lookVertical = look.y;
+        mousePos = Mouse.current.position.ReadValue();
+        //Vector3 objectPos = cam.WorldToScreenPoint(tran.position);
+        mousePos = cam.ScreenToWorldPoint(mousePos);
+        switch(moveStyle)
+        {
+            case MoveStyle.Side:
+                //constrain mousepos to constraintPlane
+                //okay so we want the body to rotate 
+                // and the arms to point towar d the position
+                break;
+            case MoveStyle.TopFree:
+            case MoveStyle.TopShmup:
+                mousePos.y = graphicsRoot.position.y;
+                break;
+        }
 
         if (Mathf.Abs(mouseScroll) > 0 && cam != null)//&& !GameControl.singleton.inMenu
         {
@@ -139,6 +166,7 @@ public class PlayerControl : MonoBehaviour
         if(graphicsRoot.parent != graphicsGimbal) //IS IN SEAT OR SOMTHING
         {
             graphicsRoot.root.GetComponent<ShipDrive>().ApplyInput(horizontal, vertical);
+            RotateTowardsMouse(false);
             return;
         }
 
@@ -155,9 +183,10 @@ public class PlayerControl : MonoBehaviour
             //else //double jump?
         }
 
+        Vector3 movement = Vector3.zero;
         if(Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0)
         {
-            Vector3 movement = Vector3.zero;
+            
             //float strafe = 0;
 
             switch(moveStyle)
@@ -183,15 +212,62 @@ public class PlayerControl : MonoBehaviour
 
             if(StepCheck(movement))
                 rigid.AddForce(movement, ForceMode.VelocityChange);
+        }
 
-            Vector3 aimDir = FindNearestEnemy(movement);
+        RotateTowardsMouse();
+
+        /*Vector3 aimDir = tran.forward;
+        Vector3 gunDir = Vector3.zero;
+            //Vector3 aimDir = FindNearestEnemy(movement);
+            if(moveStyle == MoveStyle.Side)
+            {
+                aimDir = new Vector3(mousePos.x, graphicsRoot.position.y, mousePos.z) - graphicsRoot.position;
+                gunDir = Vector3.ProjectOnPlane(mousePos, rigidControl.constraintPlane.normal);
+            }
+            else aimDir = mousePos - graphicsRoot.position;
 
             //graphicsGimbal.LookAt(transform.position + movement, Vector3.up);
             float angle = Vector3.SignedAngle(graphicsGimbal.forward, aimDir, tran.up);
             if(Mathf.Abs(angle) > 10f)
                 graphicsGimbal.Rotate(tran.up, Mathf.Min(Mathf.Abs(angle), 10f) * Mathf.Sign(angle));
             else graphicsGimbal.LookAt(tran.position + aimDir, Vector3.up);
+
+            if(gunDir != Vector3.zero)
+                gunpoint.LookAt(gunDir, gunpoint.right);*/
+        //}
+    }
+
+    void RotateTowardsMouse(bool useGimbal = true)
+    {
+        Vector3 aimDir = tran.forward;
+        Vector3 gunDir = Vector3.zero;
+        //Vector3 aimDir = FindNearestEnemy(movement);
+        if (moveStyle == MoveStyle.Side)
+        {
+            aimDir = new Vector3(mousePos.x, graphicsRoot.position.y, mousePos.z) - graphicsRoot.position;
+            gunDir = Vector3.ProjectOnPlane(mousePos, rigidControl.constraintPlane.normal);
         }
+        else aimDir = mousePos - graphicsRoot.position;
+
+        //graphicsGimbal.LookAt(transform.position + movement, Vector3.up);
+        
+        if(useGimbal)
+        {
+            float angle = Vector3.SignedAngle(graphicsGimbal.forward, aimDir, tran.up);
+            if (Mathf.Abs(angle) > 10f)
+                graphicsGimbal.Rotate(tran.up, Mathf.Min(Mathf.Abs(angle), 10f) * Mathf.Sign(angle));
+            else graphicsGimbal.LookAt(tran.position + aimDir, Vector3.up);
+        }
+        else
+        {
+            float angle = Vector3.SignedAngle(graphicsRoot.forward, aimDir, tran.up);
+            if (Mathf.Abs(angle) > 10f)
+                graphicsRoot.Rotate(graphicsRoot.parent.up, Mathf.Min(Mathf.Abs(angle), 10f) * Mathf.Sign(angle));
+            else graphicsRoot.LookAt(graphicsRoot.parent.position + aimDir, Vector3.up);
+        }
+
+        if (gunDir != Vector3.zero)
+            gunpoint.LookAt(gunDir, gunpoint.right);
     }
 
     Vector3 FindNearestEnemy(Vector3 dir)

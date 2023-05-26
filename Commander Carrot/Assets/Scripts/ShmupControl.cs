@@ -9,6 +9,61 @@ public class ShmupControl : MonoBehaviour
     public float width = 20;
     public float length = 10;
 
+    public void MoveToRig(Transform tran)
+    {
+        Debug.Log("MOVE TO RIG CALLED");
+        StartCoroutine(MoveToRigCo(tran));
+    }
+    IEnumerator MoveToRigCo(Transform tran)
+    {
+        ShipDrive sd = tran.GetComponent<ShipDrive>();
+        PlayerControl pc = tran.GetComponent<PlayerControl>();
+        if (sd != null)
+        {
+            sd.rigid.useGravity = false;
+            sd.rigid.isKinematic = true;
+            Vector3 targetPos = transform.position - transform.forward * 7;
+            while (tran.position != targetPos)
+            {
+
+                //sd.transform.position = targetRig.transform.position - targetRig.transform.forward * 7;
+                tran.position = Vector3.MoveTowards(tran.position, targetPos, Time.deltaTime * 50f);
+                tran.rotation = transform.rotation;
+                yield return new WaitForFixedUpdate();
+            }
+            sd.shmupControl = this;
+        }
+        else 
+        {
+            //just send the player in a t-pose, aiming gun
+        }
+        // camera targetpos = shmuprig camera anchor
+        //THIS IS JUST FOR TESTING, PROBABLY NEED SOME REFERENCE TO THE PLAYER DRIVING THE SHIP
+
+        //movingCols.Remove(col);
+
+
+        FollowCamera cam = FindObjectOfType<FollowCamera>();
+        cam.MoveToAnchor(cameraAnchor);
+
+        
+        if (pc != null)
+        {
+            pc.SetMoveStyle(MoveStyle.TopShmup, -transform.forward);//axis);
+        }
+
+        //Move targetRig, camera, and col.transform to other side of the map
+        Vector3 shift = new Vector3(0, 0, transform.position.z * -2);
+        tran.position = tran.position + shift;
+        cam.transform.position = cam.transform.position + shift;
+        transform.position = transform.position + shift;
+
+
+        GetComponentInChildren<EnemySpawner>()?.StartSpawning(20);
+
+        FindObjectOfType<LevelManager>()?.SpawnNewLevel();
+    }
+
     public void MoveToGround(Transform tran)
     {
         
