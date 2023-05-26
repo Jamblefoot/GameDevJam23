@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 6290344897861767150}
   - component: {fileID: 6290344897861767145}
   - component: {fileID: 6290344897861767144}
+  - component: {fileID: -7319476959005793029}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -296,17 +297,19 @@ MonoBehaviour:
     m_Bits: 1
   graphicsGimbal: {fileID: 6290344897847483009}
   graphicsRoot: {fileID: 2154912236249540380}
+  gunPivot: {fileID: 0}
   gunpoint: {fileID: 6290344896980321663}
   maxSpeed: 10
   jumpForce: 350
   stepSmooth: 0.1
   moveStyle: 0
-  alignmentAxis: 0
   currentForward: {x: 0, y: 0, z: 0}
   sideNormal: {x: 0, y: 0, z: -1}
   horizontal: 0
   vertical: 0
   mouseScroll: 0
+  lookHorizontal: 0
+  lookVertical: 0
   cam: {fileID: 6290344897348839863}
   onHit:
     m_PersistentCalls:
@@ -358,6 +361,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-7319476959005793029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6290344897861767147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb7f50cb8466fd49b991943cd9c3411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8814558961244877894
 PrefabInstance:
   m_ObjectHideFlags: 0
