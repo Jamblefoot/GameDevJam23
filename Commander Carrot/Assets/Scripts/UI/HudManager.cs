@@ -17,21 +17,19 @@ public class HudManager : MonoBehaviour
         pausMenuShowing = false;
         pausMenu.SetActive(pausMenuShowing);
     }
-
-    private void Update()
+    void OnPause(InputValue value)
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) 
+        if (!pausMenuShowing)
         {
-            if (!pausMenuShowing) 
-            {
-                pausMenu.SetActive(true);
-                pausMenuShowing = true;
-            }
-            else
-            {
-                pausMenu.SetActive(false);
-                pausMenuShowing = false;
-            }
+            pausMenu.SetActive(true);
+            pausMenuShowing = true;
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            pausMenu.SetActive(false);
+            pausMenuShowing = false;
+            Time.timeScale = 1f;
         }
     }
     public void UpdateScoreText(int score)
