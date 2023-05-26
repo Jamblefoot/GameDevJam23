@@ -19,13 +19,14 @@ public class HudManager : MonoBehaviour
     }
     void OnPause(InputValue value)
     {
-        if (!pausMenuShowing)
+        print("escape pressed");
+        if (pausMenuShowing == false)
         {
             pausMenu.SetActive(true);
             pausMenuShowing = true;
             Time.timeScale = 0f;
         }
-        else
+        else if (pausMenuShowing == true)
         {
             pausMenu.SetActive(false);
             pausMenuShowing = false;
