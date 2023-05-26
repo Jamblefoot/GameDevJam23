@@ -124,6 +124,18 @@ public class PlayerControl : MonoBehaviour
     {
         mouseScroll = value.Get<Vector2>().y;
     }
+    void OnPause(InputValue value)
+    {
+        if(HudManager.singleton == null)
+        {
+            Debug.LogWarning("No hud manager, can't pause");
+        }
+
+        if(value.isPressed)
+        {
+            HudManager.singleton.PausMenuTogle();
+        }
+    }
 
     void Update()
     {
