@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using TMPro;
 
 public class SettingsControl : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class SettingsControl : MonoBehaviour
     [Header("Graphics")]
     [SerializeField] Dropdown qualityDropdown;
     [SerializeField] GameObject customQuality;
-    [SerializeField] Dropdown resolutionDropdown;
+    [SerializeField] TMP_Dropdown resolutionDropdown;
     [SerializeField] Dropdown screenModeDropdown;
     [SerializeField] Dropdown aaDropdown;
     [SerializeField] Dropdown vsyncDropdown;
