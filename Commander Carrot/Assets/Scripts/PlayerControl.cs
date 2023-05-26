@@ -439,6 +439,7 @@ public class PlayerControl : MonoBehaviour
     {
         Debug.LogError("PLAYER HIT BY A PARTICLE FROM " + other.transform.root.gameObject.name + "!!!!");
         health--;
+        HudManager.singleton.UpdatePlayerHealth(health);
 
         ParticleSystem part = other.GetComponent<ParticleSystem>();
         part.GetCollisionEvents(other, collisionEvents);

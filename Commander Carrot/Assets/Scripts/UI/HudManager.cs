@@ -4,14 +4,14 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class HudManager : MonoBehaviour
 {
     public static HudManager singleton;
 
     [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] Image playerHealthBar;
-    [SerializeField] Image shipHealthBar;
+    [SerializeField] UnityEngine.UI.Slider playerHealthBar;
     [SerializeField] GameObject pausMenu;
 
     bool pausMenuShowing;
@@ -36,12 +36,12 @@ public class HudManager : MonoBehaviour
     }
     public void UpdatePlayerHealth(int playerHealth)
     {
-        playerHealthBar.fillAmount = playerHealth / 100;
+        playerHealthBar.value = playerHealth;
     }
-    public void UpdateShipHealth(int shipHealth)
-    {
-        shipHealthBar.fillAmount = shipHealth / 100;
-    }
+    //public void UpdateShipHealth(int shipHealth)
+    //{
+    //    shipHealthBar.fillAmount = shipHealth / 100;
+    //}
     public void PausMenuTogle()
     {
         if (pausMenuShowing == false)
