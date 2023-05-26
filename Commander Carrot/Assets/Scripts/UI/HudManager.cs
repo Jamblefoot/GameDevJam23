@@ -10,6 +10,8 @@ public class HudManager : MonoBehaviour
     public static HudManager singleton;
 
     [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] Image playerHealthBar;
+    [SerializeField] Image shipHealthBar;
     [SerializeField] GameObject pausMenu;
 
     bool pausMenuShowing;
@@ -28,44 +30,17 @@ public class HudManager : MonoBehaviour
         pausMenuShowing = false;
         pausMenu.SetActive(pausMenuShowing);
     }
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    print("escape pressed");
-        //    if (pausMenuShowing == false)
-        //    {
-        //        pausMenu.SetActive(true);
-        //        pausMenuShowing = true;
-        //        Time.timeScale = 0f;
-        //    }
-        //    else if (pausMenuShowing == true)
-        //    {
-        //        pausMenu.SetActive(false);
-        //        pausMenuShowing = false;
-        //        Time.timeScale = 1f;
-        //    }
-        //}
-    }
-    //void OnPause(InputValue value)
-    //{
-    //    print("escape pressed");
-    //    if (pausMenuShowing == false)
-    //    {
-    //        pausMenu.SetActive(true);
-    //        pausMenuShowing = true;
-    //        Time.timeScale = 0f;
-    //    }
-    //    else if (pausMenuShowing == true)
-    //    {
-    //        pausMenu.SetActive(false);
-    //        pausMenuShowing = false;
-    //        Time.timeScale = 1f;
-    //    }
-    //}
     public void UpdateScoreText(int score)
     {
         scoreText.text = $"Score: {score}";
+    }
+    public void UpdatePlayerHealth(int playerHealth)
+    {
+        playerHealthBar.fillAmount = playerHealth / 100;
+    }
+    public void UpdateShipHealth(int shipHealth)
+    {
+        shipHealthBar.fillAmount = shipHealth / 100;
     }
     public void PausMenuTogle()
     {
