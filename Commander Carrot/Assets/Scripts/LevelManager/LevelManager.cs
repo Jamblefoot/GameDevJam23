@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("Terrain: Add these in!")]
     [SerializeField] Terrain terrain;
-    [SerializeField] Transform terrainTransform;
+    /*[SerializeField]*/ Transform terrainTransform;
 
     [Header("Lists for the Level building blocks")]
     [SerializeField] GameObject[] spawnLayouts;
@@ -29,6 +29,10 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        if(terrain == null)
+            Debug.LogWarning("NO TERRAIN REFERENCED BY LevelManager");
+        terrainTransform = terrain.transform;
+
         terrainResolution = terrain.terrainData.heightmapResolution;
         terrainScale = terrain.terrainData.size.x / terrainResolution;
         
@@ -97,10 +101,13 @@ public class LevelManager : MonoBehaviour
         //Spawn the hole
         GameObject holePrefab = holePrefabList[GetRandomIndex(holePrefabList.Length)];
         GameObject hole = Instantiate(holePrefab, spawnPoint.position, spawnPoint.rotation);
+        AlignBuildingContents(hole.transform);
 
         //Spawn the building
         GameObject housePrefab = housePrefabList[GetRandomIndex(housePrefabList.Length)];
         GameObject house = Instantiate(housePrefab, spawnPoint.position, spawnPoint.rotation);
+        AlignBuildingContents(house.transform);
+        
 
 
         //Add Spawned Objects to list
@@ -132,5 +139,18 @@ public class LevelManager : MonoBehaviour
     {
         int rng = UnityEngine.Random.Range(0, indexMax);
         return rng;
+    }
+
+    void AlignBuildingContents(Transform building)
+    {
+        foreach (Pickup p in building.GetComponentsInChildren<Pickup>())
+        {
+            Vector3 localPos = p.transform.localPosition;
+            p.transform.localPosition = new Vector3(localPos.x, localPos.y, 0);
+        }
+        foreach (RigidbodyControl rbc in building.GetComponentsInChildren<RigidbodyControl>())
+        {
+            rbc.ConstrainToTransformPlane(building);
+        }
     }
 }

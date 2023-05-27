@@ -11,6 +11,7 @@ public class Spring : MonoBehaviour
         Rigidbody rb = other.GetComponent<Rigidbody>();
         if(rb != null && !rb.isKinematic)
         {
+            rb.velocity = Vector3.zero;
             rb.AddForce(transform.up * springForce, ForceMode.Impulse);
 
             GetComponent<AudioSource>()?.Play();

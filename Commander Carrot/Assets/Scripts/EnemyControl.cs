@@ -34,18 +34,23 @@ public class EnemyControl : MonoBehaviour
     void OnParticleCollision(GameObject other) 
     {
         Debug.Log("ENEMY HIT BY A PARTICLE FROM " + other.transform.root.gameObject.name);
-        health--;
+        List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
+        ParticleSystem part = other.GetComponent<ParticleSystem>();
+        part.GetCollisionEvents(gameObject, collisionEvents);
+        health -= collisionEvents.Count;
         if(health <= 0)
         {
             Die();
-            List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
-            ParticleSystem part = other.GetComponent<ParticleSystem>();
-            part.GetCollisionEvents(other, collisionEvents);
+            
             for (int i = 0; i < collisionEvents.Count; i++)
             {
                 Vector3 pos = collisionEvents[i].intersection;
                 Vector3 force = collisionEvents[i].velocity * 100;
-                rigid.AddForce(force);
+                foreach(Rigidbody rb in GetComponentsInChildren<Rigidbody>())
+                {
+                    rb.AddExplosionForce(500, pos, 0.5f, 0);
+                }
+                //rigid.AddForce(force);
             }
         }
     }

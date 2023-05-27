@@ -57,6 +57,7 @@ public class PlayerControl : MonoBehaviour
     public ShmupControl shmupControl;
 
     RaycastHit hit;
+    RaycastHit feethit;
 
     public UnityEvent<Vector3> onHit;
 
@@ -392,8 +393,8 @@ public class PlayerControl : MonoBehaviour
         if(Physics.Raycast(tran.position + tran.up * headHeight, move.normalized, move.magnitude, groundLayers, QueryTriggerInteraction.Ignore))
             return false;
         
-        bool waistBlocked = Physics.Raycast(tran.position + tran.up * waistHeight, move.normalized, 0.6f, groundLayers, QueryTriggerInteraction.Ignore);
-        bool feetBlocked = Physics.Raycast(tran.position + tran.up * feetHeight, move.normalized, 0.6f, groundLayers, QueryTriggerInteraction.Ignore);
+        bool waistBlocked = Physics.SphereCast(tran.position + tran.up * waistHeight, 0.25f, move.normalized, out feethit, 0.6f - 0.25f, groundLayers, QueryTriggerInteraction.Ignore);
+        bool feetBlocked = Physics.SphereCast(tran.position + tran.up * feetHeight, feetHeight - 0.01f, move.normalized, out feethit, 0.6f - (feetHeight - 0.01f), groundLayers, QueryTriggerInteraction.Ignore);
 
         if(feetBlocked)
             Debug.Log("FEET HITTING THING!");

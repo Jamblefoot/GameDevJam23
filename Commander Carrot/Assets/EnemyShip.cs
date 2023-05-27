@@ -68,10 +68,11 @@ public class EnemyShip : MonoBehaviour
         {
             List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
             ParticleSystem part = other.GetComponent<ParticleSystem>();
-            part.GetCollisionEvents(other, collisionEvents);
+            part.GetCollisionEvents(gameObject, collisionEvents);
             for (int i = 0; i < collisionEvents.Count; i++)
             {
                 Vector3 pos = collisionEvents[i].intersection;
+                //Debug.Log("Adding smoke to ship at " + pos.ToString());
                 Instantiate(PrefabControl.singleton.smoke, pos, Quaternion.identity, transform);
             }
         }
