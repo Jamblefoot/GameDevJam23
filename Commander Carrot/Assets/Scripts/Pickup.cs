@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PickupType{ Random, Token, Gun, Health };//Ammo
+public enum PickupType{ Random, Token, Gun, Health, Grenade };//Ammo
 public class Pickup : MonoBehaviour
 {
     [SerializeField] PickupType type;
+    [SerializeField] AudioClip pickupClip;
 
     void Start()
     {
@@ -38,6 +39,10 @@ public class Pickup : MonoBehaviour
                 type = PickupType.Health;
                 Instantiate(PrefabControl.singleton.healthPack, transform.position, transform.rotation, transform);
                 break;
+            case PickupType.Grenade:
+                type = PickupType.Grenade;
+                Instantiate(PrefabControl.singleton.grenadeNoRigid, transform.position, transform.rotation, transform);
+                break;
         }
 
         SetRendererColor(type);
@@ -63,6 +68,10 @@ public class Pickup : MonoBehaviour
                 rend.material.SetColor("_Color", new Color(1, 0, 0, 0.5f));
                 rend.material.SetColor("_EmissionColor", new Color(1, 0, 0, 1));
                 break;
+            case PickupType.Grenade:
+                rend.material.SetColor("_Color", new Color(1, 0, 1, 0.5f));
+                rend.material.SetColor("_EmissionColor", new Color(1, 0, 1, 1));
+                break;
         }
     }
 
@@ -73,6 +82,7 @@ public class Pickup : MonoBehaviour
         {
             pc.TakePickup(type, transform.childCount <= 0 ? null : transform.GetChild(0));
 
+            AudioSource.PlayClipAtPoint(pickupClip, transform.position);
             //TODO POOL THIS!
             Destroy(gameObject);//, transform.childCount <= 0 ? 0 : 0.1f);
 
@@ -98,6 +108,10 @@ public class Pickup : MonoBehaviour
             case PickupType.Health:
                 type = PickupType.Health;
                 Instantiate(PrefabControl.singleton.healthPack, transform.position, transform.rotation, transform);
+                break;
+            case PickupType.Grenade:
+                type = PickupType.Grenade;
+                Instantiate(PrefabControl.singleton.grenadeNoRigid, transform.position, transform.rotation, transform);
                 break;
         }
     }

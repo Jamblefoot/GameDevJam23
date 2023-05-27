@@ -11,6 +11,9 @@ public class PrefabControl : MonoBehaviour
     public GameObject coin;
     public GameObject healthPack;
     public GameObject[] guns;
+    public GameObject grenadeNoRigid;
+    
+    public GameObject grenade;
 
     [Header("Effects")]
     public GameObject explosion;

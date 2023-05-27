@@ -50,7 +50,7 @@ public class EnemyControl : MonoBehaviour
         }
     }
 
-    void Die()
+    public void Die()
     {
         rigid.constraints = RigidbodyConstraints.None;
         RigidbodyControl rbc = GetComponent<RigidbodyControl>();
@@ -64,6 +64,26 @@ public class EnemyControl : MonoBehaviour
         {
             if(rb != rigid)
                 rb.isKinematic = false;
+        }
+    }
+    public void Die(float power, Vector3 explosionPos, float radius, float upwardMod)
+    {
+        rigid.constraints = RigidbodyConstraints.None;
+        RigidbodyControl rbc = GetComponent<RigidbodyControl>();
+        if (rbc)
+            rbc.enabled = false;
+
+        //TURN ON RAGDOLL
+        GetComponent<Collider>().enabled = false;
+        animator.enabled = false;
+        foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
+        {
+            if (rb != rigid)
+            {
+                rb.isKinematic = false;
+                rb.AddExplosionForce(power, explosionPos, radius, upwardMod);
+            }
+
         }
     }
 }

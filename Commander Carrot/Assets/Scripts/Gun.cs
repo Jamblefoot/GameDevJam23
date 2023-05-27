@@ -17,10 +17,10 @@ public class Gun : MonoBehaviour
     //cooldown
     public bool automatic = false;
 
-    public void Start()
+    /*public void Start()
     {
         audioSource = GetComponent<AudioSource>();
-    }
+    }*///THIS ISN'T WORKING!?
     public void Fire()
     {
         //if(ammo <= 0)

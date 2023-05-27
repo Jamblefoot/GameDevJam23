@@ -34,6 +34,7 @@ public class PlayerControl : MonoBehaviour
     public Vector3 currentForward;
     public Vector3 sideNormal = Vector3.back;
     float shmupSpeed = 25f;
+    float throwForce = 500f;
 
     Vector2 move;
     Vector2 look;
@@ -109,6 +110,10 @@ public class PlayerControl : MonoBehaviour
                 currentGun.Fire();
         }
         else fire1Held = false;
+    }
+    void OnFire2(InputValue value)
+    {
+        ThrowGrenade();
     }
     void OnFire3(InputValue value)
     {
@@ -513,6 +518,14 @@ public class PlayerControl : MonoBehaviour
         {
             onHit.Invoke(collisionEvents[i].intersection);
         }
+    }
+
+    void ThrowGrenade()
+    {
+        GameObject go = Instantiate(PrefabControl.singleton.grenade, gunpoint.position, gunpoint.rotation);
+        Rigidbody rb = go.GetComponent<Rigidbody>();
+        rb.velocity = rigid.velocity;
+        rb.AddForce(gunpoint.forward * throwForce);
     }
 
 }

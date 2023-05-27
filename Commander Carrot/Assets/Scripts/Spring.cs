@@ -9,7 +9,11 @@ public class Spring : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Rigidbody rb = other.GetComponent<Rigidbody>();
-        if(rb != null)
+        if(rb != null && !rb.isKinematic)
+        {
             rb.AddForce(transform.up * springForce, ForceMode.Impulse);
+
+            GetComponent<AudioSource>()?.Play();
+        }
     }
 }

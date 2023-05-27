@@ -4929,8 +4929,8 @@ MonoBehaviour:
   recoil: 2
   bulletParticles: {fileID: 3071032617122231208}
   muzzleParticles: {fileID: 1106863469344326429}
-  audioSource: {fileID: 0}
-  fireSound: {fileID: 0}
+  audioSource: {fileID: 2608999466434564606}
+  fireSound: {fileID: 8300000, guid: 3123846219145c742bd0a6aa3044f0a8, type: 3}
   clickSound: {fileID: 0}
   reloadSound: {fileID: 0}
   cockSound: {fileID: 0}
@@ -9792,7 +9792,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -5766457490331631643, guid: 005e3d41ebc4d364080e4139ffb9973b,
     type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -9800,7 +9800,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -9837,7 +9837,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
