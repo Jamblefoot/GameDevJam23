@@ -16,6 +16,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] Transform graphicsRoot;
     [SerializeField] Transform gunPivot;
     [SerializeField] Transform gunpoint;
+    float gunTilt = 60;
 
     Seat seat;
     Gun currentGun;
@@ -257,7 +258,7 @@ public class PlayerControl : MonoBehaviour
         if (moveStyle == MoveStyle.Side)
         {
             aimDir = new Vector3(mousePos.x, graphicsRoot.position.y, mousePos.z) - graphicsRoot.position;
-            gunDir = Vector3.ProjectOnPlane(mousePos, rigidControl.constraintPlane.normal);
+            gunDir = Vector3.ProjectOnPlane(mousePos, rigidControl.constraintPlane.normal) + Mathf.Abs(rigidControl.constraintPlane.GetDistanceToPoint(gunpoint.position)) * 2f * rigidControl.constraintPlane.normal;
         }
         else aimDir = mousePos - graphicsRoot.position;
 
@@ -279,7 +280,8 @@ public class PlayerControl : MonoBehaviour
         }
 
         if (gunDir != Vector3.zero)
-            gunpoint.LookAt(gunDir, gunpoint.right);
+            gunpoint.LookAt(gunDir, graphicsRoot.right);
+        else gunpoint.rotation = graphicsRoot.rotation * Quaternion.Euler(0,0,gunTilt);
     }
 
     Vector3 FindNearestEnemy(Vector3 dir)
