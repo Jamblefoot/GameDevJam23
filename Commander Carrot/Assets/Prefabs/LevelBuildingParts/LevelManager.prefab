@@ -48,7 +48,10 @@ MonoBehaviour:
   terrainTransform: {fileID: 0}
   spawnLayouts:
   - {fileID: 6532134591442890743, guid: dc576470f678e82448694d331193a85e, type: 3}
-  - {fileID: 6532134591442890743, guid: a9202b8f53ec19445a9737ed146d2577, type: 3}
+  - {fileID: 6532134591442890743, guid: 9bfd303a0f194514f8faac30ae0db6e8, type: 3}
+  - {fileID: 6532134591442890743, guid: 72e887db4c823274992376b52ab45c8f, type: 3}
+  - {fileID: 6532134591442890743, guid: b762cf7f8dd6105498eb4f5b27c2493f, type: 3}
+  - {fileID: 6532134591442890743, guid: ac8ccc29ac5f75b468aa15b3df91d6eb, type: 3}
   holePrefabList:
   - {fileID: 7138917367092207646, guid: 03629872f2b3f37458e17f523749a067, type: 3}
   - {fileID: 7138917367092207646, guid: 4437a123892066b49bccf33b47ce5d1f, type: 3}
