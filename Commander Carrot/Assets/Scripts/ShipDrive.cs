@@ -9,12 +9,14 @@ public class ShipDrive : MonoBehaviour
     [SerializeField] 
     float shmupSpeed = 25f;
 
+    [SerializeField] ParticleSystem[] lasers;
+    float fireDelay = 0.2f;
+
     [HideInInspector]
     public Rigidbody rigid;
 
     float horizontal, vertical;
-    bool driving;
-    bool isDriving;
+    bool driving, isDriving, fire, isFiring;
 
     public ShmupControl shmupControl;
     // Start is called before the first frame update
@@ -42,6 +44,9 @@ public class ShipDrive : MonoBehaviour
         isDriving = true;
         while(driving)
         {
+            if(fire && !isFiring)
+                FireLasers();
+
             if(shmupControl == null)
             {
                 rigid.AddTorque(transform.up * horizontal * Mathf.Sign(vertical) * turnPower, ForceMode.Force);
@@ -70,12 +75,37 @@ public class ShipDrive : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
+        fire = false;
+        horizontal = 0;
+        vertical = 0;
         isDriving = false;
     }
 
-    public void ApplyInput(float hor, float vert)
+    public void ApplyInput(float hor, float vert, bool trigger)
     {
         horizontal = hor;
         vertical = vert;
+        fire = trigger;
+    }
+
+    void FireLasers()
+    {
+        if(lasers.Length <= 0)
+            return;
+
+        if(!isFiring)
+        {
+            StartCoroutine(FireLasersCo());
+        }
+    }
+    IEnumerator FireLasersCo()
+    {
+        isFiring = true;
+        while(fire)
+        {
+
+            yield return new WaitForSeconds(fireDelay);
+        }
+        isFiring = false;
     }
 }
