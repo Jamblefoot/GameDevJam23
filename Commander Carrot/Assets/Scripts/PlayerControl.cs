@@ -192,7 +192,7 @@ public class PlayerControl : MonoBehaviour
     {
         if(graphicsRoot.parent != graphicsGimbal) //IS IN SEAT OR SOMTHING
         {
-            graphicsRoot.root.GetComponent<ShipDrive>().ApplyInput(horizontal, vertical);
+            graphicsRoot.root.GetComponent<ShipDrive>().ApplyInput(horizontal, vertical, fire1Held);
             RotateTowardsMouse(false);
             return;
         }
