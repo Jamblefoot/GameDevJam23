@@ -16,6 +16,8 @@ public class EnemyShip : MonoBehaviour
     public ParticleSystem[] laserParticles;
     public ParticleSystem exhaust;
 
+    public GameObject brokenPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +76,10 @@ public class EnemyShip : MonoBehaviour
         rigid.useGravity = true;
 
 
-        //TODO ragdoll!
+        if(brokenPrefab != null && Random.value > 0.7f)
+        {
+            Destroy(Instantiate(brokenPrefab, transform.position, transform.rotation, transform.parent), 10f);
+            Destroy(gameObject);
+        }
     }
 }

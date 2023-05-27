@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3764388694673587366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3764388694673587367}
+  - component: {fileID: 3764388694673587369}
+  - component: {fileID: 3764388694673587368}
+  m_Layer: 0
+  m_Name: GameControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3764388694673587367
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3764388694673587366}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3764388694673587369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3764388694673587366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4232d2658c5004a8d4fd0faf5b64a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inMenu: 0
+--- !u!114 &3764388694673587368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3764388694673587366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e351b02d50d7bd488aec3b44fea6e4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coin: {fileID: 1008056259306936668, guid: a542a344f90f70645b7e359c2a619436, type: 3}
+  healthPack: {fileID: 933249419892554638, guid: 79288b883cff0674eaff480e0e35d96e,
+    type: 3}
+  guns:
+  - {fileID: 8193871861407512480, guid: 77ac6c067beff984fa0637feeaf9e541, type: 3}
+  - {fileID: 1503756614585251182, guid: d4d422d2714951846a9ad8316dedfdd0, type: 3}
+  - {fileID: 5302801344739250714, guid: 3b602ea61888cb340a3aa3f19aa36d2a, type: 3}
+  grenadeNoRigid: {fileID: 4825648539693155711, guid: db85b91c4061da3498e39e0f01148973,
+    type: 3}
+  grenade: {fileID: 1004635496833532033, guid: c332438caf73ec84084f342f2bd3f926, type: 3}
+  explosion: {fileID: 4266663789400123058, guid: 5523764394ababb48b21c511b84c3a72,
+    type: 3}
+  bulletImpact: {fileID: 2577173679533575723, guid: f8800ab9583cb6d43ba20129fb30c642,
+    type: 3}
+  smoke: {fileID: 869913833249534439, guid: 39b2c8886d67acf4f8eafdb5036c98bd, type: 3}
