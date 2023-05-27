@@ -33,6 +33,7 @@ public class PlayerControl : MonoBehaviour
     //public bool topDown;
     public Vector3 currentForward;
     public Vector3 sideNormal = Vector3.back;
+    float shmupSpeed = 25f;
 
     Vector2 move;
     Vector2 look;
@@ -42,11 +43,17 @@ public class PlayerControl : MonoBehaviour
     Vector3 lookRot;
     bool jump, isGrounded;
 
-    Rigidbody rigid;
+    bool fire1Held = false;
+    float fireDelay;
+
+    [HideInInspector]
+    public Rigidbody rigid;
     RigidbodyControl rigidControl;
     Transform tran;
     public Camera cam;
     FollowCamera followCam;
+
+    public ShmupControl shmupControl;
 
     RaycastHit hit;
 
@@ -97,9 +104,11 @@ public class PlayerControl : MonoBehaviour
     {
         if(value.isPressed)
         {
+            fire1Held = true;
             if(currentGun != null)
                 currentGun.Fire();
         }
+        else fire1Held = false;
     }
     void OnFire3(InputValue value)
     {
@@ -195,6 +204,21 @@ public class PlayerControl : MonoBehaviour
             }
             //else //double jump?
         }
+        if (fire1Held && currentGun != null && currentGun.automatic)
+        {
+            fireDelay -= Time.deltaTime;
+            if (fireDelay <= 0)
+            {
+                fireDelay = 0.1f;
+                currentGun.Fire();
+            }
+        }
+
+        if (moveStyle == MoveStyle.TopShmup)
+        {
+            RotateGunTowardsMouse();
+        }
+        else RotateTowardsMouse();
 
         Vector3 movement = Vector3.zero;
         if(Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0)
@@ -212,6 +236,7 @@ public class PlayerControl : MonoBehaviour
                     break;
                 case MoveStyle.TopShmup:
                     movement = Vector3.forward * vertical;
+                    MoveTopShmup();
                     break;
             }
 
@@ -227,7 +252,7 @@ public class PlayerControl : MonoBehaviour
                 rigid.AddForce(movement, ForceMode.VelocityChange);
         }
 
-        RotateTowardsMouse();
+        
 
         /*Vector3 aimDir = tran.forward;
         Vector3 gunDir = Vector3.zero;
@@ -248,6 +273,8 @@ public class PlayerControl : MonoBehaviour
             if(gunDir != Vector3.zero)
                 gunpoint.LookAt(gunDir, gunpoint.right);*/
         //}
+
+        
     }
 
     void RotateTowardsMouse(bool useGimbal = true)
@@ -258,7 +285,8 @@ public class PlayerControl : MonoBehaviour
         if (moveStyle == MoveStyle.Side)
         {
             aimDir = new Vector3(mousePos.x, graphicsRoot.position.y, mousePos.z) - graphicsRoot.position;
-            gunDir = Vector3.ProjectOnPlane(mousePos, rigidControl.constraintPlane.normal) + Mathf.Abs(rigidControl.constraintPlane.GetDistanceToPoint(gunpoint.position)) * 2f * rigidControl.constraintPlane.normal;
+            //gunDir = Vector3.ProjectOnPlane(mousePos, rigidControl.constraintPlane.normal) + rigidControl.constraintPlane.GetDistanceToPoint(gunpoint.position) * rigidControl.constraintPlane.normal;
+            gunDir = rigidControl.constraintPlane.ClosestPointOnPlane(mousePos) + rigidControl.constraintPlane.GetDistanceToPoint(gunpoint.position) * rigidControl.constraintPlane.normal;
         }
         else aimDir = mousePos - graphicsRoot.position;
 
@@ -282,6 +310,16 @@ public class PlayerControl : MonoBehaviour
         if (gunDir != Vector3.zero)
             gunpoint.LookAt(gunDir, graphicsRoot.right);
         else gunpoint.rotation = graphicsRoot.rotation * Quaternion.Euler(0,0,gunTilt);
+    }
+
+    void RotateGunTowardsMouse()
+    {
+        Vector3 aimDir = mousePos - graphicsRoot.position;
+
+        float angle = Vector3.SignedAngle(gunpoint.forward, aimDir, tran.up);
+        if (Mathf.Abs(angle) > 10f)
+            gunpoint.Rotate(tran.up, Mathf.Min(Mathf.Abs(angle), 10f) * Mathf.Sign(angle));
+        else gunpoint.LookAt(tran.position + aimDir, Vector3.up);
     }
 
     Vector3 FindNearestEnemy(Vector3 dir)
@@ -311,6 +349,26 @@ public class PlayerControl : MonoBehaviour
     Vector3 MoveSideScroll()//Vector3 sideNorm)
     {
         return Vector3.Cross(sideNormal, Vector3.up).normalized * horizontal;
+    }
+
+    void MoveTopShmup()
+    {
+        transform.position = transform.position + (horizontal * shmupControl.transform.right + vertical * transform.forward) * Time.deltaTime * shmupSpeed;
+        Vector3 shmupLocal = shmupControl.transform.InverseTransformPoint(transform.position);
+        if (Mathf.Abs(shmupLocal.x) > shmupControl.width)
+            shmupLocal = new Vector3(Mathf.Sign(shmupLocal.x) * shmupControl.width, shmupLocal.y, shmupLocal.z);
+        if (Mathf.Abs(shmupLocal.z) > shmupControl.length)
+            shmupLocal = new Vector3(shmupLocal.x, shmupLocal.y, Mathf.Sign(shmupLocal.z) * shmupControl.length);
+        transform.position = shmupControl.transform.TransformPoint(shmupLocal);
+
+        if (horizontal > 0) transform.rotation = shmupControl.transform.rotation * Quaternion.Euler(0, 0, -30);
+        else if (horizontal < 0) transform.rotation = shmupControl.transform.rotation * Quaternion.Euler(0, 0, 30);
+        else transform.rotation = shmupControl.transform.rotation;
+
+        if (shmupLocal.z > shmupControl.length * 0.8f && shmupControl.CanPlayerProgress())
+        {
+            shmupControl.MoveToGround(transform);
+        }
     }
 
     bool CheckGrounded()
@@ -427,6 +485,12 @@ public class PlayerControl : MonoBehaviour
         }
         
         // TODO if currentGun != null, put away or throw away
+        if(currentGun != null)
+        {
+            currentGun.transform.parent = null;
+            currentGun.gameObject.AddComponent<Rigidbody>().AddForce(Vector3.up - graphicsRoot.forward * 2);
+            Destroy(currentGun.gameObject, 5);
+        }
         currentGun = gun;
         gun.transform.parent = gunpoint;
         gun.transform.localPosition = Vector3.zero;

@@ -4934,6 +4934,7 @@ MonoBehaviour:
   clickSound: {fileID: 0}
   reloadSound: {fileID: 0}
   cockSound: {fileID: 0}
+  automatic: 1
 --- !u!1 &5411276078163993065
 GameObject:
   m_ObjectHideFlags: 0

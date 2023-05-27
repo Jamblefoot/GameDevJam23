@@ -15,6 +15,7 @@ public class Gun : MonoBehaviour
     public AudioClip cockSound;
     //bulletPrefab?
     //cooldown
+    public bool automatic = false;
 
     public void Start()
     {

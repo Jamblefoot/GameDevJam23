@@ -9,11 +9,13 @@ public class PrefabControl : MonoBehaviour
 
     [Header("Pickups")]
     public GameObject coin;
+    public GameObject healthPack;
     public GameObject[] guns;
 
     [Header("Effects")]
     public GameObject explosion;
     public GameObject bulletImpact;
+    public GameObject smoke;
 
     void Awake()
     {

@@ -13,6 +13,9 @@ public class EnemyShip : MonoBehaviour
 
     float health = 3;
 
+    public ParticleSystem[] laserParticles;
+    public ParticleSystem exhaust;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,12 +38,17 @@ public class EnemyShip : MonoBehaviour
             //    shmupLocal = new Vector3(shmupLocal.x, shmupLocal.y, Mathf.Sign(shmupLocal.z) * shmupControl.length);
             transform.position = shmupControl.transform.TransformPoint(shmupLocal);
         }
+
+        //TODO FIRE LASERS
     }
 
     void OnParticleCollision(GameObject other)
     {
         Debug.Log("ENEMY HIT BY A PARTICLE FROM " + other.transform.root.gameObject.name);
         health--;
+        
+        //TODO ADD HIT AND SMOKE PARTICLE SYSTEM FROM PrefabControl
+
         if (health <= 0)
         {
             Die();

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PickupType{ Random, Token, Gun };//Ammo
+public enum PickupType{ Random, Token, Gun, Health };//Ammo
 public class Pickup : MonoBehaviour
 {
     [SerializeField] PickupType type;
@@ -12,8 +12,12 @@ public class Pickup : MonoBehaviour
         if(transform.childCount > 0)
         {
             if(GetComponentInChildren<Gun>())
+            {
                 type = PickupType.Gun;
-            else type = PickupType.Token;
+            }
+            else type = PickupType.Token;//TODO this could be something else
+
+            SetRendererColor(type);
             return;
         } 
 
@@ -30,21 +34,36 @@ public class Pickup : MonoBehaviour
                 type = PickupType.Gun;
                 Instantiate(PrefabControl.singleton.GetRandomGun(), transform.position, transform.rotation, transform);
                 break;
+            case PickupType.Health:
+                type = PickupType.Health;
+                Instantiate(PrefabControl.singleton.healthPack, transform.position, transform.rotation, transform);
+                break;
         }
 
+        SetRendererColor(type);
+        
+    }
+
+    void SetRendererColor(PickupType ptype)
+    {
         Renderer rend = GetComponent<Renderer>();
-        switch(type)
+        if(rend == null) return;
+
+        switch (type)
         {
             case PickupType.Token:
-                rend.material.SetColor("_Color", new Color(1,1,0,0.5f));//yellow
-                rend.material.SetColor("_EmissionColor", Color.yellow);
+                rend.material.SetColor("_Color", new Color(0, 1, 0, 0.5f));//yellow
+                rend.material.SetColor("_EmissionColor", Color.green);
                 break;
             case PickupType.Gun:
-                rend.material.SetColor("_Color", new Color(0,0,1,0.5f));
+                rend.material.SetColor("_Color", new Color(0, 0, 1, 0.5f));
                 rend.material.SetColor("_EmissionColor", Color.blue);
                 break;
+            case PickupType.Health:
+                rend.material.SetColor("_Color", new Color(1, 0, 0, 0.5f));
+                rend.material.SetColor("_EmissionColor", new Color(1, 0, 0, 1));
+                break;
         }
-        
     }
 
     void OnTriggerEnter(Collider col)
@@ -75,6 +94,10 @@ public class Pickup : MonoBehaviour
             case PickupType.Gun:
                 type = PickupType.Gun;
                 Instantiate(PrefabControl.singleton.GetRandomGun(), transform.position, transform.rotation, transform);
+                break;
+            case PickupType.Health:
+                type = PickupType.Health;
+                Instantiate(PrefabControl.singleton.healthPack, transform.position, transform.rotation, transform);
                 break;
         }
     }

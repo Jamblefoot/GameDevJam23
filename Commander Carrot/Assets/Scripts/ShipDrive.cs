@@ -61,7 +61,7 @@ public class ShipDrive : MonoBehaviour
                 else if(horizontal < 0) transform.rotation = shmupControl.transform.rotation * Quaternion.Euler(0, 0, 30);
                 else transform.rotation = shmupControl.transform.rotation;
 
-                if (shmupLocal.z > shmupControl.length * 0.8f) //&& can transition 
+                if (shmupLocal.z > shmupControl.length * 0.8f && shmupControl.CanPlayerProgress())
                 {
                     shmupControl.MoveToGround(transform);
                 }

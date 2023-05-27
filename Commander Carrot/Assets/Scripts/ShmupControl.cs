@@ -9,6 +9,13 @@ public class ShmupControl : MonoBehaviour
     public float width = 20;
     public float length = 10;
 
+    EnemySpawner enemySpawner;
+
+    void Start()
+    {
+        enemySpawner = GetComponentInChildren<EnemySpawner>();
+    }
+
     public void MoveToRig(Transform tran)
     {
         Debug.Log("MOVE TO RIG CALLED");
@@ -33,9 +40,20 @@ public class ShmupControl : MonoBehaviour
             }
             sd.shmupControl = this;
         }
-        else 
+        else if(pc != null)
         {
-            //just send the player in a t-pose, aiming gun
+            pc.rigid.useGravity = false;
+            pc.rigid.isKinematic = true;
+            Vector3 targetPos = transform.position - transform.forward * 7;
+            while (tran.position != targetPos)
+            {
+
+                //sd.transform.position = targetRig.transform.position - targetRig.transform.forward * 7;
+                tran.position = Vector3.MoveTowards(tran.position, targetPos, Time.deltaTime * 50f);
+                tran.rotation = transform.rotation;
+                yield return new WaitForFixedUpdate();
+            }
+            pc.shmupControl = this;
         }
         // camera targetpos = shmuprig camera anchor
         //THIS IS JUST FOR TESTING, PROBABLY NEED SOME REFERENCE TO THE PLAYER DRIVING THE SHIP
@@ -71,6 +89,7 @@ public class ShmupControl : MonoBehaviour
         if (pc != null)
         {
             pc.SetMoveStyle(MoveStyle.TopFree, -transform.forward);
+            pc.shmupControl = null;
         }
         FollowCamera cam = FindObjectOfType<FollowCamera>();
         if (cam != null)
@@ -94,6 +113,7 @@ public class ShmupControl : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         ShipDrive sd = tran.GetComponent<ShipDrive>();
+        PlayerControl pc = tran.GetComponent<PlayerControl>();
         if (sd != null)
         {
             sd.rigid.useGravity = true;
@@ -101,6 +121,8 @@ public class ShmupControl : MonoBehaviour
         }
         else
         {
+            pc.rigid.useGravity = true;
+            pc.rigid.isKinematic = false;
             //just send the player in a t-pose, aiming gun
         }
 
@@ -108,10 +130,20 @@ public class ShmupControl : MonoBehaviour
         // camera targetpos = shmuprig camera anchor
         //THIS IS JUST FOR TESTING, PROBABLY NEED SOME REFERENCE TO THE PLAYER DRIVING THE SHIP
 
+        GetComponentInChildren<EnemySpawner>()?.ClearSpawns();
 
         Vector3 shift = new Vector3(0, 0, transform.position.z * -2);
         transform.position = transform.position + shift;
         
+    }
+
+    public bool CanPlayerProgress()
+    {
+        if(enemySpawner == null) return true;
+
+        if(enemySpawner.spawning) return false;
+
+        return true;
     }
 
 }

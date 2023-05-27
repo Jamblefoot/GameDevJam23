@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
 
     ShmupControl shmupControl;
 
-    bool spawning;
+    public bool spawning;
 
     // Start is called before the first frame update
     void Start()
@@ -33,13 +33,14 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnCo(int count)//, float intervalMin, float intervalMax)
     {
+        spawning = true;
         int c = 0; 
         GameObject go = null;
         while(c < count)
         {
             if(shmupControl != null)
             {
-                go = Instantiate(enemies[0], transform.position + Vector3.right * Random.Range(-shmupControl.width, shmupControl.width), transform.rotation);
+                go = Instantiate(enemies[0], transform.position + Vector3.right * Random.Range(-shmupControl.width, shmupControl.width), transform.rotation, transform);
                 Rigidbody rb = go.GetComponent<Rigidbody>();
                 rb.isKinematic = true;
                 EnemyShip es = go.GetComponent<EnemyShip>();
@@ -50,6 +51,19 @@ public class EnemySpawner : MonoBehaviour
 
             c++;
             yield return new WaitForSeconds(Random.Range(1f, 3f));
+        }
+
+        spawning = false;
+    }
+
+    public void ClearSpawns()
+    {
+        StopAllCoroutines();
+
+        foreach(Transform child in transform)
+        {
+            //TODO POOL THIS!
+            Destroy(child.gameObject);
         }
     }
 }
