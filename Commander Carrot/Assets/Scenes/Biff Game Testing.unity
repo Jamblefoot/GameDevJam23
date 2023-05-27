@@ -733,6 +733,35 @@ PrefabInstance:
       propertyPath: terrainTransform
       value: 
       objectReference: {fileID: 689452424}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
+      propertyPath: spawnLayouts.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
+      propertyPath: spawnLayouts.Array.data[1]
+      value: 
+      objectReference: {fileID: 6532134591442890743, guid: 9bfd303a0f194514f8faac30ae0db6e8,
+        type: 3}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
+      propertyPath: spawnLayouts.Array.data[2]
+      value: 
+      objectReference: {fileID: 6532134591442890743, guid: 72e887db4c823274992376b52ab45c8f,
+        type: 3}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
+      propertyPath: spawnLayouts.Array.data[3]
+      value: 
+      objectReference: {fileID: 6532134591442890743, guid: b762cf7f8dd6105498eb4f5b27c2493f,
+        type: 3}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
+      propertyPath: spawnLayouts.Array.data[4]
+      value: 
+      objectReference: {fileID: 6532134591442890743, guid: ac8ccc29ac5f75b468aa15b3df91d6eb,
+        type: 3}
     - target: {fileID: 7422868372643579370, guid: 60b3c6d738d217641a05e06482fb2682,
         type: 3}
       propertyPath: m_Name
@@ -1635,7 +1664,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575479918}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.7, y: 2.52, z: 31.1}
+  m_LocalPosition: {x: -5.86, y: 2.52, z: 0.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
