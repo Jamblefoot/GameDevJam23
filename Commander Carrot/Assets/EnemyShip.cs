@@ -18,16 +18,19 @@ public class EnemyShip : MonoBehaviour
 
     public GameObject brokenPrefab;
 
+    float fireTimer;
+
     // Start is called before the first frame update
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
+        fireTimer = Random.Range(1f, 3f);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(shmupControl != null)
+        if(shmupControl != null && health > 0)
         {
             transform.position = transform.position + (horizontal * transform.right + vertical * transform.forward) * Time.deltaTime * speed;
             Vector3 shmupLocal = shmupControl.transform.InverseTransformPoint(transform.position);
@@ -39,9 +42,18 @@ public class EnemyShip : MonoBehaviour
             //if (Mathf.Abs(shmupLocal.z) > shmupControl.length)
             //    shmupLocal = new Vector3(shmupLocal.x, shmupLocal.y, Mathf.Sign(shmupLocal.z) * shmupControl.length);
             transform.position = shmupControl.transform.TransformPoint(shmupLocal);
-        }
 
-        //TODO FIRE LASERS
+            fireTimer -= Time.deltaTime;
+            if(fireTimer <= 0 && laserParticles.Length > 0)
+            {
+                fireTimer = Random.Range(0.5f, 2f);
+                foreach(ParticleSystem las in laserParticles)
+                {
+                    las.Emit(1);
+                }
+            }
+
+        }
     }
 
     void OnParticleCollision(GameObject other)
