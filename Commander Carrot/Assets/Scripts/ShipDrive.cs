@@ -11,6 +11,7 @@ public class ShipDrive : MonoBehaviour
 
     [SerializeField] ParticleSystem[] lasers;
     float fireDelay = 0.2f;
+    [SerializeField] ParticleSystem exhaust;
 
     [HideInInspector]
     public Rigidbody rigid;
@@ -42,6 +43,7 @@ public class ShipDrive : MonoBehaviour
     {
         Debug.Log("SHIP SHOULD BE DRIVING!!!!!!");
         isDriving = true;
+        exhaust.Play();
         while(driving)
         {
             if(fire && !isFiring)
@@ -75,6 +77,8 @@ public class ShipDrive : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
+        exhaust.Stop();
+
         fire = false;
         horizontal = 0;
         vertical = 0;
@@ -103,7 +107,10 @@ public class ShipDrive : MonoBehaviour
         isFiring = true;
         while(fire)
         {
-
+            foreach(ParticleSystem l in lasers)
+            {
+                l.Emit(1);
+            }
             yield return new WaitForSeconds(fireDelay);
         }
         isFiring = false;

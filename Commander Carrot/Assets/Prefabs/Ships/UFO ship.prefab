@@ -96,7 +96,9 @@ MonoBehaviour:
   shmupControl: {fileID: 0}
   horizontal: 0
   vertical: 0
-  laserParticles: []
+  laserParticles:
+  - {fileID: 2112641754739700359}
+  - {fileID: 2112641756224873909}
   exhaust: {fileID: 0}
   brokenPrefab: {fileID: 2177437911537401819, guid: 214258bcb4726c74e895b4389bc9c184,
     type: 3}
@@ -4924,6 +4926,71 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser Particle System (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.g
+      value: 0.06707074
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3937549171036147569, guid: d447451eb01c98f448ca5cd59f2eb577,
         type: 3}
       propertyPath: m_RootOrder
@@ -4981,6 +5048,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d447451eb01c98f448ca5cd59f2eb577, type: 3}
+--- !u!198 &2112641754739700359 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+    type: 3}
+  m_PrefabInstance: {fileID: 430139523435328887}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3701067765076572678 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3937549171036147569, guid: d447451eb01c98f448ca5cd59f2eb577,
@@ -4998,6 +5071,71 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Laser Particle System (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.g
+      value: 0.06707074
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverTrail.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+        type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3937549171036147569, guid: d447451eb01c98f448ca5cd59f2eb577,
         type: 3}
@@ -5056,6 +5194,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d447451eb01c98f448ca5cd59f2eb577, type: 3}
+--- !u!198 &2112641756224873909 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1777151525456250864, guid: d447451eb01c98f448ca5cd59f2eb577,
+    type: 3}
+  m_PrefabInstance: {fileID: 430139524667793989}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3701067763324005684 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3937549171036147569, guid: d447451eb01c98f448ca5cd59f2eb577,

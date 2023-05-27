@@ -37,7 +37,7 @@ public class Grenade : MonoBehaviour
                 rb.AddExplosionForce(power, explosionPos, radius, 3f);
         }
 
-        Instantiate(PrefabControl.singleton.explosion, transform.position, transform.rotation);
+        Destroy(Instantiate(PrefabControl.singleton.explosion, transform.position, transform.rotation), 5f);
 
 
         Destroy(gameObject);

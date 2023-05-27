@@ -64,6 +64,17 @@ public class EnemyShip : MonoBehaviour
                 rigid.AddForce(force);
             }
         }
+        else
+        {
+            List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
+            ParticleSystem part = other.GetComponent<ParticleSystem>();
+            part.GetCollisionEvents(other, collisionEvents);
+            for (int i = 0; i < collisionEvents.Count; i++)
+            {
+                Vector3 pos = collisionEvents[i].intersection;
+                Instantiate(PrefabControl.singleton.smoke, pos, Quaternion.identity, transform);
+            }
+        }
     }
 
     void Die()
@@ -78,6 +89,10 @@ public class EnemyShip : MonoBehaviour
 
         if(brokenPrefab != null && Random.value > 0.7f)
         {
+            foreach(Collider col in GetComponentsInChildren<Collider>())
+            {
+                col.enabled = false;
+            }
             Destroy(Instantiate(brokenPrefab, transform.position, transform.rotation, transform.parent), 10f);
             Destroy(gameObject);
         }
