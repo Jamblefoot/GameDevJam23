@@ -18,7 +18,7 @@ public class Seat : MonoBehaviour
         if(occupant != null || blockSeat) return;
 
         PlayerControl pc = col.GetComponent<PlayerControl>();
-        if(pc != null)
+        if(pc != null && pc.blockSeat <= 0)
         {
             occupant = col.transform;
             occupantPlayer = pc;

@@ -19,6 +19,7 @@ public class PlayerControl : MonoBehaviour
     float gunTilt = 60;
 
     Seat seat;
+    [HideInInspector] public float blockSeat;
     Gun currentGun;
 
     [SerializeField] float maxSpeed = 10f;
@@ -90,7 +91,7 @@ public class PlayerControl : MonoBehaviour
         followCam.target = graphicsRoot;
         followCam.MoveToTop(followCam.startAtTop, sideNormal);
 
-        Debug.Log("CAMERA SHOULD HAVE MOVED TO CENTER ON PLAYER!!!!");
+        //Debug.Log("CAMERA SHOULD HAVE MOVED TO CENTER ON PLAYER!!!!");
 
         currentForward = tran.right;
     }
@@ -186,6 +187,9 @@ public class PlayerControl : MonoBehaviour
             SetCameraSize(cam.orthographicSize - mouseScroll);
 
         }
+
+        if(blockSeat > 0)
+            blockSeat -= Time.deltaTime;
     }
 
     void SetCameraSize(float newSize)
@@ -402,8 +406,8 @@ public class PlayerControl : MonoBehaviour
         bool waistBlocked = Physics.SphereCast(tran.position + tran.up * waistHeight, 0.25f, move.normalized, out feethit, 0.6f - 0.25f, groundLayers, QueryTriggerInteraction.Ignore);
         bool feetBlocked = Physics.SphereCast(tran.position + tran.up * feetHeight, feetHeight - 0.01f, move.normalized, out feethit, 0.6f - (feetHeight - 0.01f), groundLayers, QueryTriggerInteraction.Ignore);
 
-        if(feetBlocked)
-            Debug.Log("FEET HITTING THING!");
+        //if(feetBlocked)
+        //    Debug.Log("FEET HITTING THING!");
         //if(waistBlocked)
         
         if(isGrounded && Vector3.Dot(hit.normal, tran.up) > 0.5f)
@@ -458,6 +462,7 @@ public class PlayerControl : MonoBehaviour
         if(graphicsRoot.parent == graphicsGimbal)
             return;
 
+        blockSeat = 0.3f;
         tran.position = graphicsRoot.position;
 
         if(seat != null)
@@ -520,7 +525,7 @@ public class PlayerControl : MonoBehaviour
         HudManager.singleton.UpdatePlayerHealth(health);
 
         ParticleSystem part = other.GetComponent<ParticleSystem>();
-        part.GetCollisionEvents(other, collisionEvents);
+        part.GetCollisionEvents(gameObject, collisionEvents);
         for(int i = 0; i < collisionEvents.Count; i++)
         {
             onHit.Invoke(collisionEvents[i].intersection);
@@ -533,6 +538,11 @@ public class PlayerControl : MonoBehaviour
         Rigidbody rb = go.GetComponent<Rigidbody>();
         rb.velocity = rigid.velocity;
         rb.AddForce(gunpoint.forward * throwForce);
+    }
+
+    public Vector3 GetWorldPosition()
+    {
+        return graphicsRoot.position;
     }
 
 }
