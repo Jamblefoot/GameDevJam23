@@ -620,6 +620,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: C Carrot with all animations
       objectReference: {fileID: 0}
+    - target: {fileID: 3548762967308069210, guid: fb05432eecdf38540997cc9240ee60e2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4212112159561561056, guid: fb05432eecdf38540997cc9240ee60e2,
         type: 3}
       propertyPath: m_RootOrder
@@ -682,6 +687,75 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 15b9c421bedb9d442904bf0a59dfed0d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb05432eecdf38540997cc9240ee60e2, type: 3}
+--- !u!1001 &4468209074126320660
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3657817534837552258, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_Name
+      value: Robbit Animated
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145841666112073272, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145841666112073272, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145841666112073272, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145841666112073272, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145841666112073272, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145841666112073272, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145841666112073272, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145841666112073272, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145841666112073272, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145841666112073272, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145841666112073272, guid: 7a23756285c9a204685b460bafd57431,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7a23756285c9a204685b460bafd57431, type: 3}
 --- !u!4 &5114215256766556653 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8865198849504380926, guid: fb05432eecdf38540997cc9240ee60e2,
