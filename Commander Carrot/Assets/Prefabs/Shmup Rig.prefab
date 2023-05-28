@@ -156,7 +156,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1247129904283031695}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 49.7}
+  m_LocalPosition: {x: 0, y: 0, z: 30.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -177,6 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - {fileID: 430139524213077100, guid: e3b824afcb9a40a4eba64b791e6ccdb9, type: 3}
+  spawning: 0
 --- !u!1 &1247129904826459220
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraAnchor: {fileID: 1247129904826459223}
+  landingPoint: {fileID: 0}
   width: 20
   length: 10
 --- !u!1 &4065582781515940486

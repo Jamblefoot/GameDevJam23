@@ -9,6 +9,8 @@ public class SettingsControl : MonoBehaviour
 {
     public static SettingsControl singleton;
 
+    public Canvas settingsCanvas;
+
     [Header("Audio")]
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] Slider masterVolumeSlider;

@@ -107,6 +107,7 @@ public class FollowCamera : MonoBehaviour
 
     public void MoveToTop(bool toTop, Vector3 sideNorm)//AlignmentAxis alignAxis)
     {
+        Debug.Log("CAMERA MOVING TO TOP!");
         sideNormal = sideNorm;
         if(moving)
             StopAllCoroutines();
@@ -126,6 +127,7 @@ public class FollowCamera : MonoBehaviour
             yield return null;
         }
 
+        Debug.Log("CAMERA FINISHED MOVING TO TOP!");
         moving = false;
     }
 

@@ -86,6 +86,8 @@ public class PlayerControl : MonoBehaviour
         else followCam = cam.GetComponent<FollowCamera>();
         followCam.MoveToTop(followCam.startAtTop, sideNormal);
 
+        Debug.Log("CAMERA SHOULD HAVE MOVED TO CENTER ON PLAYER!!!!");
+
         currentForward = tran.right;
     }
 

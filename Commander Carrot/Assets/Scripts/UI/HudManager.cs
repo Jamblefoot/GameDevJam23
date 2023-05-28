@@ -72,4 +72,8 @@ public class HudManager : MonoBehaviour
         Transform player = FindObjectOfType<PlayerControl>().transform;
         player.position = new Vector3(0, player.position.y, 0); 
     }
+    public void OpenSettings(bool open = true)
+    {
+        SettingsControl.singleton.settingsCanvas.gameObject.SetActive(open);
+    }
 }
