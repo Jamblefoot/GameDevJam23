@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class HudManager : MonoBehaviour
 {
@@ -60,5 +62,14 @@ public class HudManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void ResetCharacter()
+    {
+        Transform player = FindObjectOfType<PlayerControl>().transform;
+        player.position = new Vector3(0, player.position.y, 0); 
     }
 }

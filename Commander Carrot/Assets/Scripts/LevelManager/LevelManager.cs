@@ -23,7 +23,6 @@ public class LevelManager : MonoBehaviour
     List<GameObject> listOfSpawnedObjects = new List<GameObject>();
 
     int holeWidth = 2;
-    int numberOfSpawns = 4;
     int terrainResolution;
     float terrainScale;
 
