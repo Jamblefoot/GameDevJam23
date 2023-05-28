@@ -294,7 +294,7 @@ MonoBehaviour:
   cameraPrefab: {fileID: 0}
   groundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 65
   graphicsGimbal: {fileID: 6290344897847483009}
   graphicsRoot: {fileID: 2154912236249540380}
   gunPivot: {fileID: 0}
@@ -310,7 +310,9 @@ MonoBehaviour:
   mouseScroll: 0
   lookHorizontal: 0
   lookVertical: 0
+  rigid: {fileID: 0}
   cam: {fileID: 6290344897348839863}
+  shmupControl: {fileID: 0}
   onHit:
     m_PersistentCalls:
       m_Calls: []
