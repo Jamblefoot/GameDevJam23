@@ -6,14 +6,25 @@ public class EnemyControl : MonoBehaviour
 {
     public int health = 3;
 
+    float viewDistance = 30;
+    Vector3 targetOffset = Vector3.up;
+
+    [SerializeField] LayerMask playerLayers;
+    [SerializeField] Transform gunpoint;
+    Gun gun;
+
     Transform tran;
     Rigidbody rigid;
+    RigidbodyControl rigidControl;
     Animator animator;
+
+    
     // Start is called before the first frame update
     void Start()
     {
         tran = transform;
         rigid = GetComponent<Rigidbody>();
+        rigidControl = GetComponent<RigidbodyControl>();
 
         //freeze ragdoll rigidbodies
         foreach(Rigidbody rb in GetComponentsInChildren<Rigidbody>())
@@ -23,12 +34,76 @@ public class EnemyControl : MonoBehaviour
         }
 
         animator = GetComponentInChildren<Animator>();
+
+        gun = Instantiate(PrefabControl.singleton.GetRandomGun(), gunpoint.position, gunpoint.rotation, gunpoint).GetComponent<Gun>();
+
+        StartCoroutine(Patrol());
+        StartCoroutine(LookForPlayer());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator Patrol()
     {
-        
+        while(health > 0)
+        {
+            if(rigidControl.enabled)
+            {//PATROL INSIDE BUILDING. DON'T FALL OFF PLATFORMS
+                yield return new WaitForFixedUpdate();
+            }
+            else
+            {//PATROL TOPDOWN
+                yield return new WaitForFixedUpdate();
+            }
+        }
+    }
+
+    IEnumerator LookForPlayer()
+    {
+        PlayerControl player = FindObjectOfType<PlayerControl>();
+        Vector3 playerPos;
+        RaycastHit hit;
+        if (player != null)
+        {
+            while (health > 0)
+            {
+                playerPos = player.GetWorldPosition() + targetOffset;
+                if (Vector3.Distance(transform.position, playerPos) > viewDistance)
+                {
+                    yield return new WaitForSeconds(Random.Range(1f, 2f));
+                }
+                else if(Vector3.Dot(playerPos - tran.position, transform.forward) > 0.2f)
+                {
+                    RotateToLookAt(playerPos);
+                    gunpoint.LookAt(playerPos, Vector3.up);
+                    //look at player
+                    //raycast if can shoot player
+                    if (Physics.Raycast(tran.position, tran.forward, out hit, viewDistance, playerLayers, QueryTriggerInteraction.Ignore))
+                    {
+                        if (hit.transform.root.GetComponent<PlayerControl>() || hit.transform.root.GetComponent<ShipDrive>())
+                        {
+                            Fire();
+                            yield return new WaitForSeconds(Random.Range(0.5f, 1f));
+                        }
+                        else yield return new WaitForSeconds(Random.Range(1f, 2f));
+                    }
+                    else yield return new WaitForSeconds(Random.Range(1f, 2f));
+                }
+                else yield return new WaitForSeconds(Random.Range(1f, 2f));
+            }
+
+
+        }
+    }
+
+    void RotateToLookAt(Vector3 worldPos)
+    {
+        float angle = Vector3.SignedAngle(tran.forward, Vector3.ProjectOnPlane(worldPos - tran.position, Vector3.up), Vector3.up);
+        tran.Rotate(new Vector3(0, angle, 0));
+    }
+
+    void Fire()
+    {
+        if(gun != null)
+            gun.Fire();
     }
 
     void OnParticleCollision(GameObject other) 
@@ -52,6 +127,10 @@ public class EnemyControl : MonoBehaviour
                 }
                 //rigid.AddForce(force);
             }
+        }
+        else
+        {
+            RotateToLookAt(other.transform.position);
         }
     }
 

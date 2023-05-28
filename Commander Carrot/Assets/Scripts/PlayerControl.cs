@@ -55,6 +55,8 @@ public class PlayerControl : MonoBehaviour
     public Camera cam;
     FollowCamera followCam;
 
+    Animator anim;
+
     public ShmupControl shmupControl;
 
     RaycastHit hit;
@@ -94,6 +96,8 @@ public class PlayerControl : MonoBehaviour
         //Debug.Log("CAMERA SHOULD HAVE MOVED TO CENTER ON PLAYER!!!!");
 
         currentForward = tran.right;
+
+        anim = graphicsRoot.GetComponentInChildren<Animator>();
 
         Invoke("StartQuip", 1f);
     }
@@ -197,6 +201,8 @@ public class PlayerControl : MonoBehaviour
 
         if(blockSeat > 0)
             blockSeat -= Time.deltaTime;
+
+        
     }
 
     void SetCameraSize(float newSize)
@@ -217,6 +223,12 @@ public class PlayerControl : MonoBehaviour
 
 
         isGrounded = CheckGrounded();
+
+        if(isGrounded)
+        {
+            anim.SetFloat("Movement", Mathf.Max(Mathf.Abs(horizontal), Mathf.Abs(vertical)));
+        }
+        else anim.SetFloat("Movement", 0);
 
         if(jump)
         {
