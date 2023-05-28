@@ -65,6 +65,7 @@ public class HudManager : MonoBehaviour
     }
     public void GoToMainMenu()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
     public void ResetCharacter()

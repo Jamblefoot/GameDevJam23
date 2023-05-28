@@ -291,7 +291,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  cameraPrefab: {fileID: 0}
+  cameraPrefab: {fileID: 8143242077127030640, guid: 10f140b18698d67409ea00d1ff536ac1,
+    type: 3}
   groundLayers:
     serializedVersion: 2
     m_Bits: 65
@@ -311,7 +312,7 @@ MonoBehaviour:
   lookHorizontal: 0
   lookVertical: 0
   rigid: {fileID: 0}
-  cam: {fileID: 6290344897348839863}
+  cam: {fileID: 0}
   shmupControl: {fileID: 0}
   onHit:
     m_PersistentCalls:
