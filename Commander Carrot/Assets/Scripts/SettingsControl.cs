@@ -16,15 +16,15 @@ public class SettingsControl : MonoBehaviour
     [SerializeField] Slider effectsVolumeSlider;
 
     [Header("Graphics")]
-    [SerializeField] Dropdown qualityDropdown;
+    [SerializeField] TMP_Dropdown qualityDropdown;
     [SerializeField] GameObject customQuality;
     [SerializeField] TMP_Dropdown resolutionDropdown;
-    [SerializeField] Dropdown screenModeDropdown;
-    [SerializeField] Dropdown aaDropdown;
-    [SerializeField] Dropdown vsyncDropdown;
-    [SerializeField] Dropdown anisotropicDropdown;
-    [SerializeField] Dropdown shadowDropdown;
-    [SerializeField] Dropdown shadowResDropdown;
+    [SerializeField] TMP_Dropdown screenModeDropdown;
+    [SerializeField] TMP_Dropdown aaDropdown;
+    [SerializeField] TMP_Dropdown vsyncDropdown;
+    [SerializeField] TMP_Dropdown anisotropicDropdown;
+    [SerializeField] TMP_Dropdown shadowDropdown;
+    [SerializeField] TMP_Dropdown shadowResDropdown;
     [SerializeField] Slider shadowDistanceSlider;
     [SerializeField] Slider lodBiasSlider;
 
@@ -38,6 +38,8 @@ public class SettingsControl : MonoBehaviour
             return;
         }
         else SettingsControl.singleton = this;
+
+        DontDestroyOnLoad(gameObject);
 
         //FILL OUT RESOLUTION OPTIONS
         if (resolutionDropdown != null)
@@ -56,9 +58,9 @@ public class SettingsControl : MonoBehaviour
             SetupScreenModes();
         }
 
-        //SetAudioSettings();
+        SetAudioSettings();
         SetDisplayOptions();
-        //GetPlayerPrefGraphics();
+        GetPlayerPrefGraphics();
         SetQualityOptions();
     }
 
@@ -68,10 +70,10 @@ public class SettingsControl : MonoBehaviour
 
     void SetAudioSettings()
     {
-        float playerPref = PlayerPrefs.GetFloat("MasterVolume", 1f);
+        float playerPref = PlayerPrefs.GetFloat("MasterVolume", 0.8f);
         SetMasterVolume(playerPref);
         SetMasterVolumeSlider(playerPref);
-        playerPref = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        playerPref = PlayerPrefs.GetFloat("MusicVolume", 0.3f);
         SetMusicVolume(playerPref);
         SetMusicVolumeSlider(playerPref);
         playerPref = PlayerPrefs.GetFloat("EffectsVolume", 1f);
@@ -83,7 +85,7 @@ public class SettingsControl : MonoBehaviour
     {
         if (masterVolumeSlider == null)
         {
-            Debug.LogError("No Master Volume Slider found");
+            Debug.LogWarning("No Master Volume Slider found");
             return;
         }
 
@@ -98,7 +100,7 @@ public class SettingsControl : MonoBehaviour
     {
         if (musicVolumeSlider == null)
         {
-            Debug.LogError("No Music Volume Slider found");
+            Debug.LogWarning("No Music Volume Slider found");
             return;
         }
 
@@ -113,7 +115,7 @@ public class SettingsControl : MonoBehaviour
     {
         if (effectsVolumeSlider == null)
         {
-            Debug.LogError("No Effects Volume Slider found");
+            Debug.LogWarning("No Effects Volume Slider found");
             return;
         }
 
@@ -291,13 +293,13 @@ public class SettingsControl : MonoBehaviour
 
         if (customQuality == null)
         {
-            Debug.LogError("There's no custom quality overlay thing");
+            Debug.LogWarning("There's no custom quality overlay thing");
             return;
         }
 
         customQuality.SetActive(true);
 
-        qualityDropdown.options.Add(new Dropdown.OptionData("Custom"));
+        qualityDropdown.options.Add(new TMP_Dropdown.OptionData("Custom"));
         qualityDropdown.SetValueWithoutNotify(qualityDropdown.options.Count - 1);
         qualityDropdown.options.RemoveAt(qualityDropdown.options.Count - 1);
         //List<Dropdown.OptionData> qualityOptions = new List<Dropdown.OptionData>(qualityDropdown.options);
@@ -313,7 +315,7 @@ public class SettingsControl : MonoBehaviour
     {
         if (aaDropdown == null)
         {
-            Debug.LogError("NO ANTIALIASING DROPDOWN FOUND");
+            Debug.LogWarning("NO ANTIALIASING DROPDOWN FOUND");
             return;
         }
 
@@ -344,7 +346,7 @@ public class SettingsControl : MonoBehaviour
     {
         if (vsyncDropdown == null)
         {
-            Debug.LogError("NO VSYNC DROPDOWN FOUND");
+            Debug.LogWarning("NO VSYNC DROPDOWN FOUND");
             return;
         }
 
@@ -359,7 +361,7 @@ public class SettingsControl : MonoBehaviour
     {
         if (anisotropicDropdown == null)
         {
-            Debug.LogError("NO ANISOTROPIC DROPDOWN FOUND");
+            Debug.LogWarning("NO ANISOTROPIC DROPDOWN FOUND");
             return;
         }
 
@@ -374,7 +376,7 @@ public class SettingsControl : MonoBehaviour
     {
         if (shadowDropdown == null)
         {
-            Debug.LogError("NO SHADOW DROPDOWN FOUND");
+            Debug.LogWarning("NO SHADOW DROPDOWN FOUND");
             return;
         }
 
@@ -389,7 +391,7 @@ public class SettingsControl : MonoBehaviour
     {
         if (shadowResDropdown == null)
         {
-            Debug.LogError("NO SHADOW RESOLUTION DROPDOWN FOUND");
+            Debug.LogWarning("NO SHADOW RESOLUTION DROPDOWN FOUND");
             return;
         }
 
@@ -404,7 +406,7 @@ public class SettingsControl : MonoBehaviour
     {
         if (shadowDistanceSlider == null)
         {
-            Debug.LogError("NO SHADOW DISTANCE SLIDER FOUND");
+            Debug.LogWarning("NO SHADOW DISTANCE SLIDER FOUND");
             return;
         }
 
@@ -419,7 +421,7 @@ public class SettingsControl : MonoBehaviour
     {
         if (lodBiasSlider == null)
         {
-            Debug.LogError("NO LOD BIAS SLIDER FOUND");
+            Debug.LogWarning("NO LOD BIAS SLIDER FOUND");
             return;
         }
 
