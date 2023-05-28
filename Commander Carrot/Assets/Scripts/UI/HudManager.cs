@@ -14,6 +14,7 @@ public class HudManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] UnityEngine.UI.Slider playerHealthBar;
+    [SerializeField] UnityEngine.UI.Slider shipHealthBar;
     [SerializeField] GameObject pausMenu;
 
     bool pausMenuShowing;
@@ -40,10 +41,10 @@ public class HudManager : MonoBehaviour
     {
         playerHealthBar.value = playerHealth;
     }
-    //public void UpdateShipHealth(int shipHealth)
-    //{
-    //    shipHealthBar.fillAmount = shipHealth / 100;
-    //}
+    public void UpdateShipHealth(int shipHealth)
+    {
+        shipHealthBar.value = shipHealth;
+    }
     public void PausMenuTogle()
     {
         if (pausMenuShowing == false)

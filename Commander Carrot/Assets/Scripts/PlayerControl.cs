@@ -94,6 +94,13 @@ public class PlayerControl : MonoBehaviour
         //Debug.Log("CAMERA SHOULD HAVE MOVED TO CENTER ON PLAYER!!!!");
 
         currentForward = tran.right;
+
+        Invoke("StartQuip", 1f);
+    }
+    void StartQuip()
+    {
+        if(TutorialControl.singleton != null)
+            TutorialControl.singleton.SetTutorialText("It's a hell of a thing to wake up buried alive", 5f);
     }
 
     void OnLook(InputValue value)

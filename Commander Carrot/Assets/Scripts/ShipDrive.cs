@@ -9,6 +9,8 @@ public class ShipDrive : MonoBehaviour
     [SerializeField] 
     float shmupSpeed = 25f;
 
+    [SerializeField] GameObject brokenPrefab;
+
     [SerializeField] ParticleSystem[] lasers;
     float fireDelay = 0.2f;
     [SerializeField] ParticleSystem exhaust;
@@ -20,6 +22,8 @@ public class ShipDrive : MonoBehaviour
     bool driving, isDriving, fire, isFiring;
 
     public ShmupControl shmupControl;
+
+    int health = 100;
     // Start is called before the first frame update
     void Start()
     {
@@ -104,6 +108,7 @@ public class ShipDrive : MonoBehaviour
     }
     IEnumerator FireLasersCo()
     {
+        Debug.Log("LASERS SHOULD BE FIRING!");
         isFiring = true;
         while(fire)
         {
@@ -114,5 +119,68 @@ public class ShipDrive : MonoBehaviour
             yield return new WaitForSeconds(fireDelay);
         }
         isFiring = false;
+    }
+
+    void OnParticleCollision(GameObject other)
+    {
+        Debug.Log("ENEMY HIT BY A PARTICLE FROM " + other.transform.root.gameObject.name);
+        health--;
+        HudManager.singleton.UpdateShipHealth(health);
+
+        //TODO ADD HIT AND SMOKE PARTICLE SYSTEM FROM PrefabControl
+
+        if (health <= 0)
+        {
+            //Die();
+            List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
+            ParticleSystem part = other.GetComponent<ParticleSystem>();
+            part.GetCollisionEvents(other, collisionEvents);
+            for (int i = 0; i < collisionEvents.Count; i++)
+            {
+                Vector3 pos = collisionEvents[i].intersection;
+                Vector3 force = collisionEvents[i].velocity * 1000;
+                rigid.AddForce(force);
+            }
+        }
+        else
+        {
+            if(Random.value > 0.8f)
+            {//ADD SMOKE
+                List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
+                ParticleSystem part = other.GetComponent<ParticleSystem>();
+                part.GetCollisionEvents(gameObject, collisionEvents);
+                for (int i = 0; i < collisionEvents.Count; i++)
+                {
+                    Vector3 pos = collisionEvents[i].intersection;
+                    //Debug.Log("Adding smoke to ship at " + pos.ToString());
+                    Instantiate(PrefabControl.singleton.smoke, pos, Quaternion.identity, transform);
+                }
+            }
+        }
+    }
+
+    void Die()
+    {
+        rigid.constraints = RigidbodyConstraints.None;
+        RigidbodyControl rbc = GetComponent<RigidbodyControl>();
+        if (rbc)
+            rbc.enabled = false;
+        rigid.isKinematic = false;
+        rigid.useGravity = true;
+
+        Seat seat = GetComponentInChildren<Seat>();
+        if(seat != null)
+            seat.RemoveOccupant();
+
+
+        if (brokenPrefab != null)
+        {
+            foreach (Collider col in GetComponentsInChildren<Collider>())
+            {
+                col.enabled = false;
+            }
+            Destroy(Instantiate(brokenPrefab, transform.position, transform.rotation, transform.parent), 10f);
+            Destroy(gameObject);
+        }
     }
 }

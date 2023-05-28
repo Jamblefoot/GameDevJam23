@@ -53,6 +53,9 @@ public class EnemySpawner : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(1f, 3f));
         }
 
+        if(TutorialControl.singleton != null)
+            TutorialControl.singleton.SetTutorialText("MOVE TO TOP OF SCREEN TO PROCEED", -1);
+
         spawning = false;
     }
 

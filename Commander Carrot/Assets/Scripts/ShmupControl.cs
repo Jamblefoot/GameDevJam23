@@ -84,6 +84,8 @@ public class ShmupControl : MonoBehaviour
 
     public void MoveToGround(Transform tran)
     {
+
+        TutorialControl.singleton.SetTutorialText("", -1);
         
         PlayerControl pc = tran.GetComponent<PlayerControl>();
         if (pc != null)

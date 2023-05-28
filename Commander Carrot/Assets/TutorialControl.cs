@@ -7,7 +7,7 @@ public class TutorialControl : MonoBehaviour
 {
     public static TutorialControl singleton;
 
-    TextMeshPro text;
+    TMP_Text text;
 
     bool showingText;
     // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class TutorialControl : MonoBehaviour
             Destroy(gameObject);
         else TutorialControl.singleton = this;
 
-        text = GetComponent<TextMeshPro>();
+        text = GetComponent<TMP_Text>();
     }
 
     public void SetTutorialText(string words, float displayTime)

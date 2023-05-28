@@ -30,7 +30,7 @@ public class EnemyShip : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(shmupControl != null && health > 0)
+        if(shmupControl != null)
         {
             transform.position = transform.position + (horizontal * transform.right + vertical * transform.forward) * Time.deltaTime * speed;
             Vector3 shmupLocal = shmupControl.transform.InverseTransformPoint(transform.position);
@@ -43,13 +43,16 @@ public class EnemyShip : MonoBehaviour
             //    shmupLocal = new Vector3(shmupLocal.x, shmupLocal.y, Mathf.Sign(shmupLocal.z) * shmupControl.length);
             transform.position = shmupControl.transform.TransformPoint(shmupLocal);
 
-            fireTimer -= Time.deltaTime;
-            if(fireTimer <= 0 && laserParticles.Length > 0)
+            if(health > 0)
             {
-                fireTimer = Random.Range(0.5f, 2f);
-                foreach(ParticleSystem las in laserParticles)
+                fireTimer -= Time.deltaTime;
+                if(fireTimer <= 0 && laserParticles.Length > 0)
                 {
-                    las.Emit(1);
+                    fireTimer = Random.Range(0.5f, 2f);
+                    foreach(ParticleSystem las in laserParticles)
+                    {
+                        las.Emit(1);
+                    }
                 }
             }
 

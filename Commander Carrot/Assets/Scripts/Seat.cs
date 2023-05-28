@@ -51,4 +51,10 @@ public class Seat : MonoBehaviour
         occupant = null;
         occupantPlayer = null;
     }
+
+    public void RemoveOccupant()
+    {
+        if(occupantPlayer != null)
+            occupantPlayer.LeaveSeat();
+    }
 }
