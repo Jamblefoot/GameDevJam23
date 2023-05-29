@@ -15,6 +15,8 @@ public class HudManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] UnityEngine.UI.Slider playerHealthBar;
     [SerializeField] UnityEngine.UI.Slider shipHealthBar;
+    [SerializeField] TMP_Text grenadeText;
+    [SerializeField] ImageSet gunUI;
     [SerializeField] GameObject pausMenu;
 
     bool pausMenuShowing;
@@ -44,6 +46,18 @@ public class HudManager : MonoBehaviour
     public void UpdateShipHealth(int shipHealth)
     {
         shipHealthBar.value = shipHealth;
+    }
+    public void UpdateGrenadeCount(int nades)
+    {
+        grenadeText.text = nades.ToString();
+    }
+    public void UpdateGunImage(GunType type)
+    {
+        gunUI.SetToImage((int)type + 1);
+    }
+    public void UpdateGunImage(int type)
+    {
+        gunUI.SetToImage(type + 1);
     }
     public void PausMenuTogle()
     {

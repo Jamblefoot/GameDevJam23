@@ -4925,6 +4925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a34f19a606e6d994097c3f1d09d63920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 2
   projectilesPerShot: 1
   recoil: 2
   bulletParticles: {fileID: 3071032617122231208}

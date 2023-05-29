@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GunType {Pistol, Shotgun, M7}
+public enum GunType {Pistol, Shotgun, MP7}
 public class PrefabControl : MonoBehaviour
 {
     public static PrefabControl singleton;

@@ -11,6 +11,7 @@ public class PlayerControl : MonoBehaviour
 {
     public int health = 100;
     public int score = 0;
+    public int grenades = 0;
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] LayerMask groundLayers;
     [SerializeField] Transform graphicsGimbal;
@@ -135,7 +136,12 @@ public class PlayerControl : MonoBehaviour
     }
     void OnFire2(InputValue value)
     {
-        ThrowGrenade();
+        if(grenades > 0)
+        {
+            ThrowGrenade();
+            grenades--;
+            HudManager.singleton.UpdateGrenadeCount(grenades);
+        }
     }
     void OnFire3(InputValue value)
     {
@@ -520,7 +526,6 @@ public class PlayerControl : MonoBehaviour
                 HudManager.singleton.UpdateScoreText(score);
                 break;
             case PickupType.Gun:
-                //parent gun to gunpoint
                 if(item == null)
                     Debug.Log("Pickup should be gun but no gun attached to pickup?!");
                 else TakeGun(item.GetComponent<Gun>());
@@ -530,7 +535,8 @@ public class PlayerControl : MonoBehaviour
                 HudManager.singleton.UpdatePlayerHealth(health);
                 break;
             case PickupType.Grenade:
-                //add grenade to grenade pouch
+                grenades++;
+                HudManager.singleton.UpdateGrenadeCount(grenades);
                 break;
         }
 
@@ -556,6 +562,8 @@ public class PlayerControl : MonoBehaviour
         gun.transform.parent = gunpoint;
         gun.transform.localPosition = Vector3.zero;
         gun.transform.localRotation = Quaternion.identity;
+
+        HudManager.singleton.UpdateGunImage(gun.type);
 
         followCam.lookAhead = true;
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
+    public GunType type;
     public int projectilesPerShot = 1;
     public float recoil;
     public ParticleSystem bulletParticles;
