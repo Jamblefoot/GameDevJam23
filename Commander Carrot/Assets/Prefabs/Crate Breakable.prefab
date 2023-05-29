@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4733086823099098184}
   - component: {fileID: 4733086823099098191}
   - component: {fileID: 4733086823099098190}
+  - component: {fileID: 239735007306836382}
   m_Layer: 0
   m_Name: Crate Breakable
   m_TagString: Untagged
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4733086823099098189}
-  m_Mesh: {fileID: -3660275907326674588, guid: 37fa916e93731234d8d0d98af559edf8, type: 3}
+  m_Mesh: {fileID: -3660275907326674588, guid: e35a822f84861d54c95e75329333efdd, type: 3}
 --- !u!23 &4733086823099098185
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -125,5 +126,17 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cb7f50cb8466fd49b991943cd9c3411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &239735007306836382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4733086823099098189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d40a367a695f64459149efc8a3bad7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
