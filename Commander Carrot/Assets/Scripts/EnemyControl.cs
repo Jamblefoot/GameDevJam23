@@ -20,6 +20,8 @@ public class EnemyControl : MonoBehaviour
 
     GameObject indicator;
 
+    bool targetInView;
+
     
     // Start is called before the first frame update
     void Start()
@@ -52,14 +54,47 @@ public class EnemyControl : MonoBehaviour
 
     IEnumerator Patrol()
     {
+        float wait = 0f;
+        Vector3 lookPos;
         while(health > 0)
         {
+            wait -= Time.deltaTime;
             if(rigidControl.enabled)
             {//PATROL INSIDE BUILDING. DON'T FALL OFF PLATFORMS
+                if(!targetInView)
+                {
+                    if(wait < 0)
+                    {
+                        wait = Random.Range(3f, 10f);
+                        lookPos = transform.position + new Vector3(Random.Range(-100f, 100f), Random.Range(-100f, 100f), Random.Range(-100f, 100f));
+                        RotateToLookAt(lookPos);
+                    }
+                }
                 yield return new WaitForFixedUpdate();
             }
             else
             {//PATROL TOPDOWN
+                if(!targetInView)
+                {
+                    if(wait < 0)
+                    {
+                        wait = Random.Range(3f, 10f);
+                        lookPos = transform.position + new Vector3(Random.Range(-100f, 100f), Random.Range(-100f, 100f), Random.Range(-100f, 100f));
+                        RotateToLookAt(lookPos);
+                        if(Random.value > 0.9f) 
+                        {
+                            yield return new WaitForSeconds(wait);
+                            wait = 0;
+                        }
+                    }
+                    else
+                    {
+                        rigid.AddForce(transform.forward);
+                    }
+
+
+                }
+
                 yield return new WaitForFixedUpdate();
             }
         }
@@ -77,10 +112,12 @@ public class EnemyControl : MonoBehaviour
                 playerPos = player.GetWorldPosition() + targetOffset;
                 if (Vector3.Distance(transform.position, playerPos) > viewDistance)
                 {
+                    targetInView = false;
                     yield return new WaitForSeconds(Random.Range(1f, 2f));
                 }
                 else if(Vector3.Dot(playerPos - tran.position, transform.forward) > 0.2f)
                 {
+                    targetInView = true;
                     RotateToLookAt(playerPos);
                     gunpoint.LookAt(playerPos, Vector3.up);
                     //look at player
@@ -96,7 +133,11 @@ public class EnemyControl : MonoBehaviour
                     }
                     else yield return new WaitForSeconds(Random.Range(1f, 2f));
                 }
-                else yield return new WaitForSeconds(Random.Range(1f, 2f));
+                else 
+                {
+                    targetInView = false;
+                    yield return new WaitForSeconds(Random.Range(1f, 2f));
+                }
             }
 
 

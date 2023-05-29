@@ -99,7 +99,7 @@ public class LevelManager : MonoBehaviour
     {
         AdjustSpawnpointForInstatiation();
 
-        if(UnityEngine.Random.value > spawnProbability)
+        if(UnityEngine.Random.value < spawnProbability)
         {
             //Spawn the hole
             GameObject holePrefab = holePrefabList[GetRandomIndex(holePrefabList.Length)];
@@ -110,7 +110,7 @@ public class LevelManager : MonoBehaviour
             listOfSpawnedObjects.Add(hole);
         }
 
-        if (UnityEngine.Random.value > spawnProbability)
+        if (UnityEngine.Random.value < spawnProbability)
         {
             //Spawn the building
             GameObject housePrefab = housePrefabList[GetRandomIndex(housePrefabList.Length)];
@@ -154,6 +154,9 @@ public class LevelManager : MonoBehaviour
 
     void AlignBuildingContents(Transform building)
     {
+        if(!building.GetComponentInChildren<MoveStyleTrigger>())
+            return;
+
         foreach (Pickup p in building.GetComponentsInChildren<Pickup>())
         {
             Vector3 localPos = p.transform.localPosition;
