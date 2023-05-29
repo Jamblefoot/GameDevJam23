@@ -1932,6 +1932,11 @@ PrefabInstance:
       objectReference: {fileID: 689452423}
     - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
         type: 3}
+      propertyPath: spawnProbability
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
       propertyPath: terrainTransform
       value: 
       objectReference: {fileID: 689452424}
