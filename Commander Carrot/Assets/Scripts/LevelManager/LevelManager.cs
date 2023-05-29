@@ -26,6 +26,8 @@ public class LevelManager : MonoBehaviour
     int terrainResolution;
     float terrainScale;
 
+    [SerializeField][Range(0f, 1f)] float spawnProbability = 0.8f;
+
     private void Start()
     {
         if(terrain == null)
@@ -97,21 +99,31 @@ public class LevelManager : MonoBehaviour
     {
         AdjustSpawnpointForInstatiation();
 
-        //Spawn the hole
-        GameObject holePrefab = holePrefabList[GetRandomIndex(holePrefabList.Length)];
-        GameObject hole = Instantiate(holePrefab, spawnPoint.position, spawnPoint.rotation);
-        AlignBuildingContents(hole.transform);
+        if(UnityEngine.Random.value > spawnProbability)
+        {
+            //Spawn the hole
+            GameObject holePrefab = holePrefabList[GetRandomIndex(holePrefabList.Length)];
+            GameObject hole = Instantiate(holePrefab, spawnPoint.position, spawnPoint.rotation);
+            AlignBuildingContents(hole.transform);
 
-        //Spawn the building
-        GameObject housePrefab = housePrefabList[GetRandomIndex(housePrefabList.Length)];
-        GameObject house = Instantiate(housePrefab, spawnPoint.position, spawnPoint.rotation);
-        AlignBuildingContents(house.transform);
+            //Add Spawned Objects to list
+            listOfSpawnedObjects.Add(hole);
+        }
+
+        if (UnityEngine.Random.value > spawnProbability)
+        {
+            //Spawn the building
+            GameObject housePrefab = housePrefabList[GetRandomIndex(housePrefabList.Length)];
+            GameObject house = Instantiate(housePrefab, spawnPoint.position, spawnPoint.rotation);
+            AlignBuildingContents(house.transform);
+
+            //Add Spawned Objects to list
+            listOfSpawnedObjects.Add(house);
+        }
+
+
         
-
-
-        //Add Spawned Objects to list
-        listOfSpawnedObjects.Add(hole);
-        listOfSpawnedObjects.Add(house);
+        
 
     }
     void ResetTerrain()
@@ -149,6 +161,7 @@ public class LevelManager : MonoBehaviour
         }
         foreach (RigidbodyControl rbc in building.GetComponentsInChildren<RigidbodyControl>())
         {
+            rbc.enabled = true;
             rbc.ConstrainToTransformPlane(building);
         }
     }
