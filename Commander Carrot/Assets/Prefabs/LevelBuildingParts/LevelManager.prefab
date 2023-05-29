@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 0}
-  terrainTransform: {fileID: 0}
   spawnLayouts:
   - {fileID: 6532134591442890743, guid: dc576470f678e82448694d331193a85e, type: 3}
   - {fileID: 6532134591442890743, guid: 9bfd303a0f194514f8faac30ae0db6e8, type: 3}
@@ -54,7 +53,14 @@ MonoBehaviour:
   - {fileID: 6532134591442890743, guid: ac8ccc29ac5f75b468aa15b3df91d6eb, type: 3}
   holePrefabList:
   - {fileID: 7138917367092207646, guid: 03629872f2b3f37458e17f523749a067, type: 3}
-  - {fileID: 7138917367092207646, guid: 4437a123892066b49bccf33b47ce5d1f, type: 3}
-  - {fileID: 7138917367092207646, guid: d79b5a9f711795f42bf84e25ab35bbcf, type: 3}
+  - {fileID: 7138917367092207646, guid: 12e536fef5b4c1f478d6a1d62114dc94, type: 3}
+  - {fileID: 7138917367092207646, guid: 0e28edc86a79eca4db3c424b3d6cd0d8, type: 3}
+  - {fileID: 7138917367092207646, guid: df344f682e44b4b419860c703de8493e, type: 3}
   housePrefabList:
+  - {fileID: 2286900051093622849, guid: b95d0e02f85b427428009f7bc06d978d, type: 3}
   - {fileID: 2286900051093622849, guid: 51f5037751dbd014b9eb358949bc763e, type: 3}
+  - {fileID: 2286900051093622849, guid: 54271fd9d02ea724a98a9307c8dd434a, type: 3}
+  - {fileID: 2286900051093622849, guid: b95d0e02f85b427428009f7bc06d978d, type: 3}
+  - {fileID: 2286900051093622849, guid: 79bd289fde0d0f343b916cf86e24d46e, type: 3}
+  - {fileID: 2286900051093622849, guid: 62608f5306cd5f944acab0ea1084414d, type: 3}
+  spawnProbability: 0.8
