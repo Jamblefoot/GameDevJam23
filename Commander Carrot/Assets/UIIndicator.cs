@@ -23,6 +23,7 @@ public class UIIndicator : MonoBehaviour
         if(target == null) return;
 
         screenPos = Camera.main.WorldToScreenPoint(target.position);
+        screenPos = new Vector3(screenPos.x * (parent.rect.width / Screen.width), screenPos.y * (parent.rect.height / Screen.height), screenPos.z);
         if(screenPos.x > 0 && screenPos.x < parent.rect.width && screenPos.y > 0 && screenPos.y < parent.rect.height)
             rend.enabled = false;
         else rend.enabled = true;

@@ -13,7 +13,7 @@ public class AnimationAudio : MonoBehaviour
     {
         if(audioSource == null) return;
 
-        Debug.Log("SHOULD BE MAKING FOOTSTEP SOUND!");
+        //Debug.Log("SHOULD BE MAKING FOOTSTEP SOUND!");
 
         audioSource.Play();
     }

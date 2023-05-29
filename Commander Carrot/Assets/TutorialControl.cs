@@ -23,6 +23,7 @@ public class TutorialControl : MonoBehaviour
     public void SetTutorialText(string words, float displayTime)
     {
         text.text = words;
+        Debug.Log("Tutorial text set to " + words);
         if(showingText && displayTime > 0)
             StopAllCoroutines();
         StartCoroutine(ShowTextCo(displayTime));
@@ -30,9 +31,11 @@ public class TutorialControl : MonoBehaviour
 
     IEnumerator ShowTextCo(float displayTime)
     {
+        showingText = true;
         yield return new WaitForSeconds(displayTime);
 
         text.text = "";
+        showingText = false;
     }
 
     

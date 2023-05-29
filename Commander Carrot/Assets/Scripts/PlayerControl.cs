@@ -10,6 +10,7 @@ public enum AlignmentAxis { None, X, Y, Z };//Xneg, Yneg, Zneg
 public class PlayerControl : MonoBehaviour
 {
     public int health = 100;
+    bool alive = true;
     public int score = 0;
     public int grenades = 0;
     [SerializeField] GameObject cameraPrefab;
@@ -129,14 +130,14 @@ public class PlayerControl : MonoBehaviour
         if(value.isPressed)
         {
             fire1Held = true;
-            if(currentGun != null)
+            if(currentGun != null && alive)
                 currentGun.Fire();
         }
         else fire1Held = false;
     }
     void OnFire2(InputValue value)
     {
-        if(grenades > 0)
+        if(grenades > 0 && alive)
         {
             ThrowGrenade();
             grenades--;
@@ -223,6 +224,8 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(health <= 0) return;
+
         if(graphicsRoot.parent != graphicsGimbal) //IS IN SEAT OR SOMTHING
         {
             graphicsRoot.root.GetComponent<ShipDrive>().ApplyInput(horizontal, vertical, fire1Held);
@@ -296,28 +299,6 @@ public class PlayerControl : MonoBehaviour
             if(StepCheck(movement))
                 rigid.AddForce(movement, ForceMode.VelocityChange);
         }
-
-        
-
-        /*Vector3 aimDir = tran.forward;
-        Vector3 gunDir = Vector3.zero;
-            //Vector3 aimDir = FindNearestEnemy(movement);
-            if(moveStyle == MoveStyle.Side)
-            {
-                aimDir = new Vector3(mousePos.x, graphicsRoot.position.y, mousePos.z) - graphicsRoot.position;
-                gunDir = Vector3.ProjectOnPlane(mousePos, rigidControl.constraintPlane.normal);
-            }
-            else aimDir = mousePos - graphicsRoot.position;
-
-            //graphicsGimbal.LookAt(transform.position + movement, Vector3.up);
-            float angle = Vector3.SignedAngle(graphicsGimbal.forward, aimDir, tran.up);
-            if(Mathf.Abs(angle) > 10f)
-                graphicsGimbal.Rotate(tran.up, Mathf.Min(Mathf.Abs(angle), 10f) * Mathf.Sign(angle));
-            else graphicsGimbal.LookAt(tran.position + aimDir, Vector3.up);
-
-            if(gunDir != Vector3.zero)
-                gunpoint.LookAt(gunDir, gunpoint.right);*/
-        //}
 
         
     }
@@ -575,6 +556,12 @@ public class PlayerControl : MonoBehaviour
         //Debug.Log("PLAYER HIT BY A PARTICLE FROM " + other.transform.root.gameObject.name + "!!!!");
         health--;
         HudManager.singleton.UpdatePlayerHealth(health);
+
+        if(alive && health <= 0)
+        {
+            alive = false;
+            TutorialControl.singleton.SetTutorialText("YOU HAVE BECOME DEAD", 100);
+        }
 
         ParticleSystem part = other.GetComponent<ParticleSystem>();
         part.GetCollisionEvents(gameObject, collisionEvents);

@@ -1938,7 +1938,7 @@ PrefabInstance:
     - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
         type: 3}
       propertyPath: housePrefabList.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
         type: 3}
@@ -1963,6 +1963,12 @@ PrefabInstance:
       propertyPath: housePrefabList.Array.data[2]
       value: 
       objectReference: {fileID: 2286900051093622849, guid: 79bd289fde0d0f343b916cf86e24d46e,
+        type: 3}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
+      propertyPath: housePrefabList.Array.data[3]
+      value: 
+      objectReference: {fileID: 2286900051093622849, guid: b95d0e02f85b427428009f7bc06d978d,
         type: 3}
     - target: {fileID: 7422868372643579370, guid: 60b3c6d738d217641a05e06482fb2682,
         type: 3}
