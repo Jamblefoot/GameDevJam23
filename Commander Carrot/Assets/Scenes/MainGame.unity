@@ -2224,6 +2224,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
         type: 3}
+      propertyPath: holePrefabList.Array.data[1]
+      value: 
+      objectReference: {fileID: 7138917367092207646, guid: 12e536fef5b4c1f478d6a1d62114dc94,
+        type: 3}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
+      propertyPath: holePrefabList.Array.data[2]
+      value: 
+      objectReference: {fileID: 7138917367092207646, guid: 0e28edc86a79eca4db3c424b3d6cd0d8,
+        type: 3}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
       propertyPath: housePrefabList.Array.data[1]
       value: 
       objectReference: {fileID: 2286900051093622849, guid: 54271fd9d02ea724a98a9307c8dd434a,
