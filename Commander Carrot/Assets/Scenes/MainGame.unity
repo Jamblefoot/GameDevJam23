@@ -1637,6 +1637,23 @@ PrefabInstance:
       propertyPath: terrainTransform
       value: 
       objectReference: {fileID: 689452424}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
+      propertyPath: housePrefabList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
+      propertyPath: housePrefabList.Array.data[1]
+      value: 
+      objectReference: {fileID: 2286900051093622849, guid: 54271fd9d02ea724a98a9307c8dd434a,
+        type: 3}
+    - target: {fileID: 7422868372643579369, guid: 60b3c6d738d217641a05e06482fb2682,
+        type: 3}
+      propertyPath: housePrefabList.Array.data[2]
+      value: 
+      objectReference: {fileID: 2286900051093622849, guid: 79bd289fde0d0f343b916cf86e24d46e,
+        type: 3}
     - target: {fileID: 7422868372643579370, guid: 60b3c6d738d217641a05e06482fb2682,
         type: 3}
       propertyPath: m_Name
