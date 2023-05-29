@@ -92,4 +92,9 @@ public class HudManager : MonoBehaviour
     {
         SettingsControl.singleton.settingsCanvas.gameObject.SetActive(open);
     }
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
