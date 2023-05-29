@@ -12,11 +12,14 @@ public class Pickup : MonoBehaviour
     {
         if(transform.childCount > 0)
         {
-            if(GetComponentInChildren<Gun>())
+            if(type == PickupType.Random)
             {
-                type = PickupType.Gun;
+                if(GetComponentInChildren<Gun>())
+                {
+                    type = PickupType.Gun;
+                }
+                else type = PickupType.Token;//TODO this could be something else
             }
-            else type = PickupType.Token;//TODO this could be something else
 
             SetRendererColor(type);
             return;
