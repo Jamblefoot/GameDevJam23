@@ -20,6 +20,9 @@ public class PrefabControl : MonoBehaviour
     public GameObject bulletImpact;
     public GameObject smoke;
 
+    [Header("UI")]
+    public GameObject enemyIndicator;
+
     void Awake()
     {
         if(PrefabControl.singleton != null && PrefabControl.singleton != this)

@@ -18,6 +18,8 @@ public class EnemyControl : MonoBehaviour
     RigidbodyControl rigidControl;
     Animator animator;
 
+    GameObject indicator;
+
     
     // Start is called before the first frame update
     void Start()
@@ -36,6 +38,13 @@ public class EnemyControl : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
 
         gun = Instantiate(PrefabControl.singleton.GetRandomGun(), gunpoint.position, gunpoint.rotation, gunpoint).GetComponent<Gun>();
+
+        Transform indicatorCanvas = GameObject.FindWithTag("IndicatorCanvas").transform;
+        if(indicatorCanvas != null)
+        {
+            indicator = Instantiate(PrefabControl.singleton.enemyIndicator, indicatorCanvas.position, indicatorCanvas.rotation, indicatorCanvas);
+            indicator.GetComponent<UIIndicator>().target = transform;
+        }
 
         StartCoroutine(Patrol());
         StartCoroutine(LookForPlayer());
@@ -149,6 +158,9 @@ public class EnemyControl : MonoBehaviour
             if(rb != rigid)
                 rb.isKinematic = false;
         }
+
+        if (indicator != null)
+            Destroy(indicator);
     }
     public void Die(float power, Vector3 explosionPos, float radius, float upwardMod)
     {
@@ -169,5 +181,14 @@ public class EnemyControl : MonoBehaviour
             }
 
         }
+
+        if (indicator != null)
+            Destroy(indicator);
+    }
+
+    void OnDestroy()
+    {
+        if(indicator != null)
+            Destroy(indicator);
     }
 }
