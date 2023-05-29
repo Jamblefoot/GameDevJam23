@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraAnchor: {fileID: 1247129904826459223}
-  landingPoint: {fileID: 0}
+  landingPoint: {fileID: 4119494885769178769}
   width: 20
   length: 10
 --- !u!1 &4065582781515940486

@@ -10,6 +10,7 @@ public enum AlignmentAxis { None, X, Y, Z };//Xneg, Yneg, Zneg
 public class PlayerControl : MonoBehaviour
 {
     public int health = 100;
+    public int score = 0;
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] LayerMask groundLayers;
     [SerializeField] Transform graphicsGimbal;
@@ -64,7 +65,7 @@ public class PlayerControl : MonoBehaviour
 
     public UnityEvent<Vector3> onHit;
 
-    List<ParticleCollisionEvent> collisionEvents;
+    List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
 
 
     
@@ -98,6 +99,8 @@ public class PlayerControl : MonoBehaviour
         currentForward = tran.right;
 
         anim = graphicsRoot.GetComponentInChildren<Animator>();
+
+        HudManager.singleton.UpdateScoreText(score);
 
         Invoke("StartQuip", 1f);
     }
@@ -218,6 +221,7 @@ public class PlayerControl : MonoBehaviour
         {
             graphicsRoot.root.GetComponent<ShipDrive>().ApplyInput(horizontal, vertical, fire1Held);
             RotateTowardsMouse(false);
+            anim.SetFloat("Movement", 0);
             return;
         }
 
@@ -388,21 +392,21 @@ public class PlayerControl : MonoBehaviour
 
     void MoveTopShmup()
     {
-        transform.position = transform.position + (horizontal * shmupControl.transform.right + vertical * transform.forward) * Time.deltaTime * shmupSpeed;
-        Vector3 shmupLocal = shmupControl.transform.InverseTransformPoint(transform.position);
+        tran.position = tran.position + (horizontal * shmupControl.transform.right + vertical * tran.forward) * Time.deltaTime * shmupSpeed;
+        Vector3 shmupLocal = shmupControl.transform.InverseTransformPoint(tran.position);
         if (Mathf.Abs(shmupLocal.x) > shmupControl.width)
             shmupLocal = new Vector3(Mathf.Sign(shmupLocal.x) * shmupControl.width, shmupLocal.y, shmupLocal.z);
         if (Mathf.Abs(shmupLocal.z) > shmupControl.length)
             shmupLocal = new Vector3(shmupLocal.x, shmupLocal.y, Mathf.Sign(shmupLocal.z) * shmupControl.length);
-        transform.position = shmupControl.transform.TransformPoint(shmupLocal);
+        tran.position = shmupControl.transform.TransformPoint(shmupLocal);
 
-        if (horizontal > 0) transform.rotation = shmupControl.transform.rotation * Quaternion.Euler(0, 0, -30);
-        else if (horizontal < 0) transform.rotation = shmupControl.transform.rotation * Quaternion.Euler(0, 0, 30);
-        else transform.rotation = shmupControl.transform.rotation;
+        if (horizontal > 0) tran.rotation = shmupControl.transform.rotation * Quaternion.Euler(0, 0, -30);
+        else if (horizontal < 0) tran.rotation = shmupControl.transform.rotation * Quaternion.Euler(0, 0, 30);
+        else tran.rotation = shmupControl.transform.rotation;
 
         if (shmupLocal.z > shmupControl.length * 0.8f && shmupControl.CanPlayerProgress())
         {
-            shmupControl.MoveToGround(transform);
+            shmupControl.MoveToGround(tran);
         }
     }
 
@@ -485,11 +489,26 @@ public class PlayerControl : MonoBehaviour
         tran.position = graphicsRoot.position;
 
         if(seat != null)
+        {
+            ShipDrive sd = seat.GetComponentInParent<ShipDrive>();
+            if(sd != null && sd.shmupControl != null)
+                shmupControl = sd.shmupControl;
+            seat.enabled = false;
             seat.ClearOccupant();
+            sd.rigid.isKinematic = false;
+            sd.rigid.useGravity = true;
+        }
         seat = null;
         graphicsRoot.parent = graphicsGimbal;
         graphicsRoot.localPosition = Vector3.zero;
         graphicsRoot.localRotation = Quaternion.identity;
+
+        if(shmupControl != null)
+        {
+            rigid.isKinematic = true;
+            rigid.useGravity = false;
+            SetMoveStyle(MoveStyle.TopShmup, Vector3.up);
+        }
     }
 
     public void TakePickup(PickupType pType, Transform item)
@@ -497,15 +516,21 @@ public class PlayerControl : MonoBehaviour
         switch(pType)
         {
             case PickupType.Token:
-                //get points or whatever
-                //TODO ADD SOUND Chime
+                score++;
+                HudManager.singleton.UpdateScoreText(score);
                 break;
             case PickupType.Gun:
                 //parent gun to gunpoint
                 if(item == null)
                     Debug.Log("Pickup should be gun but no gun attached to pickup?!");
                 else TakeGun(item.GetComponent<Gun>());
-                //todo if already have gun, add ammo and don't parent
+                break;
+            case PickupType.Health:
+                health++;
+                HudManager.singleton.UpdatePlayerHealth(health);
+                break;
+            case PickupType.Grenade:
+                //add grenade to grenade pouch
                 break;
         }
 
@@ -539,7 +564,7 @@ public class PlayerControl : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        Debug.LogError("PLAYER HIT BY A PARTICLE FROM " + other.transform.root.gameObject.name + "!!!!");
+        //Debug.Log("PLAYER HIT BY A PARTICLE FROM " + other.transform.root.gameObject.name + "!!!!");
         health--;
         HudManager.singleton.UpdatePlayerHealth(health);
 

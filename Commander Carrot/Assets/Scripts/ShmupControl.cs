@@ -108,7 +108,7 @@ public class ShmupControl : MonoBehaviour
     }
     IEnumerator MoveToGroundCo(Transform tran)
     {
-        while(tran.position != landingPoint.position)
+        while(Vector3.Distance(tran.position,landingPoint.position) > 1f)
         {
             tran.position = Vector3.MoveTowards(tran.position, landingPoint.position, Time.deltaTime * 50f);
             tran.rotation = landingPoint.transform.rotation;
@@ -127,10 +127,6 @@ public class ShmupControl : MonoBehaviour
             pc.rigid.isKinematic = false;
             //just send the player in a t-pose, aiming gun
         }
-
-        //TODO transition to shmup rig
-        // camera targetpos = shmuprig camera anchor
-        //THIS IS JUST FOR TESTING, PROBABLY NEED SOME REFERENCE TO THE PLAYER DRIVING THE SHIP
 
         GetComponentInChildren<EnemySpawner>()?.ClearSpawns();
 

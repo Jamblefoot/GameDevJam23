@@ -756,7 +756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerLayers:
     serializedVersion: 2
-    m_Bits: 129
+    m_Bits: 385
   lasers:
   - {fileID: 586148205533838013}
 --- !u!65 &6478499514719095603

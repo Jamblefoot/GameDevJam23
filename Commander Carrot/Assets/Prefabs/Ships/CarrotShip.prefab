@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 753440215488192897}
   - component: {fileID: 753440215488192926}
   - component: {fileID: 753440215488192899}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CarrotShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
