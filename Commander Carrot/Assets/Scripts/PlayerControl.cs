@@ -548,6 +548,10 @@ public class PlayerControl : MonoBehaviour
 
         followCam.lookAhead = true;
 
+        ArmIK armIK = GetComponentInChildren<ArmIK>();
+        if(armIK != null)
+            armIK.SetHandAnchors(gun.leftHandAnchor, gun.rightHandAnchor);
+
         // TODO ADD SOUND - Gun cocking
     }
 

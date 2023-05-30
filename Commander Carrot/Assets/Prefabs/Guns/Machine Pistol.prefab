@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3266163203687159023}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0888, y: 0, z: 0.0682}
+  m_LocalPosition: {x: -0.005, y: 0.037, z: 0.384}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4928,6 +4928,8 @@ MonoBehaviour:
   type: 2
   projectilesPerShot: 1
   recoil: 2
+  leftHandAnchor: {fileID: 4868025915353990090}
+  rightHandAnchor: {fileID: 8515203712069672756}
   bulletParticles: {fileID: 3071032617122231208}
   muzzleParticles: {fileID: 1106863469344326429}
   audioSource: {fileID: 2608999466434564606}

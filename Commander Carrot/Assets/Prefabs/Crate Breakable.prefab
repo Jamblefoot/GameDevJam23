@@ -142,3 +142,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brokenPrefab: {fileID: 4733086823099098189, guid: 098bd4099f344634d89075afcb24963c,
     type: 3}
+  spawnPrefab: {fileID: 3394993846144591686, guid: 9c22fc8d0448e5c46b7d266ff248dae0,
+    type: 3}
+  spawnProbability: 0.7

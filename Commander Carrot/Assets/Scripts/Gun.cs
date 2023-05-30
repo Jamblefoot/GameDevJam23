@@ -7,6 +7,8 @@ public class Gun : MonoBehaviour
     public GunType type;
     public int projectilesPerShot = 1;
     public float recoil;
+    public Transform leftHandAnchor;
+    public Transform rightHandAnchor;
     public ParticleSystem bulletParticles;
     public ParticleSystem muzzleParticles;
     public AudioSource audioSource;

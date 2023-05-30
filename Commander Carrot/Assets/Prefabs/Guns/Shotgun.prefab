@@ -53,6 +53,8 @@ MonoBehaviour:
   type: 1
   projectilesPerShot: 8
   recoil: 5
+  leftHandAnchor: {fileID: 2217896170935084222}
+  rightHandAnchor: {fileID: 3126953616076372032}
   bulletParticles: {fileID: 8635442222230115548}
   muzzleParticles: {fileID: 5914740751546901609}
   audioSource: {fileID: 8753933516583925386}
@@ -4898,7 +4900,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1742016058233878357}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.193}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9871,7 +9873,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8077910953882252187}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0888, y: 0, z: 0.0682}
+  m_LocalPosition: {x: 0.022, y: 0.082, z: 0.659}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

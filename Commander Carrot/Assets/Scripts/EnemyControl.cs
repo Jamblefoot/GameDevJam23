@@ -40,6 +40,9 @@ public class EnemyControl : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
 
         gun = Instantiate(PrefabControl.singleton.GetRandomGun(), gunpoint.position, gunpoint.rotation, gunpoint).GetComponent<Gun>();
+        ArmIK armIK = GetComponentInChildren<ArmIK>();
+        if (armIK != null)
+            armIK.SetHandAnchors(gun.leftHandAnchor, gun.rightHandAnchor);
 
         Transform indicatorCanvas = GameObject.FindWithTag("IndicatorCanvas").transform;
         if(indicatorCanvas != null)
@@ -158,7 +161,7 @@ public class EnemyControl : MonoBehaviour
 
     void OnParticleCollision(GameObject other) 
     {
-        Debug.Log("ENEMY HIT BY A PARTICLE FROM " + other.transform.root.gameObject.name);
+        //Debug.Log("ENEMY HIT BY A PARTICLE FROM " + other.transform.root.gameObject.name);
         List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
         ParticleSystem part = other.GetComponent<ParticleSystem>();
         part.GetCollisionEvents(gameObject, collisionEvents);
