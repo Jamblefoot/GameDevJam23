@@ -18,7 +18,7 @@ public class EnemyControl : MonoBehaviour
     RigidbodyControl rigidControl;
     Animator animator;
 
-    GameObject indicator;
+    //GameObject indicator;
 
     bool targetInView;
 
@@ -44,12 +44,13 @@ public class EnemyControl : MonoBehaviour
         if (armIK != null)
             armIK.SetHandAnchors(gun.leftHandAnchor, gun.rightHandAnchor);
 
-        Transform indicatorCanvas = GameObject.FindWithTag("IndicatorCanvas").transform;
+        
+        /*Transform indicatorCanvas = GameObject.FindWithTag("IndicatorCanvas").transform;
         if(indicatorCanvas != null)
         {
             indicator = Instantiate(PrefabControl.singleton.enemyIndicator, indicatorCanvas.position, indicatorCanvas.rotation, indicatorCanvas);
             indicator.GetComponent<UIIndicator>().target = transform;
-        }
+        }*/
 
         StartCoroutine(Patrol());
         StartCoroutine(LookForPlayer());
@@ -203,8 +204,11 @@ public class EnemyControl : MonoBehaviour
                 rb.isKinematic = false;
         }
 
-        if (indicator != null)
-            Destroy(indicator);
+        UIIndicatorControl uiic = GetComponent<UIIndicatorControl>();
+        if(uiic != null)
+            Destroy(uiic);
+        //if (indicator != null)
+        //    Destroy(indicator);
     }
     public void Die(float power, Vector3 explosionPos, float radius, float upwardMod)
     {
@@ -226,13 +230,10 @@ public class EnemyControl : MonoBehaviour
 
         }
 
-        if (indicator != null)
-            Destroy(indicator);
-    }
-
-    void OnDestroy()
-    {
-        if(indicator != null)
-            Destroy(indicator);
+        //if (indicator != null)
+        //    Destroy(indicator);
+        UIIndicatorControl uiic = GetComponent<UIIndicatorControl>();
+        if (uiic != null)
+            Destroy(uiic);
     }
 }

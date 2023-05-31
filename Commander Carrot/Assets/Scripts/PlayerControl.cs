@@ -310,9 +310,15 @@ public class PlayerControl : MonoBehaviour
         //Vector3 aimDir = FindNearestEnemy(movement);
         if (moveStyle == MoveStyle.Side)
         {
-            aimDir = new Vector3(mousePos.x, graphicsRoot.position.y, mousePos.z) - graphicsRoot.position;
+            Vector3 mousePlanePos = rigidControl.constraintPlane.ClosestPointOnPlane(mousePos);
+            //aimDir = new Vector3(mousePos.x, graphicsRoot.position.y, mousePos.z) - graphicsRoot.position;
+            aimDir = new Vector3(mousePlanePos.x, graphicsRoot.position.y, mousePlanePos.z) - graphicsRoot.position + rigidControl.constraintPlane.normal * (10f - Mathf.Clamp(Vector3.Distance(mousePlanePos, graphicsRoot.position), 0f, 10f));
             //gunDir = Vector3.ProjectOnPlane(mousePos, rigidControl.constraintPlane.normal) + rigidControl.constraintPlane.GetDistanceToPoint(gunpoint.position) * rigidControl.constraintPlane.normal;
-            gunDir = rigidControl.constraintPlane.ClosestPointOnPlane(mousePos) + rigidControl.constraintPlane.GetDistanceToPoint(gunpoint.position) * rigidControl.constraintPlane.normal;
+            gunDir = mousePlanePos + rigidControl.constraintPlane.GetDistanceToPoint(gunpoint.position) * rigidControl.constraintPlane.normal;
+        }
+        else if(moveStyle == MoveStyle.TopShmup)
+        {
+            aimDir = new Plane(Vector3.up, graphicsRoot.parent.position).ClosestPointOnPlane(mousePos) - graphicsRoot.position;
         }
         else aimDir = mousePos - graphicsRoot.position;
 
@@ -320,17 +326,17 @@ public class PlayerControl : MonoBehaviour
         
         if(useGimbal)
         {
-            float angle = Vector3.SignedAngle(graphicsGimbal.forward, aimDir, tran.up);
+            float angle = Vector3.SignedAngle(graphicsGimbal.forward, aimDir, Vector3.up);//tran.up);
             if (Mathf.Abs(angle) > 10f)
                 graphicsGimbal.Rotate(tran.up, Mathf.Min(Mathf.Abs(angle), 10f) * Mathf.Sign(angle));
             else graphicsGimbal.LookAt(tran.position + aimDir, Vector3.up);
         }
-        else
+        else //is in vehicle
         {
-            float angle = Vector3.SignedAngle(graphicsRoot.forward, aimDir, tran.up);
+            float angle = Vector3.SignedAngle(graphicsRoot.forward, aimDir, graphicsRoot.parent.up);
             if (Mathf.Abs(angle) > 10f)
                 graphicsRoot.Rotate(graphicsRoot.parent.up, Mathf.Min(Mathf.Abs(angle), 10f) * Mathf.Sign(angle));
-            else graphicsRoot.LookAt(graphicsRoot.parent.position + aimDir, Vector3.up);
+            else graphicsRoot.LookAt(graphicsRoot.parent.position + aimDir, graphicsRoot.parent.up);
         }
 
         if (gunDir != Vector3.zero)
@@ -357,7 +363,7 @@ public class PlayerControl : MonoBehaviour
         return dir;
     }
 
-    Vector3 MoveSideScroll(AlignmentAxis axis)
+    /*Vector3 MoveSideScroll(AlignmentAxis axis)
     {
         switch(axis)
         {
@@ -371,7 +377,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         return Vector3.zero;
-    }
+    }*/
     Vector3 MoveSideScroll()//Vector3 sideNorm)
     {
         return Vector3.Cross(sideNormal, Vector3.up).normalized * horizontal;

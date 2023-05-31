@@ -33,7 +33,7 @@ public class Breakable : MonoBehaviour
             {
                 Destroy(
                     Instantiate(spawnPrefab, 
-                        transform.position + new Vector3(Random.Range(-0.25f, 0.25f), 0, Random.Range(-0.25f, 0.25f)), 
+                        transform.position + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)), 
                         Quaternion.identity),
                     despawnTime);
                 spawnCount--;
